@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:background="@android:color/transparent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="KA 999999"
+        android:id="@+id/frequency"
+        android:textColor="#ff0000"
+        android:background="@android:color/transparent"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:gravity="center_vertical|center_horizontal"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/frequency"
+        android:background="@android:color/transparent"
+        android:layout_centerHorizontal="true"
+        android:weightSum="100"
+        android:paddingLeft="5dp">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lockout"
+            android:id="@+id/alert_lockout"
+            android:textColor="#ff0000"
+            android:clickable="false"
+            android:layout_weight="45"
+            android:background="@drawable/btn_default_normal_lblue"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/white"
+            android:id="@+id/alert_white"
+            android:textColor="#ff0000"
+            android:clickable="false"
+            android:layout_weight="45"
+            android:background="@drawable/btn_default_normal_yellow"/>
+    </LinearLayout>
+
+</RelativeLayout>

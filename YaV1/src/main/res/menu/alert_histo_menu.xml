@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/select_all"
+        android:showAsAction="never"
+        android:title="@string/gmap_select_all"
+        android:titleCondensed="@string/gmap_select_all">
+    </item>
+    <item
+        android:id="@+id/select_laser"
+        android:showAsAction="never"
+        android:title="@string/gmap_select_laser"
+        android:titleCondensed="@string/gmap_select_laser">
+    </item>
+    <item
+        android:id="@+id/select_ka"
+        android:showAsAction="never"
+        android:title="@string/gmap_select_ka"
+        android:titleCondensed="@string/gmap_select_ka">
+    </item>
+    <item
+        android:id="@+id/select_k"
+        android:showAsAction="never"
+        android:title="@string/gmap_select_k"
+        android:titleCondensed="@string/gmap_select_k">
+    </item>
+    <item
+        android:id="@+id/select_x"
+        android:showAsAction="never"
+        android:title="@string/gmap_select_x"
+        android:titleCondensed="@string/gmap_select_x">
+    </item>
+    <item
+        android:id="@+id/select_ku"
+        android:showAsAction="never"
+        android:title="@string/gmap_select_ku"
+        android:titleCondensed="@string/gmap_select_ku">
+    </item>
+</menu>

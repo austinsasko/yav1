@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
+
+    <View
+        android:layout_width="match_parent"
+        android:id="@+id/none1"
+        android:layout_height="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="4dp"
+        android:background="?android:attr/dividerVertical"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/lockout_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_marginBottom="5dp">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/lockout_id"
+                android:text="99999"
+                android:textSize="18sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/lockout_status"
+                android:text="LOCKOUT MANUAL"
+                android:textStyle="bold"
+                android:textColor="#feff13"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:textSize="18sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/lockout_time"
+                android:text="08:29:45"
+                android:textSize="18sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/lockout_seen"
+                android:layout_weight="0.25"
+                android:text="99999"
+                android:textSize="18sp"
+                android:gravity="center_horizontal|clip_vertical" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/lockout_missed"
+                android:layout_weight="0.25"
+                android:text="7"
+                android:textSize="18sp"
+                android:gravity="center_vertical|center_horizontal" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/lockout_direction"
+                android:layout_weight="0.25"
+                android:text="SW"
+                android:textSize="18sp"
+                android:gravity="center_vertical|center_horizontal" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/lockout_angle"
+                android:layout_weight="0.25"
+                android:text="180"
+                android:textSize="18sp"
+                android:gravity="center_vertical|center_horizontal" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cmd_lockout"
+        android:weightSum="100"
+        android:gravity="center_vertical|center_horizontal">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/remove"
+            android:id="@+id/alert_remove"
+            android:onClick="clickCtrl"
+            android:textColor="#ff0000"
+            android:clickable="true"
+            android:layout_weight="30"
+            android:background="@drawable/btn_default_normal_green"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lockout"
+            android:id="@+id/alert_lockout"
+            android:textColor="#ff0000"
+            android:onClick="clickCtrl"
+            android:clickable="true"
+            android:layout_weight="30"
+            android:background="@drawable/btn_default_normal_lblue"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/white"
+            android:id="@+id/alert_white"
+            android:textColor="#ff0000"
+            android:onClick="clickCtrl"
+            android:clickable="false"
+            android:layout_weight="30"
+            android:background="@drawable/btn_default_normal_yellow"/>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cmd_record"
+        android:weightSum="100"
+        android:visibility="gone"
+        android:gravity="center_vertical|center_horizontal">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/collect"
+            android:id="@+id/alert_record"
+            android:layout_weight="50"
+            android:textColor="#ff0000"
+            android:onClick="clickCtrl"
+            android:clickable="true"/>
+    </LinearLayout>
+</LinearLayout>

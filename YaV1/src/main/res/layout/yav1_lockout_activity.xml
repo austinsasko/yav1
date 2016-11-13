@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical|fill_vertical"
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="30dp"
+    android:paddingBottom="30dp">
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="Backup database"
+        android:id="@+id/backup"
+        android:textSize="35sp"
+        android:layout_weight="1"
+        android:onClick="onClick" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="Restore database"
+        android:id="@+id/restore"
+        android:textSize="35sp"
+        android:layout_weight="1"
+        android:onClick="onClick"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="Reset Database"
+        android:id="@+id/truncate"
+        android:textSize="35sp"
+        android:layout_weight="1"
+        android:onClick="onClick" />
+</LinearLayout>

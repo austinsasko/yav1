@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center_horizontal"
+              android:divider="#48c1ff"
+              android:dividerPadding="2dp"
+              android:clickable="true"
+              style="?android:attr/textAppearanceLarge">
+
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView"
+            android:text="name"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:singleLine="true"
+            android:background="#3776ff"
+            android:paddingLeft="5dp"/>
+
+    <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@+id/textView"
+            android:id="@+id/nameView"
+            android:weightSum="100"
+            android:layout_alignParentTop="false">
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/sweep_name"
+                android:layout_weight="85"
+                android:layout_gravity="center_vertical"
+                android:textAppearance="@android:style/TextAppearance.Medium"/>
+
+        <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/editname"
+                android:layout_weight="15"
+                android:src="@drawable/edit"/>
+    </LinearLayout>
+    <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/nameView"
+            android:orientation="vertical"
+            android:id="@+id/listView"
+            android:showDividers="middle|end"
+            android:divider="#48c1ff"
+            android:dividerPadding="2dp">
+        <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Sweeps"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:singleLine="true"
+                android:background="#3776ff"
+                android:paddingLeft="5dp"/>
+
+        <ListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@android:id/list"
+                android:clickable="true"
+                android:divider="#48c1ff"
+                android:dividerHeight="2dp"
+                android:choiceMode="singleChoice"/>
+    </LinearLayout>
+    <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="false"
+            android:weightSum="100"
+            android:gravity="center_horizontal"
+            android:layout_below="@+id/listView"
+            android:orientation="horizontal">
+
+        <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/save"
+                android:id="@+id/save"
+                android:layout_below="@android:id/list"
+                android:layout_weight="50"/>
+
+        <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/cancel"
+                android:id="@+id/cancel"
+                android:layout_weight="50"/>
+    </LinearLayout>
+</RelativeLayout>

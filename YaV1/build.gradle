@@ -1,0 +1,63 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.14.2'
+    }
+}
+apply plugin: 'android'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'com.android.support:support-v13:22.0.+'
+    compile 'com.google.android.gms:play-services-maps:6.5.87'
+    compile 'com.squareup:otto:1.3.5'
+    compile project(':YaV1Lib')
+    compile project(':ESPLibrary')
+    compile project(':AmbilWarna')
+    compile project(':aFileDialog')
+    compile files('libs/gson-2.2.4.jar')
+}
+android {
+    compileSdkVersion 19
+    buildToolsVersion '20.0.0'
+
+    defaultConfig {
+        minSdkVersion 13
+        targetSdkVersion 19
+    }
+
+    signingConfigs {
+        myConf {
+            storeFile file("/home/franck/.android/adbkeyrelease")
+            storePassword "fl6449"
+            keyAlias "fl6449"
+            keyPassword "fl6449"
+        }
+    }
+    buildTypes {
+        debug {
+            packageNameSuffix ".debug"
+        }
+        release {
+            debuggable false
+            runProguard false
+            signingConfig signingConfigs.myConf
+        }
+        releaseclean.initWith(buildTypes.release)
+        releaseclean {
+            packageNameSuffix null
+            runProguard true
+            proguardFile 'proguard.cfg'
+        }
+
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+}

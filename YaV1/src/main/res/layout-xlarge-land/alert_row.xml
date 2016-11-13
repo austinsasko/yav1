@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:focusable="false"
+              android:focusableInTouchMode="false"
+              android:longClickable="false"
+              android:baselineAligned="false"
+              android:background="@android:color/transparent"
+              android:clickable="false">
+    <TextView
+        android:id="@+id/BAND"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:gravity="center|center_horizontal"
+        android:layout_gravity="left"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:text="Ka"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="32dp" />
+
+    <TextView
+        android:id="@+id/FREQUENCY"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_gravity="left"
+        android:layout_toRightOf="@+id/BAND"
+        android:layout_alignParentStart="false"
+        android:layout_alignWithParentIfMissing="true"
+        android:text="24.150"
+        android:paddingLeft="5dp"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/none"
+        android:textSize="32dp" />
+
+    <LinearLayout
+        android:id="@+id/none"
+        android:orientation="horizontal"
+        android:layout_width="450dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:paddingRight="10dp">
+        <com.franckyl.yav1.utils.ResizableImageView
+            android:id="@+id/SIGNAL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:src="@drawable/fr_8"/>
+    </LinearLayout>
+</RelativeLayout>

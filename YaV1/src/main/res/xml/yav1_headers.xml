@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<preference-headers
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <header android:fragment="com.franckyl.yav1.YaV1PrefFragment"
+            android:title="@string/pref_h_general"
+            android:summary="@string/pref_h_general_summary">
+        <extra android:name="settings" android:value="general"/>
+    </header>
+    <header android:fragment="com.franckyl.yav1.YaV1PrefFragment"
+            android:title="@string/pref_h_display"
+            android:summary="@string/pref_h_display_summary">
+        <extra android:name="settings" android:value="display"/>
+    </header>
+    <header android:fragment="com.franckyl.yav1.YaV1PrefFragment"
+        android:title="@string/pref_h_sound"
+        android:summary="@string/pref_h_sound_summary">
+        <extra android:name="settings" android:value="sound"/>
+    </header>
+    <header android:fragment="com.franckyl.yav1.YaV1PrefFragment"
+            android:title="@string/pref_h_lockout"
+            android:summary="@string/pref_h_lockout_summary">
+        <extra android:name="settings" android:value="lockout"/>
+    </header>
+    <header android:fragment="com.franckyl.yav1.YaV1PrefFragment"
+            android:title="@string/pref_h_boxes"
+            android:summary="@string/pref_h_boxes_summary">
+        <extra android:name="settings" android:value="box"/>
+    </header>
+    <header android:fragment="com.franckyl.yav1.YaV1PrefFragment"
+            android:title="@string/pref_h_logging"
+            android:summary="@string/pref_h_logging_summary">
+        <extra android:name="settings" android:value="record"/>
+    </header>
+    <header android:fragment="com.franckyl.yav1.YaV1PrefFragment"
+        android:title="@string/pref_h_g_map"
+        android:summary="@string/pref_h_g_map_summary">
+        <extra android:name="settings" android:value="gmap"/>
+    </header>
+</preference-headers>

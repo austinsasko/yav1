@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+    android:background="@android:color/transparent">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  android:gravity="center_horizontal"
+                  android:id="@+id/v1_info"
+                  android:measureWithLargestChild="false"
+                  android:paddingBottom="10dp"
+                  android:paddingTop="10dp"
+                  android:weightSum="100"
+                  android:layout_marginLeft="30dp"
+                  android:layout_marginRight="30dp"
+                  android:layout_alignParentTop="true"
+                  android:layout_alignParentLeft="true"
+                  android:layout_alignParentStart="false">
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/sys_country"
+                android:layout_gravity="center"
+                android:gravity="center_horizontal"
+                android:paddingRight="5dp"
+                android:textColor="#ff0000"
+                android:text="Euro"
+                android:layout_weight="25"
+                android:textSize="18dp"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/sys_sweep"
+                android:layout_gravity="center"
+                android:paddingRight="5dp"
+                android:textColor="#ff0000"
+                android:text="Custom"
+                android:layout_weight="20"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="18dp"
+                android:gravity="center_horizontal"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sys_letter"
+            android:layout_gravity="center"
+            android:gravity="center_horizontal"
+            android:layout_weight="25"
+            android:src="@drawable/bogey_"/>
+    </LinearLayout>
+
+    <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/v1_info"
+        android:gravity="center_vertical|center_horizontal">
+
+        <ImageButton
+            android:id="@+id/yav1_alert"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/start_yav1"
+            android:background="@android:color/transparent"
+            android:layout_alignParentLeft="false"
+            />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/sys_version"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:textColor="#ff0000"
+            android:text="version"
+            android:layout_below="@+id/yav1_alert" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text=""
+            android:id="@+id/curr_sweep"
+            android:layout_below="@+id/sys_version"
+            android:gravity="center_horizontal"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentTop="false"/>
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text=""
+            android:id="@+id/curr_setting"
+            android:layout_below="@+id/curr_sweep"
+            android:gravity="center_horizontal"/>
+
+    </RelativeLayout>
+</RelativeLayout>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/gps_row"
+    android:layout_width="wrap_content"
+    android:layout_height="fill_parent"
+    android:clickable="true"
+    android:layout_gravity="center_horizontal"
+    android:focusable="true"
+    android:background="@android:color/transparent"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:minWidth="70dp">
+    <ImageView
+        android:id="@+id/OLD"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/gps_off"
+        android:layout_gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp" />
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/OLD"
+        android:layout_above="@+id/BEARING"
+        android:gravity="center_vertical"
+        android:layout_centerHorizontal="true">
+        <TextView
+            android:id="@+id/SPEED"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_height="wrap_content"
+            android:gravity="center|center_horizontal"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_centerHorizontal="true" />
+        <TextView
+            android:id="@+id/UNIT"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_height="wrap_content"
+            android:gravity="center|center_horizontal"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="1dp"
+            android:layout_below="@+id/SPEED"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/BEARING"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="30dp" />
+</RelativeLayout>

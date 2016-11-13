@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+        </android.support.v4.view.ViewPager>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/v1_name"
+        android:visibility="gone"
+        android:gravity="center_vertical|center_horizontal|bottom"
+        android:orientation="horizontal"
+        android:background="@android:color/transparent"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="5dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/setting_name"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_gravity="center"
+            android:background="@android:color/transparent"
+            android:textColor="#f0ff0d"
+            android:gravity="right"
+            android:visibility="visible"
+            android:layout_alignParentTop="false"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true" />
+        <ImageButton
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/mute_button"
+            android:src="@drawable/mute_off"
+            android:visibility="visible"
+            android:layout_gravity="center"
+            android:background="@drawable/round_corner"
+            android:onClick="clickCtrl"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/setting_name"
+            android:layout_centerVertical="true" />
+    </RelativeLayout>
+</FrameLayout>

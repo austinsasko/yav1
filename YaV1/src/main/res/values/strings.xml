@@ -1,0 +1,624 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
+
+    <string name="app_name">YaV1</string>
+
+    <!--  Button and dialog common strings -->
+
+    <string name="ok">Ok</string>
+    <string name="error">Error</string>
+    <string name="cancel">Cancel</string>
+    <string name="warning">Warning</string>
+    <string name="select">Select</string>
+    <string name="push">Push</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="reset">Reset</string>
+    <string name="unit_mph">Mph</string>
+    <string name="unit_kph">Kmh</string>
+    <string name="save">Save</string>
+    <string name="default_symbol">Default</string>
+    <string name="override_file">Replace the file?</string>
+    <string name="new_file">New file</string>
+    <string name="no_storage_available">It appears that there is not available storage on the device, insert SD card</string>
+    <string name="success">Success</string>
+    <string name="accept">Accept</string>
+    <string name="add">Add</string>
+    <string name="select_create_file">Select a file or create a new file</string>
+    <string name="select_file">Select a file</string>
+    <string name="wait">Wait...</string>
+    <string name="cancel_connect">Cancelling bluetooth search .. wait</string>
+    <string name="wired_savvy">Wired Savvy</string>
+    <string name="no_wired_savvy">No wired Savvy found or V1C not connected</string>
+    <string name="gen_export">Export</string>
+    <string name="gen_import">Import</string>
+    <string name="backup">Backup</string>
+    <string name="restore">Restore</string>
+    <string name="preset">Preset</string>
+    <string name="presets">Preset</string>
+    <string name="preset_title">Apply preset</string>
+    <string name="preset_message">The preset will override the current settings, you should make a backup before. Continue ?</string>
+    <string name="preset_done">The preset have been loaded</string>
+    <string name="preset_error">The preset could not be loaded</string>
+    <string name="lockout">Lockout</string>
+    <string name="unlock">Unlock</string>
+    <string name="unlearn">Unlearn</string>
+    <string name="white">White list</string>
+    <string name="white_short">White</string>
+    <string name="collect">Collect</string>
+    <string name="remove">Remove</string>
+    <string name="processing">Processing</string>
+    <string name="download">Download</string>
+    <string name="download_manual">Download YaV1 manual ?</string>
+    <string name="expert">Your are now an expert !!</string>
+
+    <!-- band names display -->
+
+    <string name="band_x">X</string>
+    <string name="band_k">K</string>
+    <string name="band_ka">Ka</string>
+    <string name="band_ku">Ku</string>
+    <string name="band_laser">LASER</string>
+
+    <!-- band range message -->
+
+    <string name="band_range_too_low">The frequency is out of the lower edge</string>
+    <string name="band_range_too_high">The frequency is out of the upper edge</string>
+    <string name="band_range_low_too_high">The frequency is greater than the upper frequency</string>
+    <string name="band_range_high_too_low">The frequency is lower than the higher frequency</string>
+    <string name="band_range_remove_title">Remove range</string>
+    <string name="band_range_remove_text">The range will be removed, continue?</string>
+
+    <!-- menu main -->
+
+    <string name="mn_settings">Settings</string>
+    <string name="mn_sweeps">Custom sweeps</string>
+    <string name="mn_v1_settings">V1 settings</string>
+    <string name="mn_devices">Devices</string>
+    <string name="mn_about">About</string>
+    <string name="mn_demo">Demo</string>
+    <string name="mn_quit">Quit</string>
+    <string name="mn_alert_map">Logged Alerts</string>
+    <string name="mn_savvy">Savvy</string>
+    <string name="mn_lockout">Lockouts</string>
+
+    <!-- tool tab strings -->
+    <string name="tool_tab_v1_mode">V1 Mode</string>
+    <string name="tool_tab_v1_settings">V1 Settings / V1 Mode</string>
+    <string name="tool_tab_v1_lockout">Lockout</string>
+    <string name="tool_tab_audio">Audio</string>
+    <string name="tool_tab_lockout_normal">On</string>
+    <string name="tool_tab_lockout_disabled">Off</string>
+    <string name="tool_tab_lockout_frozen">Frozen</string>
+    <string name="tool_tab_push_setting">Push this setting ?</string>
+    <string name="tool_tab_change_mode">Updating mode</string>
+    <string name="tool_tab_sweep">Custom sweeps</string>
+    <string name="tool_tab_push_sweep">Push these sweeps ?</string>
+
+    <!-- menu alert screen -->
+
+    <string name="mn_v1_display_on">Display On</string>
+    <string name="mn_v1_display_off">Display Off</string>
+    <string name="mn_v1_mute_off">Mute Off</string>
+    <string name="mn_v1_mute_on">Mute On</string>
+    <string name="mn_bulk_record">Lockout all</string>
+
+    <!-- settings headers -->
+
+    <string name="pref_h_general">General settings</string>
+    <string name="pref_h_general_summary">Start-up settings, GPS configuration, and other basic preferences</string>
+    <string name="pref_h_display">Display</string>
+    <string name="pref_h_display_summary">Display options, including configurable filters</string>
+    <string name="pref_h_sound">Sound</string>
+    <string name="pref_h_sound_summary">Sound options, configure sounds on your device</string>
+    <string name="pref_h_lockout">Lockouts</string>
+    <string name="pref_h_lockout_summary">Location-based lockout parameters.</string>
+    <string name="pref_h_muting">Muting alerts</string>
+    <string name="pref_h_muting_summary">Muting parameters.</string>
+    <string name="pref_h_boxes">Frequency Boxes</string>
+    <string name="pref_h_boxes_summary">Define custom \'In the Box\' ranges.</string>
+    <string name="pref_h_logging">Alert logging</string>
+    <string name="pref_h_logging_summary">Alert logging parameters.</string>
+    <string name="pref_h_g_map">Google map</string>
+    <string name="pref_h_g_map_summary">Google map parameters.</string>
+
+    <!-- settings common -->
+
+    <string name="pref_advanced">Advanced</string>
+    <string name="pref_misc">Misc</string>
+
+    <!-- settings general -->
+
+    <string name="pref_gen_startup">Start-up parameters</string>
+    <string name="pref_gen_auto_start">Connect automatically</string>
+    <string name="pref_gen_auto_start_summary">Search for and connect to a known V1 at start-up.</string>
+    <string name="pref_gen_auto_dark">Go dark</string>
+    <string name="pref_gen_auto_dark_summary">Turn off the V1 display when connected.</string>
+    <string name="pref_gen_default_view">Default view</string>
+    <string name="pref_gen_alerts">Sound preferences</string>
+    <string name="pref_gen_phone_alert">Use phone for alerts</string>
+    <string name="pref_gen_phone_alert_summary">Alerts will sound on phone in addition to the V1 beeps</string>
+    <string name="pref_gen_volume_signal">Volume vs Signal</string>
+    <string name="pref_gen_volume_signal_summary">Volume for the alert will adjusted according to the alert strength</string>
+    <string name="pref_gen_sound_multiple">Play all sound alert</string>
+    <string name="pref_gen_sound_multiple_summary">Play all the alerts sound together, otherwise play only the strongest alert sound</string>
+    <string name="pref_gen_sound_all_bogey">Bogey on new band</string>
+    <string name="pref_gen_sound_all_bogey_summary">Bogey will be played on a new band alert</string>
+    <string name="pref_gen_sound_bogey">Bogey sound</string>
+    <string name="pref_gen_sound_laser">Laser sound</string>
+    <string name="pref_gen_sound_ka">Ka sound</string>
+    <string name="pref_gen_sound_k">K sound</string>
+    <string name="pref_gen_sound_x">X sound</string>
+    <string name="pref_gen_sound_ku">Ku sound</string>
+    <string name="pref_gen_sound_fast_ramp_summary">Ramp effect faster, use with caution, if application crashes or sound becomes inaudible unset the option</string>
+    <string name="pref_gen_sound_fast_ramp">Faster ramp effect</string>
+    <string name="pref_gen_sound_volume">Sound volume</string>
+    <string name="pref_gen_sound_volume_summary">Volume is managed by phone volume buttons</string>
+    <string name="pref_gen_sound_no_music">No alert sound when playing music</string>
+    <string name="pref_gen_sound_no_music_summary">Alert sound will not play when device is streaming music</string>
+    <string name="pref_gen_dbg_log">Debug log</string>
+    <string name="pref_gen_dbg_log_summary">Turn on only at the request of the developer</string>
+
+    <string name="pref_gen_early_laser">Early laser sound</string>
+    <string name="pref_gen_early_laser_summary">Sounds laser alerts without processing additional packets, which MAY slightly improve reaction time against LiDAR"></string>
+    <string name="pref_gen_connect">Connect/disconnect sound</string>
+    <string name="pref_gen_connect_summary">Sound when the alert service is running and active</string>
+
+    <!-- general / gps -->
+
+    <string name="pref_gen_gps">GPS settings</string>
+    <string name="pref_gen_gps_use_gps">GPS</string>
+    <string name="pref_gen_gps_speed_unit">Speed unit</string>
+    <string name="pref_gen_gps_savvy">SAVVY emulation</string>
+    <string name="pref_gen_gps_savvy_summary">Mute V1 if speed is below the specified limit</string>
+    <string name="pref_gen_gps_exclude_ka_savvy">Exclude Ka muting under savvy</string>
+    <string name="pref_gen_gps_exclude_ka_savvy_summary">Keep Ka alerts audible under the Savvy speed</string>
+    <string name="pref_gen_gps_exclude_laser_savvy">Exclude laser muting under savvy</string>
+    <string name="pref_gen_gps_exclude_laser_savvy_summary">Keep laser alerts audible under the Savvy speed</string>
+    <string name="pref_gen_gps_savvy_speed">SAVVY speed limit</string>
+    <string name="pref_gen_gps_adv_gps">GPS</string>
+    <string name="pref_gen_gps_bearing">Bearing</string>
+    <string name="pref_gen_gps_bearing_summary">Tie bearing to accuracy</string>
+    <string name="pref_gen_gps_timeout">GPS timeout</string>
+    <string name="pref_gen_gps_speed_compute">Speed computation</string>
+    <string name="pref_gen_gps_reset">Enable GPS reset</string>
+    <string name="pref_gen_gps_reset_summary">Enable reset gps by clicking on the view</string>
+    <string name="pref_gen_gps_real_savvy">Override hardware SAVVY</string>
+    <string name="pref_gen_gps_real_savvy_summary">Hardware SAVVY mute/unmute will be disabled and controlled by the app. Reset the Savvy if this is disabled</string>
+    <string name="pref_gen_gps_direction_degree">Show direction in degree</string>
+    <string name="pref_gen_gps_direction_degree_summary">Show direction as degree from North 0</string>
+    <string name="pref_gen_v1_timeout">Valentine timeout</string>
+
+    <string name="pref_gen_bt_workaround">Bluetooth workaround</string>
+    <string name="pref_gen_bt_workaround_summary">Use this option ONLY if you have trouble connecting with V1</string>
+    <string name="pref_gen_force_stop">Force stop</string>
+    <string name="pref_gen_force_stop_summary">Use this option if the GPS is locked after stopping the app</string>
+    <string name="pref_gen_data_collect">Data collector</string>
+    <string name="pref_gen_data_collect_summary">Check this option if you collect data for AI model, logging must be available</string>
+    <string name="pref_gen_broadcast_raw">Broadcast raw alerts</string>
+    <string name="pref_gen_broadcast_raw_summary">Use local broadcast instead of callback between ESP and AlertService</string>
+
+    <!-- Display preferences -->
+
+    <string name="pref_gen_display">Display preferences</string>
+    <string name="pref_gen_display_order">V1 View priority</string>
+    <string name="pref_gen_display_sort_alert_view_summary">Use V1 view priority in the alert view</string>
+    <string name="pref_gen_display_sort_alert_view">Sort alert view</string>
+    <string name="pref_gen_display_laser_top_summary">Move laser alerts to top of Alerts list</string>
+    <string name="pref_gen_display_laser_top">Laser alert on top</string>
+    <string name="pref_gen_display_filter">Display filters</string>
+    <string name="pref_gen_display_filter_enable">Enable display filters</string>
+    <string name="pref_gen_display_filter_lockout_summary">Filter K/X Band locked out</string>
+    <string name="pref_gen_display_filter_lockout">Filter lockout</string>
+    <string name="pref_gen_display_filter_speed_summary">Filter all band under speed limit</string>
+    <string name="pref_gen_display_filter_speed">Filter under speed"</string>
+    <string name="pref_gen_display_filter_ka">Filter Ka</string>
+    <string name="pref_gen_display_filter_k">Filter K</string>
+    <string name="pref_gen_display_filter_x">Filter X</string>
+    <string name="pref_gen_display_filter_ku">Filter Ku</string>
+    <string name="pref_gen_display_overlay_summary">Shows alert summary on top of all applications, when application runs in background</string>
+    <string name="pref_gen_display_overlay">Overlay</string>
+    <string name="pref_gen_display_overlay_inbox_summary">Overlay will be visible only if some alerts are in the box</string>
+    <string name="pref_gen_display_overlay_inbox">Only for inbox</string>
+    <string name="pref_gen_display_overlay_vertical">Overlay vertical position</string>
+    <string name="pref_gen_display_overlay_horizontal">Overlay horizontal position</string>
+    <string name="pref_gen_display_hide_overlay_speed_summary">Disable overlay when emulating savvy, and speed is lower than the limit</string>
+    <string name="pref_gen_display_hide_overlay_speed">No overlay in savvy</string>
+    <string name="pref_gen_display_overlay_sticky">Sticky overlay</string>
+    <string name="pref_gen_display_overlay_sticky_summary">Overlay will be display even if no alerts, when application is in background</string>
+    <string name="pref_gen_display_overlay_mute">Overlay mute</string>
+    <string name="pref_gen_display_overlay_mute_summary">Allow permanent mute clicking on the alert list, click again to mute off</string>
+    <string name="pref_gen_display_overlay_size">Overlay size</string>
+    <string name="pref_gen_display_overlay_click_summary">Click overlay will resume Yav1 last view, remove check mark if you want click with no effect</string>
+    <string name="pref_gen_display_overlay_click">Click overlay</string>
+    <string name="pref_gen_auto_stop">Auto stop timeout</string>
+    <string name="pref_gen_display_padding">Alert row padding</string>
+    <string name="pref_gen_display_alert_theme">Alert theme</string>
+    <string name="pref_gen_display_full_screen">Full screen</string>
+    <string name="pref_gen_display_full_screen_summary">Hide the system status bar.</string>
+    <string name="pref_gen_display_v1_setting_popup">Show V1 setting name</string>
+    <string name="pref_gen_display_v1_setting_popup_summary">Show the current V1 setting name at the bottom on the screen</string>
+    <string name="pref_gen_display_go_dark">Enable dark mode</string>
+    <string name="pref_gen_display_go_dark_summary">Long pressing back key will make device screen and V1 go black and mute, long pressing back key again or dark space will restore</string>
+    <string name="pref_gen_display_hide_speaker">Hide speaker button</string>
+    <string name="pref_gen_display_hide_speaker_summary">Do not show the mute button on the alert view</string>
+    <string name="pref_gen_display_overlay_long_click_summary">Manual lockout pop up on long click on the arrow</string>
+    <string name="pref_gen_display_overlay_long_click">Enable manual lockout</string>
+    <string name="pref_gen_display_led">Alert with Phone led</string>
+    <string name="pref_gen_display_vibrator">Use vibrator</string>
+    <string name="pref_gen_display_battery_voltage">Battery voltage</string>
+    <string name="pref_gen_display_battery_voltage_summary">Show the battery voltage</string>
+    <string name="pref_gen_display_no_background">No background for alerts</string>
+    <string name="pref_gen_display_no_background_summary">Alert scree will be started with no background</string>
+
+    <!-- Boxes Preferences -->
+
+    <string name="pref_box">Enable boxes</string>
+    <string name="pref_box_summary">Boxes allow you to define specific frequency ranges that will be marked as High Priority alerts. Use these to easily identify equipment used by local law enforcement.</string>
+    <string name="pref_box_k">K band</string>
+    <string name="pref_box_ka">Ka band</string>
+    <string name="pref_box_x">X band</string>
+    <string name="pref_box_ku">Ku band</string>
+    <string name="pref_box_1">Box 1</string>
+    <string name="pref_box_2">Box 2</string>
+    <string name="pref_box_3">Box 3</string>
+    <string name="pref_box_4">Box 4</string>
+    <string name="pref_box_frequency_range">Frequency range</string>
+    <string name="pref_box_choose_color">Color</string>
+    <string name="pref_box_remove">Remove</string>
+    <string name="pref_box_voice_alert">Voice</string>
+    <string name="pref_box_play_savvy">Play voice under savvy</string>
+    <string name="pref_box_play_savvy_summary">Play voice even under savvy speed limit</string>
+    <string name="pref_box_voice_on_speaker">Force voice alert on speaker</string>
+    <string name="pref_box_voice_on_speaker_summary">Voice alert always on device speaker</string>
+    <string name="pref_box_laser_voice">Laser voice</string>
+    <string name="pref_box_laser_voice_summary">Notification to play for laser alert</string>
+    <string name="pref_box_no_voice_in_call">Do not play voice when in call</string>
+    <string name="pref_box_no_voice_in_call_summary">The voice will not be active when the device is in call mode</string>
+
+    <!-- Lockout preferences -->
+
+    <string name="pref_lockout">Lockout K/X</string>
+    <string name="pref_lockout_summary">Enable K/X band Lockouts to blacklist and ignore specific location+frequency combinations that are known to be false alerts. Tap the frequency on the Alerts view to lock it out. Use with caution!  You may inadverently block a true threat!</string>
+    <string name="pref_lockout_x">Lockout X</string>
+    <string name="pref_lockout_x_summary">Also allow Lockouts on X-band</string>
+    <string name="pref_lockout_radius">Radius of detection</string>
+    <string name="pref_lockout_bulk">Enable bulk lockouts</string>
+    <string name="pref_lockout_bulk_summary">Adds a button to lock out all current alerts</string>
+    <string name="pref_lockout_show_toast">Show toast message</string>
+    <string name="pref_lockout_show_toast_summary">Show the frequencies not seen or removed on the fly</string>
+    <string name="pref_lockout_remove">Enable remove lockout</string>
+    <string name="pref_lockout_remove_summary">Tap a locked-out alert to remove the lockout</string>
+    <string name="pref_lockout_color">Background color</string>
+    <string name="pref_lockout_manual_color">Manual background color</string>
+    <string name="pref_lockout_intermittent_color">Intermittent background color</string>
+    <string name="pref_lockout_near_color">Already detected color</string>
+    <string name="pref_lockout_expert">Lockout Expert settings</string>
+    <string name="pref_lockout_drift">Allowed drift on K Band (freq. precision)</string>
+    <string name="pref_lockout_seen">Lockout when detected</string>
+    <string name="pref_lockout_unseen">Clear lockout if not detected</string>
+    <string name="pref_lockout_intermittent_unseen">Extra times to unlearn intermittent</string>
+    <string name="pref_lockout_manual_unseen">Extra times to remove manual lockout</string>
+    <string name="pref_lockout_nearly">Show learning after detected..</string>
+    <string name="pref_lockout_max_signal">Auto-lockout max signal strength"</string>
+    <string name="pref_lockout_direction">Associate the current travel direction with the lockout.</string>
+    <string name="pref_lockout_angle">Direction max angle</string>
+    <string name="pref_lockout_success">Lockout record success</string>
+    <string name="pref_lockout_failure">Lockout record failure</string>
+    <string name="pref_lockout_use_direction">Use direction</string>
+    <string name="pref_lockout_use_direction_summary">Use the driving direction in the lockout search</string>
+    <string name="pref_lockout_enable_intermittent">Intermittent alerts handling</string>
+    <string name="pref_lockout_enable_intermittent_summary">Permit to increase the number of unseen time for intermittent alerts</string>
+    <string name="pref_lockout_undo_duration">Undo view</string>
+    <string name="pref_lockout_ka">Ka lockout</string>
+    <string name="pref_lockout_ka_manual">Ka lockout on manual</string>
+    <string name="pref_lockout_ka_summary">Enable Ka band lockout</string>
+    <string name="pref_lockout_ka_manual_summary">Lockout on Ka band can only be manual</string>
+    <string name="pref_lockout_use_signal_filter">Signal difference parameter</string>
+    <string name="pref_lockout_white_color">White listed background color</string>
+    <string name="pref_lockout_white_unseen">Clear white listed alert if not detected</string>
+
+    <!-- muting preferences -->
+
+    <string name="pref_mute_lockout_summary">Mute lockout alerts</string>
+    <string name="pref_mute_lockout">Mute lockout</string>
+    <string name="pref_mute_ka">Ka mute</string>
+    <string name="pref_mute_k">K mute</string>
+    <string name="pref_mute_x">X mute</string>
+    <string name="pref_mute_ku">Ku mute</string>
+    <string name="pref_mute_speed_summary">Mute all under speed GPS</string>
+    <string name="pref_mute_speed">Mute all under GPS speed</string>
+
+    <!-- Logging preferences -->
+
+    <string name="pref_logging">Alert logging</string>
+    <string name="pref_logging_format">Log format</string>
+    <string name="pref_logging_signal">Log min. signal strength</string>
+    <string name="pref_logging_laser">Log laser alerts</string>
+    <string name="pref_logging_laser_summary">Log laser alerts</string>
+    <string name="pref_logging_x">Log X band alerts</string>
+    <string name="pref_logging_x_summary">Log X alerts</string>
+    <string name="pref_logging_k">Log K band alerts</string>
+    <string name="pref_logging_k_summary">Log K alerts</string>
+    <string name="pref_logging_ka">Log Ka band alerts</string>
+    <string name="pref_logging_ka_summary">Log Ka alerts</string>
+    <string name="pref_logging_ku">Log Ku band alerts</string>
+    <string name="pref_logging_ku_summary">Log Ku alerts</string>
+    <string name="pref_logging_exclude_lockout_summary">Exclude lockout alerts</string>
+    <string name="pref_logging_exclude_lockout">Exclude lockout</string>
+    <string name="pref_logging_exclude_otb_summary">Do not log alert Out Of Box</string>
+    <string name="pref_logging_exclude_otb">Exclude Out of Box</string>
+    <string name="pref_logging_purge">Delete logs older than</string>
+    <string name="pref_logging_alert_color">Alert Colors</string>
+    <string name="pref_logging_laser_alert_color">Laser alert color</string>
+    <string name="pref_logging_ka_alert_color">Ka alert color</string>
+    <string name="pref_logging_k_alert_color">K alert color</string>
+    <string name="pref_logging_x_alert_color">X alert color</string>
+    <string name="pref_logging_ku_alert_color">Ku alert color</string>
+    <string name="pref_logging_enable_lockout">Allow lockout actions</string>
+    <string name="pref_logging_enable_lockout_summary">Allow lockout / unlock from logged alert</string>
+
+    <!-- preference google mao -->
+    <string name="pref_g_map_connection">Connection</string>
+    <string name="pref_g_map_wifi_only">Wifi only</string>
+    <string name="pref_g_map_wifi_only_summary">Connect to google map only using Wifi</string>
+    <string name="pref_g_map_unit">Units</string>
+    <string name="pref_g_map_logged_alert">Logged alerts map</string>
+    <string name="pref_g_map_ttl">TTL</string>
+    <string name="pref_g_map_marker">Marker interval</string>
+
+    <!-- preference menus strinf -->
+    <string name="pref_menu_restore">Restore</string>
+    <string name="pref_menu_backup">Backup</string>
+    <string name="pref_menu_error_restore">Error restoring exception</string>
+    <string name="pref_menu_error_invalid_file">The file is probably not a YaV1 backup file</string>
+    <string name="pref_menu_error_backup">Error backup exception</string>
+    <string name="pref_menu_create_file">Enter new file name for backup</string>
+    <string name="pref_menu_backup_success">The settings have been saved to %s file</string>
+    <string name="pref_restore_confirm">This will replace your current settings, Continue?</string>
+    <string name="pref_restore_success">The settings have been successfully restored</string>
+
+
+    <!-- sweep related strings -->
+
+    <string name="sweep_factory">FactoryDefault</string>
+    <string name="sweep_edit_name_title">Sweep set name</string>
+    <string name="sweep_edit_name_message">Enter a new name for this set</string>
+    <string name="sweep_edges">Sweep edges</string>
+    <string name="sweep_desc_edit">Edit this sweep set</string>
+    <string name="sweep_desc_duplicate">Duplicate the sweep set</string>
+    <string name="sweep_desc_push">Push the sweep to V1</string>
+    <string name="sweep_desc_delete">Delete this sweep set</string>
+    <string name="sweep_duplicate_title">Sweep set name</string>
+    <string name="sweep_duplicate_title_message">Enter a name for this set</string>
+    <string name="sweep_push_title">Pushing sweep</string>
+    <string name="sweep_push_message">Writing sweep set on V1, be patient ... </string>
+    <string name="sweep_push_success">Sweep have been pushed successfully</string>
+    <string name="sweep_push_error_title">Error pushing Sweep to V1</string>
+    <string name="sweep_push_delete_title">Delete sweep set</string>
+    <string name="sweep_push_delete_message">Confirm deletion</string>
+    <string name="sweep_invalid_file">This file is not a custom sweep exported file</string>
+    <string name="sweep_import_exception">Exception importing sweep: %s</string>
+    <string name="sweep_menu_export">Export - Backup</string>
+    <string name="sweep_menu_import">Import - Merge</string>
+    <string name="sweep_menu_clear">Delete all</string>
+    <string name="sweep_import_confirm">The sweeps will be added to your list. Continue?</string>
+    <string name="sweep_export_success" formatted="false">%d Sweeps set have been exported to %s</string>
+    <string name="sweep_no_sweep">There is no custom sweeps to export</string>
+    <string name="sweep_delete_confirm">Are you sure you want to do this (make an export before)? Continue ?</string>
+    <string name="sweep_delete_all_title">Delete all custom sweeps</string>
+    <string name="sweep_import_success" formatted="false">%d sweep set imported, %d duplicate (ignored)</string>
+    <string name="sweep_no_sweep_to_del">The custom sweep list is already empty</string>
+
+    <!-- v1 settings related strins -->
+
+    <string name="v1_setting_factory">FactoryDefault</string>
+    <string name="v1_setting_edit_name_title">Setting name</string>
+    <string name="v1_setting_edit_name_message">Enter a new name for this setting</string>
+    <string name="v1_setting_desc_edit">Edit this setting</string>
+    <string name="v1_setting_desc_duplicate">Duplicate this setting</string>
+    <string name="v1_setting_desc_push">Push the setting to V1</string>
+    <string name="v1_setting_desc_delete">Delete this setting</string>
+    <string name="v1_setting_muting_period">Auto Muting time period</string>
+    <string name="v1_setting_speed_edit_title">Speed threshold</string>
+    <string name="v1_setting_duplicate_title">Setting name</string>
+    <string name="v1_setting_duplicate_message">Enter a name for this setting</string>
+    <string name="v1_setting_delete_title">Delete setting</string>
+    <string name="v1_setting_delete_message">Confirm deletion</string>
+    <string name="v1_setting_update_current">Push settings</string>
+    <string name="v1_setting_update_current_message">The current settings have been modified, push them to V1?</string>
+    <string name="v1_setting_invalid_file">This file is not a v1 setting exported file</string>
+    <string name="v1_setting_import_exception">Exception importing v1 setting: %s</string>
+    <string name="v1_setting_menu_export">Export - Backup</string>
+    <string name="v1_setting_menu_import">Import - Merge</string>
+    <string name="v1_setting_no_setting">There no V1 setting to export</string>
+    <string name="v1_setting_export_success" formatted="false">%d V1 setting set have been exported to %s</string>
+    <string name="v1_setting_import_confirm">The V1 setting will be added to your list. Continue?</string>
+    <string name="v1_setting_import_success" formatted="false">%d V1 setting imported, %d duplicate (ignored)</string>
+
+    <!-- lockout related string -->
+    <string name="lockout_menu_backup">Backup</string>
+    <string name="lockout_menu_restore">Restore</string>
+    <string name="lockout_menu_truncate">Reset database</string>
+    <string name="lockout_disabled">Backup</string>
+    <string name="lockout_backup">Backup lockout database</string>
+    <string name="lockout_backup_file" formatted="false">Your lockout database will be backup to %s</string>
+    <string name="lockout_backup_progress">Backing up database</string>
+    <string name="lockout_restore_progress">Restoring lockout database</string>
+    <string name="lockout_backup_success">The lockout database has been backed up</string>
+    <string name="lockout_restore_success">The lockout database has been restored</string>
+    <string name="lockout_restore">Restore lockout database</string>
+    <string name="lockout_backup_error">Backup error</string>
+    <string name="lockout_restore_error">Restore error</string>
+    <string name="lockout_restore_select">Lockout Backup</string>
+    <string name="lockout_reset_title">Truncate lockout database</string>
+    <string name="lockout_reset_confirm">This will empty the database lockout, please make a backup and click Yes to continue</string>
+    <string name="lockout_reset_done">The lockout database is now empty</string>
+    <string name="lockout_restore_confirm">This backup wil REPLACE your current lockout database. Continue?</string>
+    <string name="lockout_remove_manual">Unlock ?</string>
+    <string name="lockout_remove_white">Clear from white list ?</string>
+    <string name="lockout_status_learning">LEARNING</string>
+    <string name="lockout_status_lockout">LOCKOUT</string>
+    <string name="lockout_status_lockout_manual">LOCKOUT M</string>
+    <string name="lockout_status_white">WHITE LIST</string>
+
+    <!-- multi purpose strings -->
+
+    <string name="v1_setting_on">On</string>
+    <string name="v1_setting_off">Off</string>
+    <string name="v1_setting_knob">Knob</string>
+    <string name="v1_setting_lever">Lever</string>
+
+    <!--  sections -->
+    <string name="v1_setting_h_name">Name</string>
+    <string name="v1_setting_h_bands">Bands</string>
+    <string name="v1_setting_h_ka_band">Ka Band</string>
+    <string name="v1_setting_h_mute">Mute control</string>
+    <string name="v1_setting_h_k_mute">K Band muting</string>
+    <string name="v1_setting_h_special">Special</string>
+    <string name="v1_setting_h_savvy">Savvy</string>
+
+    <!-- per sections -->
+
+    <string name="v1_setting_edit_name">Name</string>
+
+    <!-- band sections -->
+
+    <string name="v1_setting_band_laser">Laser</string>
+    <string name="v1_setting_band_x">X</string>
+    <string name="v1_setting_band_k">K</string>
+    <string name="v1_setting_band_ka">Ka</string>
+    <string name="v1_setting_band_ku">Ku</string>
+    <string name="v1_setting_warn_k_euro">In Euro mode K band is enabled/disabled using the mode button in the tools tab</string>
+
+    <!-- Ka sectoin -->
+
+    <string name="v1_setting_ka_guard">Ka Guard</string>
+    <string name="v1_setting_ka_ramping">Ka Ramping</string>
+    <string name="v1_setting_ka_ramping_normal">Norm</string>
+    <string name="v1_setting_ka_ramping_high">High</string>
+
+    <!-- muted section -->
+
+    <string name="v1_setting_muted_volume">Muted volume</string>
+    <string name="v1_setting_muted_zero">Zero</string>
+    <string name="v1_setting_muted_bogey_lock">Bogey-lock volume</string>
+    <string name="v1_setting_muted_logic">Muting logic</string>
+
+    <!-- k muting -->
+
+    <string name="v1_setting_time_period">Time period</string>
+    <string name="v1_setting_no_above_3">No muting above 3 on first</string>
+    <string name="v1_setting_mute_off_above_5">Mute off above 5 dots</string>
+    <string name="v1_setting_mute_rear_k">Mute rear K band</string>
+
+    <!-- Special -->
+    <string name="v1_setting_euro_mode">Euro mode</string>
+    <string name="v1_setting_traffic_filter">Traffic monitor filter</string>
+
+    <!-- savvy -->
+
+    <string name="v1_setting_savvy_unmute">Unmute enabled</string>
+    <string name="v1_setting_savvy_override_thumb_wheel">Override Thumb wheel</string>
+    <string name="v1_setting_savvy_thumb_wheel_speed">Thumb wheel speed</string>
+    <string name="v1_setting_push_success">Settings have been successfully written to V1</string>
+
+    <!-- alert running related strings -->
+
+    <string name="alert_run_wait_gps">Waiting for Gps signal</string>
+
+    <!-- direction for GPS view -->
+
+    <string name="alert_run_direction_n">N</string>
+    <string name="alert_run_direction_ne">NE</string>
+    <string name="alert_run_direction_e">E</string>
+    <string name="alert_run_direction_se">SE</string>
+    <string name="alert_run_direction_s">S</string>
+    <string name="alert_run_direction_sw">SW</string>
+    <string name="alert_run_direction_w">W</string>
+    <string name="alert_run_direction_nw">NW</string>
+    <string name="alert_run_drift">Drift</string>
+    <string name="alert_run_undo_lockout">Undo %d lockout</string>
+    <string name="alert_run_undo_none_lockout">No lockout to Undo</string>
+    <string name="alert_run_lockout_undone">%d lockouts undone</string>
+    <string name="alert_run_unsafe_lockout">Not safe ..</string>
+
+    <!-- view name in tab -->
+
+    <string name="alert_run_v1_view">V1</string>
+    <string name="alert_run_v1_alert_view">Alert</string>
+    <string name="alert_run_v1_filter_view">Filter</string>
+    <string name="alert_run_tool_view">Tools</string>
+
+    <!-- V1 status and error -->
+    <!-- status of valentine -->
+
+    <string name="alert_run_v1_active">Valentine is connected</string>
+    <string name="alert_run_v1_inactive">Valentine is NOT CONNECTED</string>
+    <string name="alert_run_v1_data_timeout">V1 data timeout</string>
+    <string name="alert_run_v1_error">Reported by V1</string>
+    <string name="alert_run_v1_no_connection">Failed to connect to Valentine</string>
+    <string name="alert_no_demo">Demo mode is not available when V1 is connected. Stop V1 to start demo mode.</string>
+
+    <!-- for bluetooth device -->
+
+    <string name="bluetooth_not_running">Your BlueTooth is not enabled, turn on BlueTooth on the device</string>
+    <string name="device_error">No device found, click on DEVICE settings to link a Device</string>
+    <string name="search_valentine">Searching last known Valentine ...</string>
+    <string name="waiting_for">Waiting for</string>
+    <string name="device_must_be_paired">This list shows only the bluetooth paired devices. You should pair Valentine bluetooth from your phone (code 1234) prior to start the application</string>
+
+    <!-- main activity strings -->
+    <string name="main_esp_mode">ESP mode</string>
+    <string name="main_legacy_mode">Legacy mode</string>
+    <string name="main_v1_setting_prefix">V1 setting: </string>
+    <string name="main_cs_prefix">CS: </string>
+    <string name="main_euro_mode">Euro</string>
+    <string name="main_usa_mode">Usa</string>
+    <string name="main_button_usa_no_logic">All</string>
+    <string name="main_button_usa_logic">Logic</string>
+    <string name="main_button_usa_advanced_logic">Adv</string>
+    <string name="main_button_euro_k_ka">K-Ka(U)</string>
+    <string name="main_button_euro_ka">Ka(u)</string>
+    <string name="main_button_euro_cs_k_ka">K-Ka(C)</string>
+    <string name="main_button_euro_cs_ka">Ka(c)</string>
+    <string name="main_auto_stop">YaV1 .. stopped</string>
+    <string name="main_honey_comb_needed">This feature needs an android version >= 3.1</string>
+
+    <!-- About box strings -->
+    <string name="about_summary">YaV1 summary</string>
+    <string name="about_version">Version</string>
+    <string name="about_v1_version">V1 version</string>
+    <string name="about_v1_serial">V1 serial</string>
+    <string name="about_v1_savvy">Savvy version</string>
+    <string name="about_lockout">Lockouts</string>
+    <string name="about_custom_sweep">Custom sweeps</string>
+    <string name="about_storage">YaV1 folder</string>
+    <string name="about_v1_settings">V1 settings</string>
+    <string name="about_v1_support">Support</string>
+    <string name="about_v1_voltage">Battery</string>
+    <string name="about_documentation">Documentation</string>
+    <string name="no_storage">NOT PRESENT</string>
+
+    <!-- Gmap strings -->
+    <string name="gmap_no_gmap">Google map is not installed</string>
+    <string name="gmap_no_connection">No internet connection</string>
+    <string name="gmap_service_error">Google service error</string>
+    <string-array name="gmap_marker_mode">
+        <item>Standard</item>
+        <item>All hits</item>
+    </string-array>
+    <string name="gmap_select_all">Select All</string>
+    <string name="gmap_select_laser">Select Laser</string>
+    <string name="gmap_select_ka">Select Ka</string>
+    <string name="gmap_select_k">Select K</string>
+    <string name="gmap_select_x">Select X</string>
+    <string name="gmap_select_ku">Select Ku</string>
+    <string name="gmap_clear">Clear</string>
+    <string name="gmap_processing">Processing alerts ...</string>
+    <string name="gmap_tab_files">Files</string>
+    <string name="gmap_tab_alerts">Alerts</string>
+    <string name="gmap_tab_map">Map</string>
+</resources>

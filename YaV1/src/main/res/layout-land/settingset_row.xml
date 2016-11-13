@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:descendantFocusability="blocksDescendants"
+              android:orientation="horizontal"
+              android:weightSum="100"
+              android:gravity="left"
+              android:measureWithLargestChild="true">
+    <TextView
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:text="Medium Text"
+            android:id="@+id/setting_name"
+            android:focusableInTouchMode="false"
+            android:layout_gravity="center_vertical|left"
+            android:gravity="center_vertical"
+            android:textSize="18dp"
+            android:layout_weight="50"
+        android:textColor="#ffde12" />
+    <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="50"
+            android:orientation="horizontal"
+            android:gravity="center_vertical|right"
+            android:weightSum="100"
+            android:layout_gravity="left">
+
+        <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/edit"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="25"
+                android:clickable="true"
+                android:onClick="onEdit"
+                android:src="@drawable/edit"
+                android:contentDescription="@string/v1_setting_desc_edit"/>
+        <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/duplicate"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/duplicate"
+                android:onClick="onDuplicate"
+                android:layout_weight="25"
+                android:contentDescription="@string/v1_setting_desc_duplicate"/>
+        <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/push"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="25"
+                android:src="@drawable/push"
+                android:onClick="onPush"
+                android:clickable="true"
+                android:contentDescription="@string/v1_setting_desc_push"/>
+        <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/delete"
+                android:layout_weight="25"
+                android:layout_gravity="center_vertical"
+                android:onClick="onDelete"
+                android:src="@drawable/delete"
+                android:contentDescription="@string/v1_setting_desc_delete"/>
+    </LinearLayout>
+</LinearLayout>

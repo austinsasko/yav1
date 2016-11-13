@@ -1,0 +1,658 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
+
+    <string-array name="vibrator">
+        <item>Never (Default)</item>
+        <item>Phone Volume off</item>
+        <item>Always</item>
+    </string-array>
+
+    <string-array name="vibrator_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="led">
+        <item>Never (Default)</item>
+        <item>Screen off</item>
+        <item>App in background</item>
+        <item>Always</item>
+    </string-array>
+
+    <string-array name="led_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="lockout_visible">
+        <item>20 meters</item>
+        <item>30 meters</item>
+        <item>40 meters</item>
+        <item>50 meters (Default)</item>
+        <item>60 meters</item>
+    </string-array>
+
+    <!-- do not translate -->
+
+    <string-array name="lockout_visible_values">
+        <item>20</item>
+        <item>30</item>
+        <item>40</item>
+        <item>50</item>
+        <item>60</item>
+    </string-array>
+
+    <string-array name="lockout_max_signal">
+        <item>None (Default)</item>
+        <item>5 dots</item>
+        <item>6 dots</item>
+        <item>7 dots</item>
+        <item>8 dots</item>
+    </string-array>
+
+    <string-array name="lockout_max_signal_values">
+        <item>0</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+    </string-array>
+
+    <string-array name="lockout_white_unseen">
+        <item>Never</item>
+        <item>20 times</item>
+        <item>50 times (Default)</item>
+        <item>100 times</item>
+        <item>200 times</item>
+    </string-array>
+
+    <string-array name="lockout_white_unseen_value">
+        <item>0</item>
+        <item>20</item>
+        <item>50</item>
+        <item>100</item>
+        <item>200</item>
+    </string-array>
+
+    <string-array name="preset_settings">
+        <item>Savvy 35 MPH</item>
+        <item>Savvy + Lockout</item>
+        <item>Savvy + Lockout + Overlay</item>
+        <item>Boxes and Ka OTB Muting (HC)</item>
+    </string-array>
+
+    <string-array name="lockout_signal_threshold_level">
+        <item>None (Default)</item>
+        <item>Soft</item>
+        <item>Strong</item>
+    </string-array>
+
+    <string-array name="lockout_signal_threshold_level_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="lockout_seen">
+        <item>2 times</item>
+        <item>3 times (Default)</item>
+        <item>4 times</item>
+        <item>5 times</item>
+        <item>6 times</item>
+        <item>7 times</item>
+        <item>8 times</item>
+    </string-array>
+
+    <string-array name="lockout_seen_value">
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+    </string-array>
+
+    <string-array name="lockout_unseen">
+        <item>2 times</item>
+        <item>3 times</item>
+        <item>4 times</item>
+        <item>5 times (Default)</item>
+        <item>6 times</item>
+        <item>7 times</item>
+        <item>8 times</item>
+    </string-array>
+
+    <string-array name="lockout_unseen_value">
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+    </string-array>
+
+    <string-array name="lockout_manual_unseen">
+        <item>+0 time (Default)</item>
+        <item>+2 times</item>
+        <item>+5 times</item>
+        <item>+10 times</item>
+        <item>Permanent</item>
+    </string-array>
+
+    <string-array name="lockout_manual_unseen_value">
+        <item>0</item>
+        <item>2</item>
+        <item>5</item>
+        <item>10</item>
+        <item>100</item>
+    </string-array>
+
+    <string-array name="lockout_nearly">
+        <item>Never (Default)</item>
+        <item>2 times</item>
+        <item>3 times</item>
+        <item>4 times</item>
+        <item>5 times</item>
+        <item>6 times</item>
+    </string-array>
+
+    <string-array name="lockout_nearly_value">
+        <item>0</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+    </string-array>
+
+    <string-array name="alert_theme">
+        <item>Native (Default)</item>
+        <item>USA</item>
+        <item>EURO</item>
+    </string-array>
+
+    <string-array name="alert_theme_value">
+        <item></item>
+        <item>u</item>
+        <item>y</item>
+    </string-array>
+
+    <string-array name="gmap_marker">
+        <item>20 m</item>
+        <item>30 m</item>
+        <item>50 m (Default)</item>
+        <item>75 m</item>
+        <item>100 m</item>
+        <item>150 m</item>
+    </string-array>
+
+    <string-array name="gmap_marker_values">
+        <item>20</item>
+        <item>30</item>
+        <item>50</item>
+        <item>75</item>
+        <item>100</item>
+        <item>150</item>
+    </string-array>
+
+    <string-array name="gmap_ttl">
+        <item>5 seconds</item>
+        <item>7 seconds</item>
+        <item>10 seconds (Default)</item>
+        <item>15 seconds</item>
+        <item>20 seconds</item>
+        <item>25 seconds</item>
+        <item>30 seconds</item>
+    </string-array>
+
+    <string-array name="gmap_ttl_values">
+        <item>5</item>
+        <item>7</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>25</item>
+        <item>30</item>
+    </string-array>
+
+    <string-array name="gmap_unit">
+        <item>Metric (Default)</item>
+        <item>U.S.</item>
+    </string-array>
+
+    <string-array name="gmap_unit_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string-array name="v1_setting_popup">
+        <item>Never (Default)</item>
+        <item>2 minutes</item>
+        <item>3 minutes</item>
+        <item>4 minutes</item>
+        <item>5 minutes</item>
+    </string-array>
+
+    <string-array name="v1_setting_popup_values">
+        <item>0</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+    <string-array name="alert_row_padding">
+        <item>Default</item>
+        <item>3 dpi</item>
+        <item>5 dpi</item>
+        <item>8 dpi</item>
+    </string-array>
+
+    <string-array name="alert_row_padding_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="log_purge">
+        <item>Never (Default)</item>
+        <item>3 days</item>
+        <item>4 days</item>
+        <item>5 days</item>
+        <item>6 days</item>
+        <item>1 week</item>
+        <item>2 weeks</item>
+        <item>3 weeks</item>
+        <item>4 weeks</item>
+    </string-array>
+
+    <string-array name="log_purge_values">
+        <item>0</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>14</item>
+        <item>21</item>
+        <item>28</item>
+    </string-array>
+
+    <string-array name="undo_duration">
+        <item>5 seconds (Default)</item>
+        <item>10 seconds</item>
+        <item>15 seconds</item>
+        <item>20 seconds</item>
+    </string-array>
+
+    <!-- do not translate -->
+
+    <string-array name="undo_duration_values">
+        <item>5000</item>
+        <item>10000</item>
+        <item>15000</item>
+        <item>20000</item>
+    </string-array>
+
+    <string-array name="auto_stop">
+        <item>Never (Default)</item>
+        <item>30 seconds</item>
+        <item>1 minute</item>
+        <item>3 minutes</item>
+        <item>5 minutes</item>
+        <item>10 minutes</item>
+    </string-array>
+
+    <string-array name="auto_stop_values">
+        <item>0</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>300</item>
+        <item>600</item>
+    </string-array>
+
+    <string-array name="overlay_vertical_position">
+        <item>Top</item>
+        <item>Middle (Default)</item>
+        <item>Bottom</item>
+    </string-array>
+
+    <string-array name="overlay_vertical_position_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="overlay_horizontal_position">
+        <item>Left</item>
+        <item>Center (Default)</item>
+        <item>Right</item>
+    </string-array>
+
+    <string-array name="overlay_horizontal_position_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="overlay_size">
+        <item>Small</item>
+        <item>Normal (Default)</item>
+    </string-array>
+
+    <string-array name="overlay_size_value">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string-array name="sort_alert">
+        <item>Signal strength, band</item>
+        <item>Band, Signal strength (Default)</item>
+        <item>In box, Signal strength, Band</item>
+    </string-array>
+
+    <string-array name="sort_alert_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="unit">
+        <item>Kilometers per hour</item>
+        <item>Miles per hour</item>
+    </string-array>
+
+    <!-- do not translate -->
+    <string-array name="unit_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string-array name="v1_timeout">
+        <item>3 seconds</item>
+        <item>4 seconds</item>
+        <item>5 seconds</item>
+        <item>6 seconds (Default)</item>
+        <item>7 seconds</item>
+        <item>8 seconds</item>
+        <item>9 seconds</item>
+        <item>10 seconds</item>
+    </string-array>
+
+    <!-- do not translate -->
+
+    <string-array name="v1_timeout_values">
+        <item>3000</item>
+        <item>4000</item>
+        <item>5000</item>
+        <item>6000</item>
+        <item>7000</item>
+        <item>8000</item>
+        <item>9000</item>
+        <item>10000</item>
+    </string-array>
+
+    <string-array name="gps_timeout">
+        <item>4 seconds</item>
+        <item>5 seconds (Default)</item>
+        <item>6 seconds</item>
+        <item>7 seconds</item>
+        <item>8 seconds</item>
+    </string-array>
+
+    <!-- do not translate -->
+
+    <string-array name="gps_timeout_values">
+        <item>4000</item>
+        <item>5000</item>
+        <item>6000</item>
+        <item>7000</item>
+        <item>8000</item>
+    </string-array>
+
+    <string-array name="speed_choice">
+        <item>Use Gps speed if available, otherwise use computed speed (Default)</item>
+        <item>Always use computed speed</item>
+        <item>Use minimum of Gps and Computed</item>
+        <item>Use maximum of Gps and Computed</item>
+    </string-array>
+
+    <!-- do not translate -->
+
+    <string-array name="speed_choice_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="speed_max">
+        <item>20</item>
+        <item>25 (Default)</item>
+        <item>30</item>
+        <item>35</item>
+        <item>40</item>
+        <item>45</item>
+        <item>50</item>
+        <item>55</item>
+        <item>60</item>
+        <item>65</item>
+        <item>70</item>
+        <item>75</item>
+        <item>80</item>
+        <item>85</item>
+        <item>90</item>
+    </string-array>
+
+    <string-array name="speed_max_values">
+        <item>20</item>
+        <item>25</item>
+        <item>30</item>
+        <item>35</item>
+        <item>40</item>
+        <item>45</item>
+        <item>50</item>
+        <item>55</item>
+        <item>60</item>
+        <item>65</item>
+        <item>70</item>
+        <item>75</item>
+        <item>80</item>
+        <item>85</item>
+        <item>90</item>
+    </string-array>
+
+    <!-- muting per band -->
+
+    <string-array name="muting_band">
+        <item>Never (Default)</item>
+        <item>Out of box</item>
+        <item>In the box</item>
+    </string-array>
+
+    <!-- do not translate -->
+    <string-array name="muting_band_value">
+        <item>0</item>
+        <item>1</item>
+        <item>-1</item>
+    </string-array>
+
+    <!-- filter per band -->
+
+    <string-array name="filter_band">
+        <item>Never (Default)</item>
+        <item>Out of box</item>
+        <item>In the box</item>
+    </string-array>
+
+    <!-- do not translate -->
+    <string-array name="filter_band_value">
+        <item>0</item>
+        <item>1</item>
+        <item>-1</item>
+    </string-array>
+
+    <!-- lockout drift -->
+
+    <string-array name="lockout_default_drift">
+        <item>6 MHz</item>
+        <item>7 MHz</item>
+        <item>8 MHz</item>
+        <item>9 MHz</item>
+        <item>10 MHz (Default)</item>
+    </string-array>
+
+    <!-- do not translate -->
+
+    <string-array name="lockout_default_drift_values">
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </string-array>
+
+    <string-array name="lockout_search_distance">
+        <item>100 m. / 109 yd.</item>
+        <item>200 m. / 218 yd. (default)</item>
+        <item>300 m. / 328 yd.</item>
+        <item>400 m. / 437 yd.</item>
+    </string-array>
+
+    <!-- do not translate -->
+
+    <string-array name="lockout_search_distance_values">
+        <item>100</item>
+        <item>200</item>
+        <item>300</item>
+        <item>400</item>
+    </string-array>
+
+    <string-array name="lockout_search_angle">
+        <item>30 degrees</item>
+        <item>45 degrees (Default)</item>
+        <item>60 degrees</item>
+    </string-array>
+
+    <!-- do not translate -->
+
+    <string-array name="lockout_search_angle_values">
+        <item>30</item>
+        <item>45</item>
+        <item>60</item>
+    </string-array>
+
+    <string-array name="min_signal">
+        <item>1 and more (default)</item>
+        <item>2 and more</item>
+        <item>3 and more</item>
+        <item>4 and more</item>
+        <item>5 and more</item>
+    </string-array>
+
+    <!-- do not translate -->
+
+    <string-array name="min_signal_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+    <string-array name="default_view">
+        <item>V1</item>
+        <item>Alert (Default)</item>
+    </string-array>
+
+    <!-- do not translate -->
+
+    <string-array name="default_view_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string-array name="log_format">
+        <item>GPS Visualizer (Default)</item>
+        <item>Raw</item>
+    </string-array>
+
+    <!-- do not translate -->
+
+    <string-array name="log_format_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <!-- sounds -->
+    <string-array name="sound">
+        <item>Silent</item>
+        <item>Native bogey</item>
+        <item>Native laser</item>
+        <item>Native Ka</item>
+        <item>Native K</item>
+        <item>Native X</item>
+        <item>Pickup</item>
+        <item>Splash</item>
+        <item>Explosion</item>
+        <item>Laser</item>
+        <item>Bark</item>
+        <item>Fart</item>
+        <item>Cat</item>
+        <item>Cow</item>
+        <item>Chopper shot</item>
+        <item>Wah wah chopper</item>
+        <item>Fast wah chopper</item>
+        <item>Distorted horn</item>
+        <item>Machine gun</item>
+        <item>Shock</item>
+        <item>Wet phaser</item>
+        <item>Bogey 2</item>
+        <item>Alternate K</item>
+        <item>Alternate Ka</item>
+        <item>Bel K</item>
+        <item>Bel Ka</item>
+        <item>Bel X</item>
+    </string-array>
+
+    <!-- do not translate -->
+
+    <string-array name="sound_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+    </string-array>
+</resources>

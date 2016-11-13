@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:descendantFocusability="blocksDescendants"
+              android:orientation="vertical">
+
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Medium Text"
+            android:id="@+id/sweep_name"
+            android:focusableInTouchMode="false"
+            android:layout_gravity="left"/>
+
+    <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center_vertical|fill_horizontal|center_horizontal"
+            android:weightSum="100">
+
+        <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/edit"
+                android:layout_gravity="center"
+                android:layout_weight="25"
+                android:clickable="true"
+                android:onClick="onEdit"
+                android:src="@drawable/edit"
+                android:contentDescription="Edit this sweep set"/>
+
+        <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/duplicate"
+                android:layout_gravity="center"
+                android:src="@drawable/duplicate"
+                android:onClick="onDuplicate"
+                android:layout_weight="25"
+                android:contentDescription="Duplicate the sweep set"/>
+
+        <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/push"
+                android:layout_gravity="center"
+                android:layout_weight="25"
+                android:src="@drawable/push"
+                android:onClick="onPush"
+                android:clickable="true"
+                android:contentDescription="Push the sweep to V1"/>
+
+        <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/delete"
+                android:layout_weight="25"
+                android:layout_gravity="center"
+                android:onClick="onDelete"
+                android:src="@drawable/delete"
+                android:contentDescription="Delete this sweep set"/>
+
+    </LinearLayout>
+</LinearLayout>

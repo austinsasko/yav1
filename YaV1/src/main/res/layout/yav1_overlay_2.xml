@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/overlay"
+    android:id="@+id/container"
+    android:visibility="invisible">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|top"
+        android:id="@+id/alert_container"
+        android:orientation="vertical"
+        android:gravity="left|top"
+        android:background="@android:color/transparent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_above="@+id/dots">
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/alertList"
+            android:background="@android:color/transparent"
+            android:divider="@android:color/transparent"
+            android:layout_gravity="left|top"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:id="@+id/arrow_container"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/alert_container">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/arrow_front"
+            android:src="@drawable/over_arrow_f"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/arrow_side"
+            android:src="@drawable/over_arrow_s"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/arrow_front" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/arrow_rear"
+            android:src="@drawable/over_arrow_r"
+            android:layout_below="@+id/arrow_side"
+            android:layout_alignParentLeft="true" />
+    </RelativeLayout>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/arrow_container"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/transparent"
+        android:id="@+id/dots"
+        android:src="@drawable/ss_0" />
+</RelativeLayout>

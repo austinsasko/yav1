@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:defaultValue="0"
+        android:key="mute_ka"
+        android:entries="@array/muting_band"
+        android:entryValues="@array/muting_band_value"
+        android:summary="%s"
+        android:title="@string/pref_mute_ka">
+    </ListPreference>
+    <ListPreference
+        android:defaultValue="0"
+        android:key="mute_k"
+        android:entries="@array/muting_band"
+        android:entryValues="@array/muting_band_value"
+        android:summary="%s"
+        android:title="@string/pref_mute_k">
+    </ListPreference>
+    <ListPreference
+        android:defaultValue="0"
+        android:key="mute_x"
+        android:entries="@array/muting_band"
+        android:entryValues="@array/muting_band_value"
+        android:summary="%s"
+        android:title="@string/pref_mute_x">
+    </ListPreference>
+    <ListPreference
+        android:defaultValue="0"
+        android:key="mute_ku"
+        android:entries="@array/muting_band"
+        android:entryValues="@array/muting_band_value"
+        android:summary="%s"
+        android:title="@string/pref_mute_ku">
+    </ListPreference>
+</PreferenceScreen>

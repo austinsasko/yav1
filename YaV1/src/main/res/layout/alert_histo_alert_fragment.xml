@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:clickable="false"
+    android:focusable="false"
+    android:gravity="clip_vertical|top">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:id="@+id/command"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:gravity="center_vertical">
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/mode_spinner"
+            android:entries="@array/gmap_marker_mode"
+            android:layout_alignParentTop="false"
+            android:layout_alignParentLeft="true"
+            android:spinnerMode="dropdown"
+            android:layout_alignParentBottom="false"
+            android:layout_centerVertical="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Medium Text"
+            android:id="@+id/nbsel"
+            android:layout_toRightOf="@+id/mode_spinner"
+            android:layout_toLeftOf="@+id/clear_all"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_centerVertical="true" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gmap_clear"
+            android:id="@+id/clear_all"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="false"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_centerVertical="true" />
+
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:numColumns="1"
+        android:scrollbars="vertical"
+        android:gravity="center_horizontal|left|top"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentRight="false"
+        android:layout_alignParentBottom="false"
+        android:layout_alignParentLeft="false"
+        android:textFilterEnabled="false"
+        android:stretchMode="columnWidth"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:longClickable="false"
+        android:layout_below="@+id/command">
+    </ListView>
+</RelativeLayout>
