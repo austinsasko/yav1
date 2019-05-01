@@ -31,6 +31,9 @@ import com.valentine.esp.data.InfDisplayInfoData;
 import java.util.Collections;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static com.franckyl.yav1.YaV1.sPrefs;
+
+
 public class YaV1AlertService extends Service
 {
     // Update V1 Receiver
@@ -64,7 +67,7 @@ public class YaV1AlertService extends Service
     private boolean mGotAlert               = false;
 
     // service start/stop sound
-    private String mServiceSound         = YaV1.sPrefs.getString("active_sound", "content://settings/system/notification_sound");
+    private String mServiceSound         = sPrefs.getString("active_sound", "content://settings/system/notification_sound");
 
     // when laser is present
     private AtomicBoolean haveLaser         = new AtomicBoolean(false);
@@ -100,6 +103,10 @@ public class YaV1AlertService extends Service
     public  static YaV1AlertProcessor mProcessor    = new YaV1AlertProcessor();
     // sound processor
     private static YaV1SoundManager   mSoundManager = null;
+
+    // smart dark mode
+    private static boolean      mSmartDarkMode      = false;
+    private static long         SmartDarkTimestamp  = 0;
 
     // V1View comparator
     YaV1Alert.ChainedComparator mSortAlert[]   = {null, null, null};
@@ -147,6 +154,13 @@ public class YaV1AlertService extends Service
     // for debug
 
     static int processAlertCount            = 0;
+
+    // box muting settings
+    public static int             mPrefMuteKa;
+    public static int             mPrefMuteK;
+    public static int             mPrefMuteX;
+    public static int             mPrefMuteKu;
+
 
     @Override
     public void onCreate()
@@ -337,7 +351,7 @@ public class YaV1AlertService extends Service
                 mInSavvy = true;
                 if(!mCurrentMute)
                 {
-                    //Log.d("Valentine Sound", "onOffSpeed > 0 - current mute false, sending mute request");
+                    Log.d("Valentine Sound", "onOffSpeed > 0 - current mute false, sending mute request");
                     sendMuteRequest(onOffSpeed);
                 }
                 return false;
@@ -515,11 +529,11 @@ public class YaV1AlertService extends Service
 
     public static void refreshSettings(boolean init)
     {
-        mSavvy                = YaV1.sPrefs.getBoolean("use_gps", false) && YaV1.sPrefs.getBoolean("mute_v1_under_speed", false) /* && mSpeedMaxForSound > 0.5*/;
+        mSavvy                = sPrefs.getBoolean("use_gps", false) && sPrefs.getBoolean("mute_v1_under_speed", false) /* && mSpeedMaxForSound > 0.5*/;
 
         if(mSavvy)
         {
-            int i = Integer.valueOf(YaV1.sPrefs.getString("n_speed_max", "0"));
+            int i = Integer.valueOf(sPrefs.getString("n_speed_max", "0"));
 
             // did override the savvy speed ?
             if(YaV1.sSavvySpeedOverride > 0)
@@ -527,8 +541,8 @@ public class YaV1AlertService extends Service
 
             mSavvySpeedAsInt      = i;
             mSpeedMaxForSound     = YaV1.getMsFromSpeed(mSavvySpeedAsInt);
-            mExcludeKaSavvy   = YaV1.sPrefs.getBoolean("exclude_ka_savvy", false);
-            mExcludeLaserSavvy= YaV1.sPrefs.getBoolean("exclude_laser_savvy", false);
+            mExcludeKaSavvy   = sPrefs.getBoolean("exclude_ka_savvy", false);
+            mExcludeLaserSavvy= sPrefs.getBoolean("exclude_laser_savvy", false);
         }
         else
         {
@@ -538,30 +552,36 @@ public class YaV1AlertService extends Service
             mExcludeLaserSavvy = false;
         }
 
-        mApplySort            = Integer.valueOf(YaV1.sPrefs.getString("alert_sort", "1"));
-        mSortAlertView        = YaV1.sPrefs.getBoolean("sort_alert_view", false);
+        mApplySort            = Integer.valueOf(sPrefs.getString("alert_sort", "1"));
+        mSortAlertView        = sPrefs.getBoolean("sort_alert_view", false);
 
         String s;
 
         // processor refresh setting
         // mProcessor.init(YaV1.sPrefs);
         // sound manager init (must be after the processor)
-        mSoundManager.init(YaV1.sPrefs);
+        mSoundManager.init(sPrefs);
 
         // overlay
-        mOverlayEnabled = YaV1.sPrefs.getBoolean("overlay", false);
+        mOverlayEnabled = sPrefs.getBoolean("overlay", false);
 
         if(mOverlayEnabled)
         {
-            mOverlayForInbox  = YaV1.sPrefs.getBoolean("overlay_inbox", false);
-            mOverlayHideSavvy = (YaV1.sPrefs.getBoolean("overlay_hide_speed", false) && mSpeedMaxForSound > 0);
-            mOverlaySticky    = YaV1.sPrefs.getBoolean("overlay_sticky", false);
+            mOverlayForInbox  = sPrefs.getBoolean("overlay_inbox", false);
+            mOverlayHideSavvy = (sPrefs.getBoolean("overlay_hide_speed", false) && mSpeedMaxForSound > 0);
+            mOverlaySticky    = sPrefs.getBoolean("overlay_sticky", false);
         }
 
         // battery voltage
-        sBatteryVoltage       = YaV1.sPrefs.getBoolean("battery_voltage", false);
+        sBatteryVoltage       = sPrefs.getBoolean("battery_voltage", false);
         if(!sBatteryVoltage)
             sBatteryLastTime = 0;
+
+        // box muting settings
+        mPrefMuteKa = Integer.valueOf(sPrefs.getString("mute_ka", "0"));
+        mPrefMuteK = Integer.valueOf(sPrefs.getString("mute_k", "0"));
+        mPrefMuteX = Integer.valueOf(sPrefs.getString("mute_x", "0"));
+        mPrefMuteKu = Integer.valueOf(sPrefs.getString("mute_ku", "0"));
     }
 
     // check if the V1 Client is in Running state
@@ -838,7 +858,7 @@ public class YaV1AlertService extends Service
             // reset the settings
             refreshSettings(false);
             // check if we go dark
-            if(YaV1.sPrefs.getBoolean("auto_dark", false))
+            if(sPrefs.getBoolean("auto_dark", false))
                 forceDisplay(false);
             // notify for adjusting icons
             Intent sIntent = new Intent("V1Display");
@@ -988,11 +1008,12 @@ public class YaV1AlertService extends Service
     }
 
     // receive the alerts
-
     public void alertDataCallback(YaV1AlertList alert_data)
     {
-        if(alert_data == null)
+        // I don't think this is ever the case, but Francky had it here
+        if(alert_data == null) {
             return;
+        }
 
         ++processAlertCount;
         mAlertList = alert_data;
@@ -1274,10 +1295,16 @@ public class YaV1AlertService extends Service
                     if((mAlertProp & YaV1Alert.PROP_LOCKOUT) < 1)
                     {
                         // we classify the "white" has being inBox
+                        //Log.d("Valentine", "inBox: " + YaV1Alert.PROP_INBOX);
                         if((mAlertProp & (YaV1Alert.PROP_INBOX | YaV1Alert.PROP_WHITE)) > 0)
                             YaV1CurrentView.setInboxBand(mCurrBand);
 
                         YaV1CurrentView.sAlertOverlay++;
+
+                        // ITB testing
+                        mPrefMuteK = Integer.valueOf(sPrefs.getString("mute_k", "0"));
+                        //Log.d("Valentine", "inBox mute_k: " + mPrefMuteK);
+                        //Log.d("Valentine", "YaV1Alert.PROP_INBOX: " + YaV1Alert.PROP_INBOX);
                     }
 
                     isMuted = (mAlertProp & YaV1Alert.PROP_MUTE) > 0;
@@ -1299,8 +1326,26 @@ public class YaV1AlertService extends Service
                 }
                 else
                 {
+                    // send our alerts to SoundManager in case we're using the V1 for audio
                     mSoundManager.setAlertBand(mCurrBand, mCurrSignal);
                     mSoundManager.mInBox += (mAlertProp & (YaV1Alert.PROP_INBOX | YaV1Alert.PROP_WHITE)) > 0 ? 1 : 0;
+
+                    // if we're already in smart dark mode, bump our timestamp if the alert isn't muted
+                    if (mSmartDarkMode) {
+                        //Log.d("Valentine", "smart dark: mSmartDarkMode, bumping SmartDarkTimestamp");
+                        SmartDarkTimestamp = System.currentTimeMillis()/1000;
+                    }
+
+                    // if auto dark and smart dark are enabled, turn on the V1 display during an alert and start/bump our smart dark timer
+                    if (!mSmartDarkMode && sPrefs.getBoolean("auto_dark", false) && sPrefs.getBoolean("smart_dark", false) && (!mMute || !isMuted)) {
+                        //Log.d("Valentine", "smart dark: received an alert, forceDisplay true");
+                        forceDisplay(true);
+                        // notify for adjusting icons
+                        Intent sIntent = new Intent("V1Display");
+                        LocalBroadcastManager.getInstance(YaV1.sContext).sendBroadcast(sIntent);
+                        mSmartDarkMode = true;
+                        SmartDarkTimestamp = System.currentTimeMillis()/1000;
+                    }
                 }
             }
             catch(IndexOutOfBoundsException exc)
@@ -1390,6 +1435,7 @@ public class YaV1AlertService extends Service
                 else
                 {
                     // we send an empty alert list
+                    Log.d("Valentine", "AlertOverlay: sending an empty list");
                     YaV1.newAlertOverlay(mEmptyList);
                 }
 
@@ -1403,9 +1449,11 @@ public class YaV1AlertService extends Service
         {
             Log.d("Valentine", "Mute requested from mMute " + mMute + " Max Signal " + mSoundManager.mMaxSignal);
             mMuteRequested = (mMute || mSoundManager.mMaxSignal < 1);
+            //Log.d("Valentine", "mMuteRequested = " + mMuteRequested);
         }
-        else
+        else {
             mMuteRequested = false;
+        }
 
         //
         // we might have to copy the alerts for manual operation
@@ -1423,6 +1471,18 @@ public class YaV1AlertService extends Service
             }
             // reset the request
             mRequestOverride = false;
+        }
+
+        // if we're in SmartDarkMode check our SmartDarkTimestamp for expiration
+        if (mSmartDarkMode && sPrefs.getBoolean("auto_dark", false) && (sPrefs.getBoolean("smart_dark", false))) {
+            if (SmartDarkTimestamp < (System.currentTimeMillis() / 1000 - 1)) {
+                //Log.d("Valentine", "smart dark: SmartDarkTimestamp expired, forceDisplay true");
+                forceDisplay(false);
+                // notify for adjusting icons
+                Intent sIntent = new Intent("V1Display");
+                LocalBroadcastManager.getInstance(YaV1.sContext).sendBroadcast(sIntent);
+                mSmartDarkMode = false;
+            }
         }
     }
 

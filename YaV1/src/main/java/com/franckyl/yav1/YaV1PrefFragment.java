@@ -97,7 +97,7 @@ public class YaV1PrefFragment extends PreferenceFragment implements SharedPrefer
         super.onStop();
     }
 
-    // get ringtone title from  string
+    // get ringtone title from string
 
     public String getRingToneTitleFromString(String str, String notFound)
     {

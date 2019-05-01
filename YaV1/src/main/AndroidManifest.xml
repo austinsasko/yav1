@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
           package="com.franckyl.yav1"
-          android:versionCode="50"
-          android:versionName="2.0.4b" >
+          android:versionCode="52"
+          android:versionName="2.0.7b" >
     <uses-sdk
             android:minSdkVersion="13"
             android:targetSdkVersion="19" />
@@ -20,7 +20,6 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <uses-permission android:name="com.franckyl.yav1.permission.MAPS_RECEIVE" />
     <uses-permission android:name="android.permission.INTERNET" />

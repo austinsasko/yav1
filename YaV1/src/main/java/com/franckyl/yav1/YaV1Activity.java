@@ -15,6 +15,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.SystemClock;
@@ -319,6 +322,7 @@ public class YaV1Activity extends Activity implements ActionBar.OnNavigationList
     {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.ya_v1, menu);
+        getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#000000")));
         return true;
     }
 
@@ -326,6 +330,9 @@ public class YaV1Activity extends Activity implements ActionBar.OnNavigationList
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
+        // refresh our preference settings
+        YaV1.sPrefs = YaV1PreferenceActivity.getYaV1Preference();
+
         Intent newIntent = null;
         switch (item.getItemId())
         {

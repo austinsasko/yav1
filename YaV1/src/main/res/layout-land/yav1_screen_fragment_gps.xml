@@ -5,7 +5,7 @@
                 android:clickable="false"
                 android:focusable="false"
                 android:baselineAligned="false"
-    android:background="@android:color/transparent">
+    android:background="@android:color/black">
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"

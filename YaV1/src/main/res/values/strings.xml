@@ -16,8 +16,8 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="reset">Reset</string>
-    <string name="unit_mph">Mph</string>
-    <string name="unit_kph">Kmh</string>
+    <string name="unit_mph">MPH</string>
+    <string name="unit_kph">KPH</string>
     <string name="save">Save</string>
     <string name="default_symbol">Default</string>
     <string name="override_file">Replace the file?</string>
@@ -29,7 +29,7 @@
     <string name="select_create_file">Select a file or create a new file</string>
     <string name="select_file">Select a file</string>
     <string name="wait">Wait...</string>
-    <string name="cancel_connect">Cancelling bluetooth search .. wait</string>
+    <string name="cancel_connect">Cancelling bluetooth search... wait</string>
     <string name="wired_savvy">Wired Savvy</string>
     <string name="no_wired_savvy">No wired Savvy found or V1C not connected</string>
     <string name="gen_export">Export</string>
@@ -39,8 +39,8 @@
     <string name="preset">Preset</string>
     <string name="presets">Preset</string>
     <string name="preset_title">Apply preset</string>
-    <string name="preset_message">The preset will override the current settings, you should make a backup before. Continue ?</string>
-    <string name="preset_done">The preset have been loaded</string>
+    <string name="preset_message">The preset will override the current settings, you should make a backup before. Continue?</string>
+    <string name="preset_done">The preset has been loaded</string>
     <string name="preset_error">The preset could not be loaded</string>
     <string name="lockout">Lockout</string>
     <string name="unlock">Unlock</string>
@@ -51,8 +51,8 @@
     <string name="remove">Remove</string>
     <string name="processing">Processing</string>
     <string name="download">Download</string>
-    <string name="download_manual">Download YaV1 manual ?</string>
-    <string name="expert">Your are now an expert !!</string>
+    <string name="download_manual">Download YaV1 manual?</string>
+    <string name="expert">You are now an expert!!</string>
 
     <!-- band names display -->
 
@@ -73,7 +73,7 @@
 
     <!-- menu main -->
 
-    <string name="mn_settings">Settings</string>
+    <string name="mn_settings">YaV1 settings</string>
     <string name="mn_sweeps">Custom sweeps</string>
     <string name="mn_v1_settings">V1 settings</string>
     <string name="mn_devices">Devices</string>
@@ -82,7 +82,7 @@
     <string name="mn_quit">Quit</string>
     <string name="mn_alert_map">Logged Alerts</string>
     <string name="mn_savvy">Savvy</string>
-    <string name="mn_lockout">Lockouts</string>
+    <string name="mn_lockout">Lockouts DB</string>
 
     <!-- tool tab strings -->
     <string name="tool_tab_v1_mode">V1 Mode</string>
@@ -92,10 +92,10 @@
     <string name="tool_tab_lockout_normal">On</string>
     <string name="tool_tab_lockout_disabled">Off</string>
     <string name="tool_tab_lockout_frozen">Frozen</string>
-    <string name="tool_tab_push_setting">Push this setting ?</string>
+    <string name="tool_tab_push_setting">Push this setting?</string>
     <string name="tool_tab_change_mode">Updating mode</string>
     <string name="tool_tab_sweep">Custom sweeps</string>
-    <string name="tool_tab_push_sweep">Push these sweeps ?</string>
+    <string name="tool_tab_push_sweep">Push these sweeps?</string>
 
     <!-- menu alert screen -->
 
@@ -133,17 +133,19 @@
 
     <string name="pref_gen_startup">Start-up parameters</string>
     <string name="pref_gen_auto_start">Connect automatically</string>
-    <string name="pref_gen_auto_start_summary">Search for and connect to a known V1 at start-up.</string>
+    <string name="pref_gen_auto_start_summary">Search for and connect to a known V1 at start-up</string>
     <string name="pref_gen_auto_dark">Go dark</string>
-    <string name="pref_gen_auto_dark_summary">Turn off the V1 display when connected.</string>
+    <string name="pref_gen_auto_dark_summary">Turn off the V1 display when connected</string>
+    <string name="pref_gen_smart_dark">Smart dark</string>
+    <string name="pref_gen_smart_dark_summary">Turn on V1 display when receiving non-muted alerts</string>
     <string name="pref_gen_default_view">Default view</string>
     <string name="pref_gen_alerts">Sound preferences</string>
     <string name="pref_gen_phone_alert">Use phone for alerts</string>
     <string name="pref_gen_phone_alert_summary">Alerts will sound on phone in addition to the V1 beeps</string>
     <string name="pref_gen_volume_signal">Volume vs Signal</string>
-    <string name="pref_gen_volume_signal_summary">Volume for the alert will adjusted according to the alert strength</string>
-    <string name="pref_gen_sound_multiple">Play all sound alert</string>
-    <string name="pref_gen_sound_multiple_summary">Play all the alerts sound together, otherwise play only the strongest alert sound</string>
+    <string name="pref_gen_volume_signal_summary">Volume for the alert will be adjusted according to the alert strength</string>
+    <string name="pref_gen_sound_multiple">Play all alert sounds</string>
+    <string name="pref_gen_sound_multiple_summary">Play all the alert sounds together, otherwise play only the strongest alert sound</string>
     <string name="pref_gen_sound_all_bogey">Bogey on new band</string>
     <string name="pref_gen_sound_all_bogey_summary">Bogey will be played on a new band alert</string>
     <string name="pref_gen_sound_bogey">Bogey sound</string>
@@ -158,11 +160,12 @@
     <string name="pref_gen_sound_volume_summary">Volume is managed by phone volume buttons</string>
     <string name="pref_gen_sound_no_music">No alert sound when playing music</string>
     <string name="pref_gen_sound_no_music_summary">Alert sound will not play when device is streaming music</string>
+
     <string name="pref_gen_dbg_log">Debug log</string>
     <string name="pref_gen_dbg_log_summary">Turn on only at the request of the developer</string>
 
     <string name="pref_gen_early_laser">Early laser sound</string>
-    <string name="pref_gen_early_laser_summary">Sounds laser alerts without processing additional packets, which MAY slightly improve reaction time against LiDAR"></string>
+    <string name="pref_gen_early_laser_summary">Sounds laser alerts without processing additional packets, which MAY slightly improve reaction time against LIDAR></string>
     <string name="pref_gen_connect">Connect/disconnect sound</string>
     <string name="pref_gen_connect_summary">Sound when the alert service is running and active</string>
 
@@ -184,12 +187,12 @@
     <string name="pref_gen_gps_timeout">GPS timeout</string>
     <string name="pref_gen_gps_speed_compute">Speed computation</string>
     <string name="pref_gen_gps_reset">Enable GPS reset</string>
-    <string name="pref_gen_gps_reset_summary">Enable reset gps by clicking on the view</string>
+    <string name="pref_gen_gps_reset_summary">Enable reset GPS by clicking on the view</string>
     <string name="pref_gen_gps_real_savvy">Override hardware SAVVY</string>
     <string name="pref_gen_gps_real_savvy_summary">Hardware SAVVY mute/unmute will be disabled and controlled by the app. Reset the Savvy if this is disabled</string>
-    <string name="pref_gen_gps_direction_degree">Show direction in degree</string>
-    <string name="pref_gen_gps_direction_degree_summary">Show direction as degree from North 0</string>
-    <string name="pref_gen_v1_timeout">Valentine timeout</string>
+    <string name="pref_gen_gps_direction_degree">Show direction in degrees</string>
+    <string name="pref_gen_gps_direction_degree_summary">Show direction as degrees from North 0</string>
+    <string name="pref_gen_v1_timeout">V1 timeout</string>
 
     <string name="pref_gen_bt_workaround">Bluetooth workaround</string>
     <string name="pref_gen_bt_workaround_summary">Use this option ONLY if you have trouble connecting with V1</string>
@@ -231,22 +234,22 @@
     <string name="pref_gen_display_overlay_mute">Overlay mute</string>
     <string name="pref_gen_display_overlay_mute_summary">Allow permanent mute clicking on the alert list, click again to mute off</string>
     <string name="pref_gen_display_overlay_size">Overlay size</string>
-    <string name="pref_gen_display_overlay_click_summary">Click overlay will resume Yav1 last view, remove check mark if you want click with no effect</string>
+    <string name="pref_gen_display_overlay_click_summary">Click overlay will resume YaV1 last view, remove check mark if you want click with no effect</string>
     <string name="pref_gen_display_overlay_click">Click overlay</string>
     <string name="pref_gen_auto_stop">Auto stop timeout</string>
     <string name="pref_gen_display_padding">Alert row padding</string>
     <string name="pref_gen_display_alert_theme">Alert theme</string>
     <string name="pref_gen_display_full_screen">Full screen</string>
     <string name="pref_gen_display_full_screen_summary">Hide the system status bar.</string>
-    <string name="pref_gen_display_v1_setting_popup">Show V1 setting name</string>
-    <string name="pref_gen_display_v1_setting_popup_summary">Show the current V1 setting name at the bottom on the screen</string>
+    <string name="pref_gen_display_v1_setting_popup">Show V1 settings name</string>
+    <string name="pref_gen_display_v1_setting_popup_summary">Show the current V1 settings name at the bottom on the screen</string>
     <string name="pref_gen_display_go_dark">Enable dark mode</string>
     <string name="pref_gen_display_go_dark_summary">Long pressing back key will make device screen and V1 go black and mute, long pressing back key again or dark space will restore</string>
     <string name="pref_gen_display_hide_speaker">Hide speaker button</string>
     <string name="pref_gen_display_hide_speaker_summary">Do not show the mute button on the alert view</string>
     <string name="pref_gen_display_overlay_long_click_summary">Manual lockout pop up on long click on the arrow</string>
     <string name="pref_gen_display_overlay_long_click">Enable manual lockout</string>
-    <string name="pref_gen_display_led">Alert with Phone led</string>
+    <string name="pref_gen_display_led">Alert with Phone LED</string>
     <string name="pref_gen_display_vibrator">Use vibrator</string>
     <string name="pref_gen_display_battery_voltage">Battery voltage</string>
     <string name="pref_gen_display_battery_voltage_summary">Show the battery voltage</string>
@@ -281,7 +284,7 @@
     <!-- Lockout preferences -->
 
     <string name="pref_lockout">Lockout K/X</string>
-    <string name="pref_lockout_summary">Enable K/X band Lockouts to blacklist and ignore specific location+frequency combinations that are known to be false alerts. Tap the frequency on the Alerts view to lock it out. Use with caution!  You may inadverently block a true threat!</string>
+    <string name="pref_lockout_summary">Enable K/X band Lockouts to blacklist and ignore specific location+frequency combinations that are known to be false alerts. Tap the frequency on the Alerts view to lock it out. Use with caution!  You may inadvertently block a true threat!</string>
     <string name="pref_lockout_x">Lockout X</string>
     <string name="pref_lockout_x_summary">Also allow Lockouts on X-band</string>
     <string name="pref_lockout_radius">Radius of detection</string>
@@ -369,7 +372,7 @@
     <string name="pref_g_map_ttl">TTL</string>
     <string name="pref_g_map_marker">Marker interval</string>
 
-    <!-- preference menus strinf -->
+    <!-- preference menus strings -->
     <string name="pref_menu_restore">Restore</string>
     <string name="pref_menu_backup">Backup</string>
     <string name="pref_menu_error_restore">Error restoring exception</string>
@@ -377,7 +380,7 @@
     <string name="pref_menu_error_backup">Error backup exception</string>
     <string name="pref_menu_create_file">Enter new file name for backup</string>
     <string name="pref_menu_backup_success">The settings have been saved to %s file</string>
-    <string name="pref_restore_confirm">This will replace your current settings, Continue?</string>
+    <string name="pref_restore_confirm">This will replace your current settings, continue?</string>
     <string name="pref_restore_success">The settings have been successfully restored</string>
 
 
@@ -394,7 +397,7 @@
     <string name="sweep_duplicate_title">Sweep set name</string>
     <string name="sweep_duplicate_title_message">Enter a name for this set</string>
     <string name="sweep_push_title">Pushing sweep</string>
-    <string name="sweep_push_message">Writing sweep set on V1, be patient ... </string>
+    <string name="sweep_push_message">Writing sweep set on V1, be patient... </string>
     <string name="sweep_push_success">Sweep have been pushed successfully</string>
     <string name="sweep_push_error_title">Error pushing Sweep to V1</string>
     <string name="sweep_push_delete_title">Delete sweep set</string>
@@ -407,7 +410,7 @@
     <string name="sweep_import_confirm">The sweeps will be added to your list. Continue?</string>
     <string name="sweep_export_success" formatted="false">%d Sweeps set have been exported to %s</string>
     <string name="sweep_no_sweep">There is no custom sweeps to export</string>
-    <string name="sweep_delete_confirm">Are you sure you want to do this (make an export before)? Continue ?</string>
+    <string name="sweep_delete_confirm">Are you sure you want to do this (make an export before)? Continue?</string>
     <string name="sweep_delete_all_title">Delete all custom sweeps</string>
     <string name="sweep_import_success" formatted="false">%d sweep set imported, %d duplicate (ignored)</string>
     <string name="sweep_no_sweep_to_del">The custom sweep list is already empty</string>
@@ -442,7 +445,7 @@
     <string name="lockout_menu_backup">Backup</string>
     <string name="lockout_menu_restore">Restore</string>
     <string name="lockout_menu_truncate">Reset database</string>
-    <string name="lockout_disabled">Backup</string>
+    <string name="lockout_disabled">Lockouts must first be enabled in YaV1 settings</string>
     <string name="lockout_backup">Backup lockout database</string>
     <string name="lockout_backup_file" formatted="false">Your lockout database will be backup to %s</string>
     <string name="lockout_backup_progress">Backing up database</string>
@@ -457,8 +460,8 @@
     <string name="lockout_reset_confirm">This will empty the database lockout, please make a backup and click Yes to continue</string>
     <string name="lockout_reset_done">The lockout database is now empty</string>
     <string name="lockout_restore_confirm">This backup wil REPLACE your current lockout database. Continue?</string>
-    <string name="lockout_remove_manual">Unlock ?</string>
-    <string name="lockout_remove_white">Clear from white list ?</string>
+    <string name="lockout_remove_manual">Unlock?</string>
+    <string name="lockout_remove_white">Clear from white list?</string>
     <string name="lockout_status_learning">LEARNING</string>
     <string name="lockout_status_lockout">LOCKOUT</string>
     <string name="lockout_status_lockout_manual">LOCKOUT M</string>
@@ -527,7 +530,7 @@
 
     <!-- alert running related strings -->
 
-    <string name="alert_run_wait_gps">Waiting for Gps signal</string>
+    <string name="alert_run_wait_gps">Waiting for GPS signal</string>
 
     <!-- direction for GPS view -->
 
@@ -543,7 +546,7 @@
     <string name="alert_run_undo_lockout">Undo %d lockout</string>
     <string name="alert_run_undo_none_lockout">No lockout to Undo</string>
     <string name="alert_run_lockout_undone">%d lockouts undone</string>
-    <string name="alert_run_unsafe_lockout">Not safe ..</string>
+    <string name="alert_run_unsafe_lockout">Not safe...</string>
 
     <!-- view name in tab -->
 
@@ -566,7 +569,7 @@
 
     <string name="bluetooth_not_running">Your BlueTooth is not enabled, turn on BlueTooth on the device</string>
     <string name="device_error">No device found, click on DEVICE settings to link a Device</string>
-    <string name="search_valentine">Searching last known Valentine ...</string>
+    <string name="search_valentine">Searching last known V1Connection...</string>
     <string name="waiting_for">Waiting for</string>
     <string name="device_must_be_paired">This list shows only the bluetooth paired devices. You should pair Valentine bluetooth from your phone (code 1234) prior to start the application</string>
 
@@ -576,7 +579,7 @@
     <string name="main_v1_setting_prefix">V1 setting: </string>
     <string name="main_cs_prefix">CS: </string>
     <string name="main_euro_mode">Euro</string>
-    <string name="main_usa_mode">Usa</string>
+    <string name="main_usa_mode">USA</string>
     <string name="main_button_usa_no_logic">All</string>
     <string name="main_button_usa_logic">Logic</string>
     <string name="main_button_usa_advanced_logic">Adv</string>
@@ -584,7 +587,7 @@
     <string name="main_button_euro_ka">Ka(u)</string>
     <string name="main_button_euro_cs_k_ka">K-Ka(C)</string>
     <string name="main_button_euro_cs_ka">Ka(c)</string>
-    <string name="main_auto_stop">YaV1 .. stopped</string>
+    <string name="main_auto_stop">YaV1... stopped</string>
     <string name="main_honey_comb_needed">This feature needs an android version >= 3.1</string>
 
     <!-- About box strings -->
@@ -600,6 +603,7 @@
     <string name="about_v1_support">Support</string>
     <string name="about_v1_voltage">Battery</string>
     <string name="about_documentation">Documentation</string>
+    <string name="about_francky">Based on YaV1 by francky06l</string>
     <string name="no_storage">NOT PRESENT</string>
 
     <!-- Gmap strings -->
@@ -617,7 +621,7 @@
     <string name="gmap_select_x">Select X</string>
     <string name="gmap_select_ku">Select Ku</string>
     <string name="gmap_clear">Clear</string>
-    <string name="gmap_processing">Processing alerts ...</string>
+    <string name="gmap_processing">Processing alerts...</string>
     <string name="gmap_tab_files">Files</string>
     <string name="gmap_tab_alerts">Alerts</string>
     <string name="gmap_tab_map">Map</string>

@@ -99,8 +99,7 @@
                 android:gravity="center_vertical|center_horizontal"
                 android:id="@+id/v1_audio_ctrl"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="false"
-                android:layout_below="@+id/none4">
+                android:layout_alignParentTop="false">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -154,8 +153,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="false"
                 android:layout_toRightOf="@+id/v1_audio_ctrl"
-                android:layout_alignBottom="@+id/v1_audio_ctrl"
-                android:layout_below="@+id/none4">
+                android:layout_alignBottom="@+id/v1_audio_ctrl">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

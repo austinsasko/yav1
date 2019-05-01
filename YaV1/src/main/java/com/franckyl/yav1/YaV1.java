@@ -211,7 +211,7 @@ public class YaV1 extends Application
         return sBus;
     }
 
-    // post an event on the Bud
+    // post an event on the Bus
 
     public static void postEvent(YaV1Event evt)
     {
@@ -424,7 +424,7 @@ public class YaV1 extends Application
 
     public static boolean checkStorage(Context context, String folder)
     {
-        // check fist if we can write on phone
+        // check first if we can write on phone
         File sDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + YaV1.PACKAGE_NAME + "/" + (!folder.equals("") ? "/" + folder + "/" : ""));
         if(sDir.isDirectory() || sDir.mkdirs())
             return true;

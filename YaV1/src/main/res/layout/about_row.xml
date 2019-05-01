@@ -17,6 +17,7 @@
         android:gravity="right"
         android:paddingRight="3dp"
         android:layout_alignParentEnd="false"
+        android:layout_alignParentRight="false"
         android:layout_alignWithParentIfMissing="false" />
 
     <TextView

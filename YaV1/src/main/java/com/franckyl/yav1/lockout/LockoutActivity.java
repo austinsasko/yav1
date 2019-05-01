@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -74,6 +75,7 @@ public class LockoutActivity extends Activity
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
+        Log.d("Valentine", "LockoutActivity: entered onCreateOptionsMenu");
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.yav1_lockout, menu);
         return true;
@@ -121,11 +123,13 @@ public class LockoutActivity extends Activity
     // backup the Db
     private void backupDb()
     {
+        Log.d("Valentine", "LockoutActivity: entered backupDb");
         // The backup file name
         if(!YaV1.checkStorage(this, "backup"))
             return;
 
         final String dbBackup = YaV1.sStorageDir + "/backup/" +  DateFormat.format("yyyy-MM-dd_HH_mm_", new java.util.Date()) + LockoutDb.DB_NAME;
+        //Log.d("Valentine", "LockoutActivity: dbBackup is " + dbBackup );
 
         // confirmation
         new AlertDialog.Builder(this)
@@ -144,11 +148,12 @@ public class LockoutActivity extends Activity
 
     private void backupLockoutDb(final String in, final String dbBackup)
     {
+        Log.d("Valentine", "LockoutActivity: entered backupLockoutDb");
         // show a progress dialog
         final ProgressDialog lDlg = new ProgressDialog(this);
         lDlg.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         lDlg.setTitle(R.string.lockout_backup_progress);
-        lDlg.setMessage("Wait for the operation to complete ... ");
+        lDlg.setMessage("Wait for the operation to complete...");
         lDlg.setCancelable(false);
         lDlg.setCanceledOnTouchOutside(false);
         lDlg.setIndeterminate(true);
@@ -192,6 +197,7 @@ public class LockoutActivity extends Activity
 
     private void restoreDb()
     {
+        Log.d("Valentine", "LockoutActivity: entered restoreDb");
         // first we ask for a file to restore
         FileChooserDialog dialog = new FileChooserDialog(this);
         FileChooserLabels labels = new FileChooserLabels();
@@ -224,11 +230,12 @@ public class LockoutActivity extends Activity
 
     private void restoreLockoutDb(final String in)
     {
+        Log.d("Valentine", "LockoutActivity: entered restoreLockoutDb");
         // show a progress dialog
         final ProgressDialog lDlg = new ProgressDialog(this);
         lDlg.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         lDlg.setTitle(R.string.lockout_restore_progress);
-        lDlg.setMessage("Wait for the operation to complete ... ");
+        lDlg.setMessage("Wait for the operation to complete... ");
         lDlg.setCancelable(false);
         lDlg.setCanceledOnTouchOutside(false);
         lDlg.setIndeterminate(true);
@@ -338,6 +345,7 @@ public class LockoutActivity extends Activity
 
     private void resetDb()
     {
+        Log.d("Valentine", "LockoutActivity: entered resetDb");
         new AlertDialog.Builder(this)
                 .setTitle(R.string.lockout_reset_title)
                 .setMessage(R.string.lockout_reset_confirm)

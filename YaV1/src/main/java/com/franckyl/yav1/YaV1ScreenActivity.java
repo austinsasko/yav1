@@ -3,6 +3,8 @@ package com.franckyl.yav1;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.support.v4.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -50,6 +52,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Random;
+
+import static android.R.color.black;
 
 /**
  * Created by franck on 6/29/13.
@@ -147,10 +151,12 @@ public class YaV1ScreenActivity extends FragmentActivity
         mV1Name    = (RelativeLayout) findViewById(R.id.v1_name);
 
         // set the Action Bar
+        // set the ActionBar background to black instead of default to transparent
         mActionBar = getActionBar();
+        mActionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#000000")));
         mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-        // Allow up activties
+        // Allow up activities
         mActionBar.setDisplayHomeAsUpEnabled(true);
 
         // Do not let the phone go to sleep when running this app
@@ -222,6 +228,11 @@ public class YaV1ScreenActivity extends FragmentActivity
                 int pos = tab.getPosition();
             }
         };
+
+        // Set our tab background to black if on Android 4.0+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            getActionBar().setStackedBackgroundDrawable(new ColorDrawable(Color.parseColor("#000000")));
+        }
 
         // Create first Tab
         tab = mActionBar.newTab().setText(R.string.alert_run_v1_view).setTabListener(tabListener);

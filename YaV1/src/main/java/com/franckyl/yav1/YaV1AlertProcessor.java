@@ -23,6 +23,11 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static com.franckyl.yav1.YaV1AlertService.mPrefMuteK;
+import static com.franckyl.yav1.YaV1AlertService.mPrefMuteKa;
+import static com.franckyl.yav1.YaV1AlertService.mPrefMuteKu;
+import static com.franckyl.yav1.YaV1AlertService.mPrefMuteX;
+
 /**
  * Created by franck on 7/18/13.
  */
@@ -422,8 +427,7 @@ public class YaV1AlertProcessor
                         }
                     }
                 }
-                else
-                {
+                else {
                     // create the persistent alert
                     mNbNew++;
                     YaV1CurrentView.sNewAlert[a.getBand()]++;
@@ -436,26 +440,79 @@ public class YaV1AlertProcessor
                     a.setProperty(iniProperty);
                     // store the box number
                     pa.mBoxNumber = AlertProcessorParam.getLastBox();
+
+                    //Log.d("AlertProcessor", "pa.mBoxNumber = " + pa.mBoxNumber);
+
                     // store the color
                     lastColor = pa.mColor = AlertProcessorParam.getLastColor();
 
                     // we search for lockout
 
-                    if((iniProperty & a.PROP_CHECKABLE) > 0)
-                    {
+                    if ((iniProperty & a.PROP_CHECKABLE) > 0) {
                         YaV1.sAutoLockout.search(pa);
 
                         // the lockout process did change the background color, we set the frequency color to the box color (if any)
-                        if(lastColor != Color.TRANSPARENT && lastColor != pa.mColor)
+                        if (lastColor != Color.TRANSPARENT && lastColor != pa.mColor)
                             pa.mTextColor = lastColor;
 
                         adjustFlagLockout(pa);
                     }
 
-                    if((pa.mPersistentProperty & a.PROP_INBOX) > 0)
-                        YaV1SoundManager.mCurrentBoxAlert[pa.mBand-1][pa.mBoxNumber]++;
+                    if ((pa.mPersistentProperty & a.PROP_INBOX) > 0) {
 
-                    rc = true;
+                        // check for box alert muting
+                        /* bands
+                        BAND_LASER  = 0;
+                        BAND_KA     = 1;
+                        BAND_K      = 2;
+                        BAND_X      = 3;
+                        BAND_KU     = 4;
+
+                        mPrefMute: -1 (ITB)
+                        mPrefMute: 0 (never)
+                        mPrefMute: 1 (OTB)
+                        */
+
+                        // ITB muting
+                        if ((pa.mBand == 1) && (mPrefMuteKa == -1)) {
+                            pa.mPersistentProperty |= YaV1Alert.PROP_MUTE;
+                        }
+
+                        if ((pa.mBand == 2) && (mPrefMuteK == -1)) {
+                            pa.mPersistentProperty |= YaV1Alert.PROP_MUTE;
+                        }
+
+                        if ((pa.mBand == 3) && (mPrefMuteX == -1)) {
+                            pa.mPersistentProperty |= YaV1Alert.PROP_MUTE;
+                        }
+
+                        if ((pa.mBand == 4) && (mPrefMuteKu == -1)) {
+                            pa.mPersistentProperty |= YaV1Alert.PROP_MUTE;
+                        }
+
+                        YaV1SoundManager.mCurrentBoxAlert[pa.mBand - 1][pa.mBoxNumber]++;
+
+                        rc = true;
+                    } else {
+                        // OTB muting
+                        if (pa.mPersistentProperty > 0) {
+                            if ((pa.mBand == 1) && (mPrefMuteKa == 1)) {
+                                pa.mPersistentProperty |= YaV1Alert.PROP_MUTE;
+                            }
+
+                            if ((pa.mBand == 2) && (mPrefMuteK == 1)) {
+                                pa.mPersistentProperty |= YaV1Alert.PROP_MUTE;
+                            }
+
+                            if ((pa.mBand == 3) && (mPrefMuteX == 1)) {
+                                pa.mPersistentProperty |= YaV1Alert.PROP_MUTE;
+                            }
+
+                            if ((pa.mBand == 4) && (mPrefMuteKa == 1)) {
+                                pa.mPersistentProperty |= YaV1Alert.PROP_MUTE;
+                            }
+                        }
+                    }
                 }
 
                 // affect the property and check

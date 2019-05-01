@@ -3,8 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
-    <TextView android:id="@+id/singleItem"
+    android:layout_height="fill_parent"
+    android:background="@color/black">
+<TextView android:id="@+id/singleItem"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:gravity="center_vertical"

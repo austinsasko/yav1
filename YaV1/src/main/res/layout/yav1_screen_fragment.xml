@@ -8,7 +8,7 @@
     android:gravity="top"
     android:id="@+id/alert_container"
     android:longClickable="true"
-    android:background="@android:color/transparent">
+    android:background="@android:color/black">
     <ListView
         android:id="@+id/alertList"
         android:layout_width="match_parent"
@@ -34,6 +34,6 @@
         android:layout_height="match_parent"
         android:id="@+id/click_handle"
         android:visibility="gone"
-        android:background="#00000000">
+        android:background="@android:color/transparent">
     </RelativeLayout>
 </RelativeLayout>

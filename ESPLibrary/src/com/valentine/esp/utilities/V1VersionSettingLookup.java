@@ -78,7 +78,7 @@ public class V1VersionSettingLookup
 	private static final double V3_8920_BAND_KU_HI            = 13.512;
 	private static final double V3_8920_BAND_KU_POLICE_LO     = 13.400;
 	private static final double V3_8920_BAND_KU_POLICE_HI     = 13.500;
-	private static final double V3_8920_BAND_K_LO             = 24.036;
+	private static final double V3_8920_BAND_K_LO             = 23.900;
 	private static final double V3_8920_BAND_K_HI             = 24.272;
 	private static final double V3_8920_BAND_K_POLICE_LO      = 24.050;
 	private static final double V3_8920_BAND_K_POLICE_HI      = 24.250;

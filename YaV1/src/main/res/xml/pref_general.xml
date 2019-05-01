@@ -14,6 +14,13 @@
                 android:title="@string/pref_gen_auto_dark"
                 android:summary="@string/pref_gen_auto_dark_summary">
         </CheckBoxPreference>
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="smart_dark"
+            android:dependency="auto_dark"
+            android:title="@string/pref_gen_smart_dark"
+            android:summary="@string/pref_gen_smart_dark_summary">
+        </CheckBoxPreference>
         <ListPreference
                 android:defaultValue="1"
                 android:key="default_view"

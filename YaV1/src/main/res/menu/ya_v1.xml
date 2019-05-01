@@ -7,16 +7,16 @@
         android:titleCondensed="@string/mn_settings">
     </item>
     <item
-        android:id="@+id/yav1_sweep"
-        android:showAsAction="never"
-        android:title="@string/mn_sweeps"
-        android:titleCondensed="@string/mn_sweeps">
-    </item>
-    <item
         android:id="@+id/yav1_v1setting"
         android:showAsAction="never"
         android:title="@string/mn_v1_settings"
         android:titleCondensed="@string/mn_v1_settings">
+    </item>
+    <item
+        android:id="@+id/yav1_sweep"
+        android:showAsAction="never"
+        android:title="@string/mn_sweeps"
+        android:titleCondensed="@string/mn_sweeps">
     </item>
     <item
         android:id="@+id/yav1_savvy"

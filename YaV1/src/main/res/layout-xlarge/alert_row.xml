@@ -6,7 +6,7 @@
               android:focusableInTouchMode="false"
               android:longClickable="false"
               android:baselineAligned="false"
-              android:background="@android:color/transparent"
+              android:background="@android:color/black"
               android:clickable="false">
     <TextView
         android:id="@+id/BAND"
@@ -30,6 +30,7 @@
         android:layout_gravity="left"
         android:layout_toRightOf="@+id/BAND"
         android:layout_alignParentStart="false"
+        android:layout_alignParentLeft="false"
         android:layout_alignWithParentIfMissing="true"
         android:text="24.150"
         android:paddingLeft="5dp"
