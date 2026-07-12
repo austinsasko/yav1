@@ -1,42 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          package="com.franckyl.yav1"
-          android:versionCode="52"
-          android:versionName="2.0.7b" >
-    <uses-sdk
-            android:minSdkVersion="13"
-            android:targetSdkVersion="19" />
-
-    <permission
-        android:name="com.franckyl.yav1.permission.MAPS_RECEIVE"
-        android:protectionLevel="signature" />
+          xmlns:tools="http://schemas.android.com/tools" >
 
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
+    <!-- BTLE hardware is optional; the app still works with classic Bluetooth -->
+    <uses-feature android:name="android.hardware.bluetooth_le" android:required="false"/>
 
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <!-- Classic Bluetooth permissions, replaced by the new ones on Android 12+ -->
+    <uses-permission android:name="android.permission.BLUETOOTH"
+                     android:maxSdkVersion="30"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"
+                     android:maxSdkVersion="30"/>
+    <!-- Android 12+ Bluetooth permissions; the app never derives location from scans -->
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN"
+                     android:usesPermissionFlags="neverForLocation"
+                     tools:targetApi="31"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
-    <uses-permission android:name="com.franckyl.yav1.permission.MAPS_RECEIVE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION"/>
 
     <application
             tools:replace="android:label"
             android:icon="@drawable/ic_launcher"
             android:label="@string/app_name"
             android:allowBackup="false"
-            android:name="YaV1">
-        <uses-library android:name="com.google.android.maps" />
+            android:theme="@style/YaV1AppTheme"
+            android:name=".YaV1">
         <activity
                 android:name=".YaV1Activity"
                 android:launchMode="singleTask"
+                android:exported="true"
                 android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -90,13 +93,15 @@
             android:exported="false">
         </activity>
         <service android:name=".YaV1AlertService"
-                 android:exported="false"/>
+                 android:exported="false"
+                 android:foregroundServiceType="connectedDevice"/>
         <service android:name=".YaV1GpsService"
-                 android:exported="false"/>
+                 android:exported="false"
+                 android:foregroundServiceType="location"/>
 
         <meta-data android:name="com.google.android.gms.version"
                    android:value="@integer/google_play_services_version"/>
-        <meta-data android:name="com.google.android.maps.v2.API_KEY"
+        <meta-data android:name="com.google.android.geo.API_KEY"
                    android:value="AIzaSyDyQzBeVQHYJ_5IHf7daylt5vPOX3_8idA"/>
     </application>
 </manifest>

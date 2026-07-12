@@ -22,8 +22,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.LocalBroadcastManager;
+import androidx.core.app.NotificationCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -45,6 +45,7 @@ import com.franckyl.yav1.utils.MiscUtils;
 import com.franckyl.yav1.utils.YaV1DbgLogger;
 import com.franckyl.yav1lib.YaV1Alert;
 import com.valentine.esp.ValentineClient;
+import com.valentine.esp.ValentineESP;
 
 import java.io.File;
 import java.io.IOException;
@@ -75,6 +76,66 @@ public class YaV1Activity extends Activity implements ActionBar.OnNavigationList
 
     // we need this
     private static NotificationCompat.Builder sBuilder = null;
+
+    /** Notification channel used for the persistent status / alert notification (API 26+). */
+    public  static final String NOTIFICATION_CHANNEL_ID = "yav1_status";
+    private static boolean sChannelCreated = false;
+    private static final int PERMISSION_REQUEST_CODE = 9911;
+
+    /**
+     * Create the notification channel required on Android 8+ before any notification
+     * can be shown. Safe to call repeatedly.
+     */
+    public static void createNotificationChannel(Context ctx)
+    {
+        if(sChannelCreated || Build.VERSION.SDK_INT < 26)
+            return;
+
+        android.app.NotificationChannel channel = new android.app.NotificationChannel(
+                NOTIFICATION_CHANNEL_ID,
+                ctx.getString(R.string.app_name),
+                NotificationManager.IMPORTANCE_LOW);
+        channel.setShowBadge(false);
+        NotificationManager nm = (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
+        if(nm != null)
+        {
+            nm.createNotificationChannel(channel);
+            sChannelCreated = true;
+        }
+    }
+
+    /**
+     * Request the runtime permissions the app depends on: Bluetooth (Android 12+),
+     * location (needed for GPS lockouts and BTLE scans below Android 12) and
+     * notifications (Android 13+). The app keeps running with reduced features if
+     * the user denies any of them.
+     */
+    private void requestNeededPermissions()
+    {
+        if(Build.VERSION.SDK_INT < 23)
+            return;
+
+        java.util.ArrayList<String> wanted = new java.util.ArrayList<String>();
+
+        wanted.add(android.Manifest.permission.ACCESS_FINE_LOCATION);
+        if(Build.VERSION.SDK_INT >= 31)
+        {
+            wanted.add(android.Manifest.permission.BLUETOOTH_SCAN);
+            wanted.add(android.Manifest.permission.BLUETOOTH_CONNECT);
+        }
+        if(Build.VERSION.SDK_INT >= 33)
+            wanted.add(android.Manifest.permission.POST_NOTIFICATIONS);
+
+        java.util.ArrayList<String> missing = new java.util.ArrayList<String>();
+        for(String p: wanted)
+        {
+            if(checkSelfPermission(p) != PackageManager.PERMISSION_GRANTED)
+                missing.add(p);
+        }
+
+        if(!missing.isEmpty())
+            requestPermissions(missing.toArray(new String[0]), PERMISSION_REQUEST_CODE);
+    }
 
     /** Called when the activity is first created. */
     @Override
@@ -206,14 +267,19 @@ public class YaV1Activity extends Activity implements ActionBar.OnNavigationList
         back = (ImageButton) findViewById(R.id.yav1_alert);
         back.setOnClickListener(mListener);
 
+        // ask for the runtime permissions the app needs on modern Android
+        requestNeededPermissions();
+
         if(sBuilder == null)
         {
-            sBuilder = new NotificationCompat.Builder(this);
+            createNotificationChannel(this);
+            sBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
 
             Intent i = new Intent(this, YaV1Activity.class)
                       .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
-            PendingIntent pi = PendingIntent.getActivity(this, 0, i, 0);
+            PendingIntent pi = PendingIntent.getActivity(this, 0, i,
+                    Build.VERSION.SDK_INT >= 23 ? PendingIntent.FLAG_IMMUTABLE : 0);
             // set Title / Icon / Intent
             sBuilder.setContentTitle(getText(R.string.app_name));
             sBuilder.setContentText(getText( YaV1AlertService.isActive()? R.string.alert_run_v1_active : R.string.alert_run_v1_inactive));
@@ -486,7 +552,7 @@ public class YaV1Activity extends Activity implements ActionBar.OnNavigationList
         //
         // check if we have Bluetooth GPS application
         //
-        File sDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + YaV1.PACKAGE_NAME);
+        File sDir = YaV1.getStorageRootDir();
         YaV1.sHasBluetoothGpsApp = false;
         if(sDir.isDirectory() || sDir.mkdirs())
         {
@@ -757,16 +823,18 @@ public class YaV1Activity extends Activity implements ActionBar.OnNavigationList
                     // The user selected a Bluetooth device.
                     YaV1.sDevice     = data.getParcelableExtra("SelectedBluetoothDevice");
                     YaV1.sDeviceName = YaV1.sDevice.getName();
-                    if(YaV1.sDeviceName == "")
+                    if(YaV1.sDeviceName == null || YaV1.sDeviceName.isEmpty())
                         YaV1.sDeviceName = YaV1.sDevice.getAddress();
                     // we always get the device address
                     YaV1.sDeviceAddr = YaV1.sDevice.getAddress();
+                    // SPP (classic) or BTLE transport, chosen in the device list
+                    int sConnType    = data.getIntExtra("SelectedConnectionType", ValentineESP.CONNECTION_SPP);
                     //
                     // We start the Arlet Service
                     // We restart the sV1Client
                     if(YaV1.isClientStarted)
                         YaV1.mV1Client.Shutdown();
-                    YaV1.mV1Client.StartUp(YaV1.sDevice);
+                    YaV1.mV1Client.StartUp(YaV1.sDevice, sConnType);
                     YaV1.isClientStarted = true;
                     //Log.d("Valentine", "Activity result OK We have a Device " + BMV.sDeviceName);
                     startAlert(false);

@@ -1,7 +1,7 @@
 package com.franckyl.yav1.alert_histo;
 
 import android.app.AlertDialog;
-import android.app.ListFragment;
+import androidx.fragment.app.ListFragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;

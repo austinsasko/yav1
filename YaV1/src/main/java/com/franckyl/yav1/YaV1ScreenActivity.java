@@ -5,7 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
-import android.support.v4.app.FragmentManager;
+import androidx.fragment.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -19,10 +19,10 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.NavUtils;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.view.ViewPager;
+import androidx.fragment.app.FragmentActivity;
+import androidx.core.app.NavUtils;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.viewpager.widget.ViewPager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -302,7 +302,7 @@ public class YaV1ScreenActivity extends FragmentActivity
                     {
                         // Log.d("Valentine", "Restart from DarkMode");
                         // reset the V1 display
-                        if(mService.getDisplay() != YaV1.sDarkDisplay)
+                        if(mService.getV1DisplayOn() != YaV1.sDarkDisplay)
                             mService.forceDisplay(YaV1.sDarkDisplay);
                         // muting
                         if(mService.isMuteByUser() != YaV1.sDarkMute)
@@ -347,7 +347,7 @@ public class YaV1ScreenActivity extends FragmentActivity
         if(keyCode == KeyEvent.KEYCODE_BACK && YaV1.sPrefs.getBoolean("go_dark", false) && mBound)
         {
             // save current mute / display
-            YaV1.sDarkDisplay = mService.getDisplay();
+            YaV1.sDarkDisplay = mService.getV1DisplayOn();
             YaV1.sDarkMute    = mService.isMuteByUser();
             // mute V1 and Display off
             if(!YaV1.sDarkMute)
@@ -842,7 +842,7 @@ public class YaV1ScreenActivity extends FragmentActivity
         if(mBound && mMenu != null)
         {
             // display
-            boolean s       = mService.getDisplay();
+            boolean s       = mService.getV1DisplayOn();
             item   = mMenu.findItem(R.id.disp_toggle);
             if(item != null)
             {

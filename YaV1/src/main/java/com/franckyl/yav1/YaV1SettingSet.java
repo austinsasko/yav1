@@ -430,7 +430,7 @@ public class YaV1SettingSet extends ArrayList<YaV1Setting>
 
     public void read()
     {
-        File sDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + YaV1.PACKAGE_NAME);
+        File sDir = YaV1.getStorageRootDir();
         File file = new File(sDir, mFileName);
         int  nb   = 0;
 

@@ -12,7 +12,7 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
-import android.support.v4.content.LocalBroadcastManager;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -178,12 +178,14 @@ public class YaV1 extends Application
             sSavvyVersion = "";
             sPrefs       = YaV1PreferenceActivity.getYaV1Preference();
             PACKAGE_NAME = getApplicationContext().getPackageName();
-            File sDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + PACKAGE_NAME);
-            if(sDir.isDirectory() || sDir.mkdirs())
+            // Scoped storage: use the app-specific external directory, which needs no
+            // storage permission on any Android version.
+            File sDir = getStorageRootDir();
+            if(sDir != null && (sDir.isDirectory() || sDir.mkdirs()))
             {
-                sStorageDir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + PACKAGE_NAME;
+                sStorageDir = sDir.getAbsolutePath();
                 // check for the backup dir
-                sDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + PACKAGE_NAME + "/" + "backup");
+                sDir = new File(sDir, "backup");
                 if(!sDir.isDirectory())
                     sDir.mkdirs();
             }
@@ -420,13 +422,22 @@ public class YaV1 extends Application
         return (sModeData != null && sModeData.getEuroMode());
     }
 
+    // static function that returns the app-specific external storage root
+    // (scoped storage safe, no permission needed on any Android version)
+
+    public static File getStorageRootDir()
+    {
+        return sContext != null ? sContext.getExternalFilesDir(null) : null;
+    }
+
     // static function that checks the storage
 
     public static boolean checkStorage(Context context, String folder)
     {
         // check first if we can write on phone
-        File sDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + YaV1.PACKAGE_NAME + "/" + (!folder.equals("") ? "/" + folder + "/" : ""));
-        if(sDir.isDirectory() || sDir.mkdirs())
+        File sRoot = getStorageRootDir();
+        File sDir = (folder.equals("") ? sRoot : new File(sRoot, folder));
+        if(sDir != null && (sDir.isDirectory() || sDir.mkdirs()))
             return true;
 
         // we issue an error

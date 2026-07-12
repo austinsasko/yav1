@@ -10,7 +10,7 @@ import android.text.format.DateFormat;
 import com.franckyl.yav1.R;
 import com.franckyl.yav1.YaV1;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.GoogleApiAvailability;
 
 import java.util.List;
 
@@ -172,7 +172,7 @@ public class GMapUtils
 
     public static boolean googleServicesOK()
     {
-        int isAvailable = GooglePlayServicesUtil.isGooglePlayServicesAvailable(YaV1.sContext);
+        int isAvailable = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(YaV1.sContext);
 
         if (isAvailable == ConnectionResult.SUCCESS)
             return true;

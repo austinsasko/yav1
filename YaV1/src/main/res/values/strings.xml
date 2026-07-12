@@ -571,7 +571,10 @@
     <string name="device_error">No device found, click on DEVICE settings to link a Device</string>
     <string name="search_valentine">Searching last known V1Connection...</string>
     <string name="waiting_for">Waiting for</string>
-    <string name="device_must_be_paired">This list shows only the bluetooth paired devices. You should pair Valentine bluetooth from your phone (code 1234) prior to start the application</string>
+    <string name="device_must_be_paired">This list shows only the bluetooth paired devices. You should pair Valentine bluetooth from your phone (code 1234) prior to start the application. For a V1connection LE, use the Scan for BTLE devices button instead, no pairing needed</string>
+    <string name="bt_scan_le">Scan for BTLE devices</string>
+    <string name="bt_scanning_le">Scanning for BTLE devices&#8230; (tap to stop)</string>
+    <string name="bt_le_suffix">(BTLE)</string>
 
     <!-- main activity strings -->
     <string name="main_esp_mode">ESP mode</string>

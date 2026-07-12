@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Application theme; the app was designed against the dark Holo look -->
+    <style name="YaV1AppTheme" parent="android:Theme.Holo">
+    </style>
+</resources>

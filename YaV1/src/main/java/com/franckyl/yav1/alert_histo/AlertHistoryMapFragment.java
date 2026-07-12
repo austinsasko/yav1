@@ -14,8 +14,8 @@ import com.franckyl.yav1.R;
 import com.franckyl.yav1.utils.GMapUtils;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 
@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * Created by franck on 2/3/14.
  */
-public class AlertHistoryMapFragment extends MapFragment
+public class AlertHistoryMapFragment extends SupportMapFragment
 {
     private GoogleMap     map = null;
     private CameraUpdate  mZoom       = null;
@@ -45,34 +45,50 @@ public class AlertHistoryMapFragment extends MapFragment
         super.onActivityCreated(savedInstanceState);
         // error case (no connection)
 
-        map = getMap();
-        // the info adapter
-        if(map != null && mFailure == 0)
+        if(mFailure == 0)
         {
-            map.setMyLocationEnabled(false);
-            mMapReady = false;
-            // set a listener to zoom when the map is ready
-
-            map.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener()
+            // the map is delivered asynchronously on the modern Maps SDK
+            getMapAsync(new OnMapReadyCallback()
             {
                 @Override
-                public void onCameraChange(CameraPosition arg0)
+                public void onMapReady(GoogleMap googleMap)
                 {
-                    // Move camera.
-                    if(mZoom != null)
-                    {
-                        map.moveCamera(mZoom);
-                    }
-                    // Remove listener to prevent position reset on camera move.
-                    map.setOnCameraChangeListener(null);
-                    mMapReady = true;
-                    createMarker(true);
+                    map = googleMap;
+                    setUpMap();
                 }
             });
+        }
 
-            // we would recreate the location
+        String t = getTag();
+        ( (AlertHistoryActivity) getActivity()).setFragmentTag(2, t);
+    }
 
-            map.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter()
+    private void setUpMap()
+    {
+        map.setMyLocationEnabled(false);
+        mMapReady = false;
+        // set a listener to zoom once the map has been laid out
+
+        map.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener()
+        {
+            @Override
+            public void onCameraIdle()
+            {
+                // Move camera.
+                if(mZoom != null)
+                {
+                    map.moveCamera(mZoom);
+                }
+                // Remove listener to prevent position reset on camera move.
+                map.setOnCameraIdleListener(null);
+                mMapReady = true;
+                createMarker(true);
+            }
+        });
+
+        // we would recreate the location
+
+        map.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter()
             {
                 @Override
                 public View getInfoWindow(Marker marker)
@@ -106,10 +122,6 @@ public class AlertHistoryMapFragment extends MapFragment
                     return null;
                 }
             });
-        }
-
-        String t = getTag();
-        ( (AlertHistoryActivity) getActivity()).setFragmentTag(2, t);
     }
 
     public void onStart()
