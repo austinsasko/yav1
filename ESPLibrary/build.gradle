@@ -21,8 +21,10 @@ android {
         main {
             manifest.srcFile 'AndroidManifest.xml'
             java.srcDirs = ['src']
+            java.exclude 'test/**'
             res.srcDirs = ['res']
         }
+        test.java.srcDirs = ['src/test/java']
     }
 }
 
@@ -30,4 +32,5 @@ dependencies {
     api 'androidx.core:core:1.13.1'
     api 'androidx.localbroadcastmanager:localbroadcastmanager:1.1.0'
     api project(':YaV1Lib')
+    testImplementation 'junit:junit:4.13.2'
 }

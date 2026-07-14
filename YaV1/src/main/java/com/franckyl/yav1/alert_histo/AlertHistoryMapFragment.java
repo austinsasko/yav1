@@ -65,7 +65,6 @@ public class AlertHistoryMapFragment extends SupportMapFragment
 
     private void setUpMap()
     {
-        map.setMyLocationEnabled(false);
         mMapReady = false;
         // set a listener to zoom once the map has been laid out
 

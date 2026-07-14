@@ -174,7 +174,14 @@ public class YaV1AlertService extends Service
     @Override
     public int onStartCommand(Intent intent, int flags, int startId)
     {
-        v1Notify(true);
+        if(!v1Notify(true))
+        {
+            // A connected-device service is not allowed to continue in the
+            // background unless foreground promotion succeeds.
+            YaV1.sAlertService = null;
+            stopSelf(startId);
+            return START_NOT_STICKY;
+        }
 
         // Android Auto heads-up alert cards (no-op unless projected to a car)
         V1CarNotifier.init(this);
@@ -1068,11 +1075,11 @@ public class YaV1AlertService extends Service
 
     // notification
 
-    private void v1Notify(boolean start)
+    private boolean v1Notify(boolean start)
     {
         NotificationCompat.Builder lBuilder = YaV1Activity.getNotificationBuilder();
         if(lBuilder == null)
-            return;
+            return false;
         lBuilder.setContentText(getText( (mActive ? R.string.alert_run_v1_active : R.string.alert_run_v1_inactive)));
         lBuilder.setSound(Uri.parse(mServiceSound));
         lBuilder.setSmallIcon( (mActive ? R.drawable.ic_notify :R.drawable.ic_notify_off));
@@ -1087,9 +1094,8 @@ public class YaV1AlertService extends Service
             }
             catch(Exception e)
             {
-                // Keep running as a plain service if the foreground promotion is
-                // rejected by modern Android.
-                Log.d("Valentine", "startForeground rejected: " + e);
+                Log.e("Valentine", "startForeground rejected; stopping service", e);
+                return false;
             }
         }
         else
@@ -1097,6 +1103,7 @@ public class YaV1AlertService extends Service
             NotificationManager nm = (NotificationManager) getSystemService(YaV1.sContext.NOTIFICATION_SERVICE);
             nm.notify(YaV1.APP_ID, note);
         }
+        return true;
     }
 
     public void setDemoMode(boolean demo)

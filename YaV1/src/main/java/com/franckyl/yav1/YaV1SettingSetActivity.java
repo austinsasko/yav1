@@ -59,8 +59,8 @@ public class YaV1SettingSetActivity extends ListActivity
     @Override
     public void onResume()
     {
+        super.onResume();
         //YaV1.superResume();
-        super.onPause();
     }
 
     @Override
