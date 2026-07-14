@@ -280,13 +280,16 @@ public final class V1AlertRepository
 
     private static ConnState deriveState(boolean serviceActive, boolean hasAlerts)
     {
-        if(!YaV1AlertService.isClientRunning())
-            return ConnState.DISCONNECTED;
+        // the service actively processing V1 display data is the strongest
+        // signal - it also covers demo mode, where isClientRunning() is false
+        // because the demo replay never marks the client as started
+        if(serviceActive || YaV1AlertService.isActive())
+            return hasAlerts ? ConnState.ALERTING : ConnState.CONNECTED_IDLE;
 
-        if(!serviceActive && !YaV1AlertService.isActive())
+        if(YaV1AlertService.isClientRunning())
             return ConnState.CONNECTING;
 
-        return hasAlerts ? ConnState.ALERTING : ConnState.CONNECTED_IDLE;
+        return ConnState.DISCONNECTED;
     }
 
     private static boolean listEquals(YaV1AlertList a, YaV1AlertList b)
