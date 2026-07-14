@@ -45,6 +45,13 @@
             android:summary="@string/pref_gen_sound_all_bogey_summary">
         </CheckBoxPreference>
 
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="aa_hun_alerts"
+            android:title="@string/pref_gen_aa_hun"
+            android:summary="@string/pref_gen_aa_hun_summary">
+        </CheckBoxPreference>
+
         <com.franckyl.yav1.YaV1SoundList
             android:defaultValue="1"
             android:dependency="phone_alert"

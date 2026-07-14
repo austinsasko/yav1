@@ -23,6 +23,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.franckyl.yav1.car.V1AlertRepository;
+import com.franckyl.yav1.car.V1CarNotifier;
 import com.franckyl.yav1.events.GpsEvent;
 import com.franckyl.yav1lib.YaV1Alert;
 import com.franckyl.yav1lib.YaV1AlertList;
@@ -174,6 +175,9 @@ public class YaV1AlertService extends Service
     public int onStartCommand(Intent intent, int flags, int startId)
     {
         v1Notify(true);
+
+        // Android Auto heads-up alert cards (no-op unless projected to a car)
+        V1CarNotifier.init(this);
 
         // Receiver for update (when pushing sweep, or changing mode, or user settings)
 

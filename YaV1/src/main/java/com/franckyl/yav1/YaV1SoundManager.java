@@ -5,9 +5,12 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.media.AudioAttributes;
+import android.media.AudioFocusRequest;
 import android.media.AudioManager;
 import android.media.Ringtone;
 import android.media.SoundPool;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.provider.MediaStore;
@@ -99,11 +102,66 @@ public class YaV1SoundManager
 
     private final    AudioManager  mAudioManager;
 
+    // transient-may-duck audio focus held while alert tones play, so alerts
+    // reach the car speakers under Android Auto and duck media instead of
+    // being buried by it (the legacy code requested no focus at all)
+
+    private boolean           mHasAudioFocus = false;
+    private AudioFocusRequest mFocusRequest  = null;   // API 26+
+
     // constructor
 
     public YaV1SoundManager()
     {
         mAudioManager = (AudioManager) YaV1.sContext.getSystemService(Context.AUDIO_SERVICE);
+    }
+
+    // request/release the alert audio focus
+
+    private void requestAlertFocus()
+    {
+        if(mHasAudioFocus || mAudioManager == null)
+            return;
+
+        int rc;
+
+        if(Build.VERSION.SDK_INT >= 26)
+        {
+            if(mFocusRequest == null)
+            {
+                mFocusRequest = new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK)
+                        .setAudioAttributes(new AudioAttributes.Builder()
+                                .setUsage(AudioAttributes.USAGE_ASSISTANCE_NAVIGATION_GUIDANCE)
+                                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                                .build())
+                        .setWillPauseWhenDucked(false)
+                        .build();
+            }
+            rc = mAudioManager.requestAudioFocus(mFocusRequest);
+        }
+        else
+        {
+            rc = mAudioManager.requestAudioFocus(null, AudioManager.STREAM_MUSIC,
+                                                 AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK);
+        }
+
+        mHasAudioFocus = (rc == AudioManager.AUDIOFOCUS_REQUEST_GRANTED);
+    }
+
+    private void releaseAlertFocus()
+    {
+        if(!mHasAudioFocus || mAudioManager == null)
+            return;
+
+        if(Build.VERSION.SDK_INT >= 26)
+        {
+            if(mFocusRequest != null)
+                mAudioManager.abandonAudioFocusRequest(mFocusRequest);
+        }
+        else
+            mAudioManager.abandonAudioFocus(null);
+
+        mHasAudioFocus = false;
     }
 
     // initialize the pool
@@ -216,6 +274,9 @@ public class YaV1SoundManager
 
         if(!SoundParam.phoneAlertEnabled || !SoundParam.soundLoaded || !SoundParam.mPhoneAlertOn || localOff)
         {
+            // no pool sound will play this cycle
+            releaseAlertFocus();
+
             // check if would play the voice
             if(SoundParam.sVoiceCount > 0)
             {
@@ -257,6 +318,13 @@ public class YaV1SoundManager
             if(mSignalBand[i] > 0 && SoundParam.mSoundId[i] > 0)
                 nbr++;
         }
+
+        // hold transient-may-duck focus while alert tones are audible,
+        // release it as soon as the alerts are muted or gone
+        if(!mute && nbr > 0)
+            requestAlertFocus();
+        else
+            releaseAlertFocus();
 
         for(i=0; i < 5; i++)
         {
@@ -693,5 +761,8 @@ public class YaV1SoundManager
         if(mSoundPool != null)
             mSoundPool.release();
         SoundParam.releaseSound();
+
+        // no more alert audio
+        releaseAlertFocus();
     }
 }
