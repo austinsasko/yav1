@@ -22,6 +22,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
 
+import com.franckyl.yav1.car.V1AlertRepository;
 import com.franckyl.yav1.events.GpsEvent;
 import com.franckyl.yav1lib.YaV1Alert;
 import com.franckyl.yav1lib.YaV1AlertList;
@@ -865,6 +866,8 @@ public class YaV1AlertService extends Service
             LocalBroadcastManager.getInstance(YaV1.sContext).sendBroadcast(sIntent);
             // YaV1.postEvent(mUpdateUIEvent);
             v1Notify(false);
+            // feed the car repository (service is now actively processing V1 data)
+            V1AlertRepository.get().onServiceActive(true);
         }
         else
         {
@@ -905,6 +908,18 @@ public class YaV1AlertService extends Service
             // get current sound status
 
             mCurrentMute = dispData.getAuxData().getSoft();
+
+            // feed the car repository (soft-mute ack + decoded bogey counter)
+            int carBogey;
+            try
+            {
+                carBogey = Integer.parseInt(dispData.getBogeyCounterData1().convertToLetter());
+            }
+            catch(NumberFormatException e)
+            {
+                carBogey = 0;
+            }
+            V1AlertRepository.get().onDisplayData(mCurrentMute, carBogey);
 
             if(!YaV1.mV1Client.isLibraryInDemoMode())
             {
@@ -1155,6 +1170,9 @@ public class YaV1AlertService extends Service
                 // notify running but not active
                 if(saveActive && !mStopping)
                     v1Notify(false);
+
+                // feed the car repository (no more V1 data processing)
+                V1AlertRepository.get().onServiceActive(false);
 
                 Log.d("Valentine", "CallBack uninstalled");
             }
@@ -1455,6 +1473,14 @@ public class YaV1AlertService extends Service
                 mResend = false;
             }
         }
+
+        //
+        // feed the car repository on every processed cycle, regardless of bound
+        // phone-UI clients, so the car display keeps updating while the phone UI
+        // is backgrounded or unbound (the repository copies the list defensively
+        // and drops no-change cycles)
+        //
+        V1AlertRepository.get().onAlerts(mAlertList);
 
         mWasMuted = mMute;
 
