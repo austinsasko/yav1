@@ -220,7 +220,8 @@ public class AircraftMonitor
                     distPhrase(distM),
                     ac.onGround ? "ground" : (ac.altFt == Integer.MIN_VALUE ? "?" : ac.altFt + "ft"),
                     Double.isNaN(ac.gsKt) ? "?" : (int) ac.gsKt + "kt",
-                    wl != null ? "[WATCHLIST: " + wl.agency + "]" : "",
+                    wl != null ? "[WATCHLIST" + (wl.lowConfidence() ? "(low)" : "")
+                                 + ": " + wl.agency + "]" : "",
                     as.category == AircraftTracker.CAT_HEURISTIC ? "[heuristic suspect]" : "");
             status.add(line);
 
@@ -236,9 +237,14 @@ public class AircraftMonitor
 
                 if(as.category == AircraftTracker.CAT_WATCHLIST)
                 {
-                    phrase = "Aerial enforcement aircraft, " + wl.agency + ", "
-                             + distPhrase(distM);
-                    banner = "Enforcement aircraft: " + wl.agency + " " + ac.bestIdent()
+                    // low-confidence entries (patrol rotorcraft etc.) are
+                    // announced as tentative, like the heuristic path
+                    String lead = wl.lowConfidence() ? "Possible aerial enforcement aircraft, "
+                                                     : "Aerial enforcement aircraft, ";
+                    phrase = lead + wl.agency + ", " + distPhrase(distM);
+                    banner = (wl.lowConfidence() ? "Possible enforcement aircraft: "
+                                                 : "Enforcement aircraft: ")
+                             + wl.agency + " " + ac.bestIdent()
                              + ", " + distPhrase(distM);
                 }
                 else
