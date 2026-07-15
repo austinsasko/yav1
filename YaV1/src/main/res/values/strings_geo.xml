@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- [P3-GEO] Strings for location based automatic V1 profile switching -->
+<resources>
+    <string name="pref_h_geo">Location profiles</string>
+    <string name="pref_h_geo_summary">Automatic V1 profile per US state</string>
+
+    <string name="geo_enable_title">Enable location profiles</string>
+    <string name="geo_enable_summary">Automatically push the mapped V1 profile when entering a state (only while connected to a V1)</string>
+
+    <string name="geo_tts_title">Voice announcement</string>
+    <string name="geo_tts_summary">Speak when a profile is switched automatically</string>
+
+    <string name="geo_configure_title">State to profile mapping</string>
+    <string name="geo_configure_summary">Choose which V1 setting profile to push for each state</string>
+
+    <string name="geo_activity_title">Location profiles</string>
+    <string name="geo_no_profile">No profile (no action)</string>
+    <string name="geo_pick_profile_title">Profile for %s</string>
+    <string name="geo_no_profiles_available">No V1 setting profiles found. Create profiles in V1 Settings first.</string>
+    <string name="geo_dataset_error">Unable to load the state dataset</string>
+
+    <string name="geo_switch_announce">Switched V1 profile to %1$s (%2$s)</string>
+</resources>

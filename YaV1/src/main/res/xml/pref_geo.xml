@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- [P3-GEO] Location based automatic V1 profile switching -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <CheckBoxPreference
+        android:key="geo_auto_profile"
+        android:title="@string/geo_enable_title"
+        android:summary="@string/geo_enable_summary"
+        android:defaultValue="false"/>
+
+    <CheckBoxPreference
+        android:key="geo_tts"
+        android:title="@string/geo_tts_title"
+        android:summary="@string/geo_tts_summary"
+        android:defaultValue="true"
+        android:dependency="geo_auto_profile"/>
+
+    <Preference
+        android:key="geo_configure"
+        android:title="@string/geo_configure_title"
+        android:summary="@string/geo_configure_summary">
+        <intent
+            android:targetPackage="com.franckyl.yav1"
+            android:targetClass="com.franckyl.yav1.geo.GeoProfileActivity"/>
+    </Preference>
+
+</PreferenceScreen>
