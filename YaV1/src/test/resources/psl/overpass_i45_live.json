@@ -1,0 +1,170 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-07-15T02:14:55Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "way",
+  "id": 15405623,
+  "bounds": {
+    "minlat": 30.1100277,
+    "minlon": -95.4370120,
+    "maxlat": 30.1116875,
+    "maxlon": -95.4364662
+  },
+  "geometry": [
+    { "lat": 30.1116875, "lon": -95.4370120 },
+    { "lat": 30.1101790, "lon": -95.4365170 },
+    { "lat": 30.1100277, "lon": -95.4364662 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "change:lanes": "no|not_left|yes|yes|yes",
+    "hgv": "designated",
+    "hgv:national_network": "yes",
+    "highway": "motorway",
+    "hov:lanes": "designated||||",
+    "lanes": "5",
+    "layer": "1",
+    "lit": "yes",
+    "maxspeed": "65 mph",
+    "oneway": "yes",
+    "ref": "I 45",
+    "source:hgv:national_network": "https://www.ecfr.gov/current/title-23/chapter-I/subchapter-G/part-658;https://hepgis-usdot.hub.arcgis.com/apps/usdot::national-network-conventional-combination-trucks-map",
+    "surface": "concrete",
+    "tiger:cfcc": "A15"
+  }
+},
+{
+  "type": "way",
+  "id": 21881691,
+  "bounds": {
+    "minlat": 30.1106730,
+    "minlon": -95.4369547,
+    "maxlat": 30.1124601,
+    "maxlon": -95.4363534
+  },
+  "geometry": [
+    { "lat": 30.1106730, "lon": -95.4363534 },
+    { "lat": 30.1124601, "lon": -95.4369547 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "change:lanes": "no|not_left|yes|yes|yes|yes",
+    "hgv": "designated",
+    "hgv:national_network": "yes",
+    "highway": "motorway",
+    "hov:lanes": "designated|||||",
+    "lanes": "6",
+    "layer": "1",
+    "lit": "yes",
+    "maxspeed": "65 mph",
+    "oneway": "yes",
+    "ref": "I 45",
+    "source:hgv:national_network": "https://www.ecfr.gov/current/title-23/chapter-I/subchapter-G/part-658;https://hepgis-usdot.hub.arcgis.com/apps/usdot::national-network-conventional-combination-trucks-map",
+    "surface": "concrete",
+    "tiger:cfcc": "A15"
+  }
+},
+{
+  "type": "way",
+  "id": 104451885,
+  "bounds": {
+    "minlat": 30.1072770,
+    "minlon": -95.4365959,
+    "maxlat": 30.1099232,
+    "maxlon": -95.4360701
+  },
+  "geometry": [
+    { "lat": 30.1099232, "lon": -95.4365959 },
+    { "lat": 30.1096099, "lon": -95.4365145 },
+    { "lat": 30.1093103, "lon": -95.4364342 },
+    { "lat": 30.1088012, "lon": -95.4363166 },
+    { "lat": 30.1078733, "lon": -95.4362096 },
+    { "lat": 30.1074759, "lon": -95.4361269 },
+    { "lat": 30.1072770, "lon": -95.4360701 }
+  ],
+  "tags": {
+    "highway": "motorway",
+    "lanes": "2",
+    "lit": "yes",
+    "maxspeed": "65 mph",
+    "name": "Hardy Toll Road",
+    "oneway": "yes",
+    "ref": "HTR",
+    "surface": "concrete:plates",
+    "tiger:name_base_1": "State Spur 548",
+    "toll": "yes",
+    "toll_method": "transponder"
+  }
+},
+{
+  "type": "way",
+  "id": 125577594,
+  "bounds": {
+    "minlat": 30.1080860,
+    "minlon": -95.4364662,
+    "maxlat": 30.1100277,
+    "maxlon": -95.4358900
+  },
+  "geometry": [
+    { "lat": 30.1100277, "lon": -95.4364662 },
+    { "lat": 30.1088380, "lon": -95.4360670 },
+    { "lat": 30.1084664, "lon": -95.4359634 },
+    { "lat": 30.1082701, "lon": -95.4359179 },
+    { "lat": 30.1080860, "lon": -95.4358900 }
+  ],
+  "tags": {
+    "change:lanes": "no|not_left|yes|yes|yes",
+    "hgv": "designated",
+    "hgv:national_network": "yes",
+    "highway": "motorway",
+    "hov:lanes": "designated||||",
+    "lanes": "5",
+    "lit": "yes",
+    "maxspeed": "65 mph",
+    "oneway": "yes",
+    "ref": "I 45",
+    "source:hgv:national_network": "https://www.ecfr.gov/current/title-23/chapter-I/subchapter-G/part-658;https://hepgis-usdot.hub.arcgis.com/apps/usdot::national-network-conventional-combination-trucks-map",
+    "surface": "concrete",
+    "tiger:cfcc": "A15"
+  }
+},
+{
+  "type": "way",
+  "id": 1451951038,
+  "bounds": {
+    "minlat": 30.1091877,
+    "minlon": -95.4363534,
+    "maxlat": 30.1106730,
+    "maxlon": -95.4358307
+  },
+  "geometry": [
+    { "lat": 30.1091877, "lon": -95.4358307 },
+    { "lat": 30.1106730, "lon": -95.4363534 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "change:lanes": "no|not_left|yes|yes|yes|yes",
+    "hgv": "designated",
+    "hgv:national_network": "yes",
+    "highway": "motorway",
+    "hov:lanes": "designated|||||",
+    "lanes": "6",
+    "layer": "1",
+    "lit": "yes",
+    "maxspeed": "65 mph",
+    "oneway": "yes",
+    "ref": "I 45",
+    "source:hgv:national_network": "https://www.ecfr.gov/current/title-23/chapter-I/subchapter-G/part-658;https://hepgis-usdot.hub.arcgis.com/apps/usdot::national-network-conventional-combination-trucks-map",
+    "surface": "concrete",
+    "turn:lanes": "|||||merge_to_left"
+  }
+}
+
+  ]
+}

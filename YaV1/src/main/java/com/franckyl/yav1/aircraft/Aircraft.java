@@ -33,6 +33,17 @@ public class Aircraft
     /** Track / heading over ground in degrees; NaN = unknown. */
     public double  trackDeg = Double.NaN;
 
+    // -- multi-source aggregation (filled by AdsbAggregator) -----------
+
+    /** when this state vector was fetched (wall clock ms); 0 = unset */
+    public long    seenAtMs    = 0;
+
+    /** distinct feeds that reported this hex within the merge window */
+    public int     sourceCount = 0;
+
+    /** name of the feed that provided this (freshest) state vector */
+    public String  feed        = "";
+
     public boolean hasPosition()
     {
         return !Double.isNaN(lat) && !Double.isNaN(lon);

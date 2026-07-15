@@ -52,4 +52,10 @@
         <item>2</item>
     </string-array>
 
+    <string name="pref_poi_online">Online camera data</string>
+    <string name="pref_poi_online_summary">Auto-fetch cameras around you from OpenStreetMap while driving (no file import needed; cached for offline use)</string>
+    <string name="pref_poi_online_cams">Speed &amp; red-light cameras</string>
+    <string name="pref_poi_online_cams_summary">OSM speed_camera nodes and enforcement relations</string>
+    <string name="pref_poi_online_alpr">License plate readers (ALPR)</string>
+    <string name="pref_poi_online_alpr_summary">Flock / ALPR surveillance cameras as mapped in OSM (DeFlock data)</string>
 </resources>

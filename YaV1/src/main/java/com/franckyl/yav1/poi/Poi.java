@@ -18,6 +18,12 @@ public class Poi
     /** Optional name / comment, "" when absent. */
     public String name;
 
+    /**
+     * Provenance: "" for user CSV imports, "osm:speed_camera" /
+     * "osm:enforcement" / "osm:alpr" for the online sources.
+     */
+    public String source = "";
+
     public Poi()
     {
         type = "";
@@ -31,6 +37,12 @@ public class Poi
         this.type  = (type == null ? "" : type);
         this.speed = speed;
         this.name  = (name == null ? "" : name);
+    }
+
+    public Poi(double lat, double lon, String type, int speed, String name, String source)
+    {
+        this(lat, lon, type, speed, name);
+        this.source = (source == null ? "" : source);
     }
 
     /**
@@ -58,6 +70,8 @@ public class Poi
 
         String t = type.trim().toLowerCase();
 
+        if(t.contains("alpr") || t.contains("plate"))
+            return "License plate reader";
         if(t.equals("1") || t.contains("fixed") || t.contains("speed"))
             return "Speed camera";
         if(t.equals("2") || t.contains("mobile") || t.contains("average"))

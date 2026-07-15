@@ -83,6 +83,10 @@ public class PslMute
             // cSpeed is kept in the current display unit (YaV1.sCurrUnit)
             double speedKph = PslMuteDecider.toKph(YaV1CurrentPosition.cSpeed, YaV1.sCurrUnit);
 
+            // speed hint drives the provider's prefetch look-ahead
+            if(sProvider instanceof OverpassSpeedLimitProvider)
+                ((OverpassSpeedLimitProvider) sProvider).setSpeedHintMps(speedKph / 3.6);
+
             Integer limit   = sProvider.getSpeedLimitKph(lat, lon, bearing);
 
             double offsetKph = PslMuteDecider.toKph(getIntPref(PREF_OFFSET, 5), YaV1.sCurrUnit);
@@ -169,6 +173,9 @@ public class PslMute
             SpeedLimitProvider p = sProvider;
             if(p == null)
                 return;
+
+            if(p instanceof OverpassSpeedLimitProvider)
+                ((OverpassSpeedLimitProvider) p).setSpeedHintMps(YaV1CurrentPosition.speed);
 
             p.getSpeedLimitKph(YaV1CurrentPosition.lat, YaV1CurrentPosition.lon,
                                YaV1CurrentPosition.bearing);

@@ -207,6 +207,7 @@ public class YaV1 extends Application
 
         // [P2-POI][P2-ADSB] data services subscribe to GpsEvent on the bus
         com.franckyl.yav1.poi.PoiAlertManager.init(sContext);
+        com.franckyl.yav1.poi.PoiOnlineManager.init();
         com.franckyl.yav1.aircraft.AircraftMonitor.init(sContext);
         com.franckyl.yav1.geo.GeoProfileManager.init(this); // [P3-GEO] location based profile switching (feature default OFF)
     }
