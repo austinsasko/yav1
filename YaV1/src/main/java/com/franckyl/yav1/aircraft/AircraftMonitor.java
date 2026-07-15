@@ -51,7 +51,7 @@ public class AircraftMonitor
     private static AircraftMonitor sInstance = null;
 
     private final Context             mContext;
-    private final AdsbClient          mClient  = new AdsbClient();
+    private final AdsbAggregator      mAggregator = new AdsbAggregator();
     private final AircraftTracker     mTracker = new AircraftTracker();
     private EnforcementWatchlist      mWatchlist = null;
 
@@ -179,16 +179,28 @@ public class AircraftMonitor
         boolean heuristicOn = YaV1.sPrefs.getBoolean("adsb_heuristic", true);
         boolean fixture     = YaV1.sPrefs.getBoolean("adsb_debug_fixture", false);
 
-        String json = (fixture ? readFixture() : mClient.fetchPoint(lat, lon, radiusNm));
-
-        if(json == null)
-        {
-            Log.d(LOG_TAG, "no ADS-B data (network failure or all endpoints down)");
-            return;
-        }
-
-        List<Aircraft> list = AdsbParser.parse(json);
         long now = System.currentTimeMillis();
+        List<Aircraft> list;
+
+        if(fixture)
+        {
+            String json = readFixture();
+            if(json == null)
+            {
+                Log.d(LOG_TAG, "no fixture data");
+                return;
+            }
+            list = AdsbParser.parse(json);
+        }
+        else
+        {
+            // multi-source aggregation: one feed per poll (rotation),
+            // merged across the freshness window
+            list = mAggregator.poll(lat, lon, radiusNm, now);
+
+            if(list.isEmpty())
+                Log.d(LOG_TAG, "no ADS-B data (feeds: " + mAggregator.healthLine() + ")");
+        }
 
         if(fixture)
         {
@@ -214,12 +226,13 @@ public class AircraftMonitor
             EnforcementWatchlist.Entry wl = (mWatchlist == null ? null : mWatchlist.match(ac));
             AircraftTracker.Assessment as = mTracker.assess(ac, wl != null, now);
 
-            String line = String.format(Locale.US, "%s %s %s alt=%s gs=%s %s%s",
+            String line = String.format(Locale.US, "%s %s %s alt=%s gs=%s%s %s%s",
                     ac.bestIdent(),
                     ac.type.isEmpty() ? "?" : ac.type,
                     distPhrase(distM),
                     ac.onGround ? "ground" : (ac.altFt == Integer.MIN_VALUE ? "?" : ac.altFt + "ft"),
                     Double.isNaN(ac.gsKt) ? "?" : (int) ac.gsKt + "kt",
+                    ac.sourceCount >= 2 ? " x" + ac.sourceCount : "",
                     wl != null ? "[WATCHLIST" + (wl.lowConfidence() ? "(low)" : "")
                                  + ": " + wl.agency + "]" : "",
                     as.category == AircraftTracker.CAT_HEURISTIC ? "[heuristic suspect]" : "");

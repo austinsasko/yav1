@@ -83,6 +83,12 @@ public class AdsbClient
         return null;
     }
 
+    /** Fetch one URL with the hardened transport (timeouts, size cap). */
+    public String fetchUrl(String url)
+    {
+        return get(url);
+    }
+
     private String get(String url)
     {
         HttpURLConnection conn = null;
