@@ -9,7 +9,7 @@
             android:layout_height="wrap_content"
             android:id="@android:id/list"
             android:choiceMode="singleChoice"
-            android:divider="#48c1ff"
+            android:divider="@color/line"
             android:dividerHeight="2dp"
             android:longClickable="false"
         android:layout_alignParentTop="true"
