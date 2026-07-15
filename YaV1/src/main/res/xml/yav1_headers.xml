@@ -36,4 +36,16 @@
         android:summary="@string/pref_h_g_map_summary">
         <extra android:name="settings" android:value="gmap"/>
     </header>
+    <!-- [P2-POI] -->
+    <header android:fragment="com.franckyl.yav1.YaV1PrefFragment"
+        android:title="@string/pref_h_poi"
+        android:summary="@string/pref_h_poi_summary">
+        <extra android:name="settings" android:value="poi"/>
+    </header>
+    <!-- [P2-ADSB] -->
+    <header android:fragment="com.franckyl.yav1.YaV1PrefFragment"
+        android:title="@string/pref_h_aircraft"
+        android:summary="@string/pref_h_aircraft_summary">
+        <extra android:name="settings" android:value="aircraft"/>
+    </header>
 </preference-headers>
