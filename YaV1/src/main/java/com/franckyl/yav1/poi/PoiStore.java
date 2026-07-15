@@ -161,6 +161,49 @@ public class PoiStore
         return pf;
     }
 
+    /**
+     * Insert or replace a programmatically generated database (online
+     * sources). Unlike importCsv this takes the points directly; the
+     * user's enabled flag from an earlier generation is preserved.
+     *
+     * @return the stored file, or null on write failure.
+     */
+    public synchronized PoiFile putGenerated(String name, List<Poi> pois, String source)
+    {
+        mLastError = "";
+
+        if(!mDir.isDirectory() && !mDir.mkdirs())
+        {
+            mLastError = "cannot create " + mDir;
+            return null;
+        }
+
+        boolean enabled = true;
+        for(int i = mFiles.size() - 1; i >= 0; i--)
+        {
+            if(mFiles.get(i).name.equals(name))
+            {
+                enabled = mFiles.get(i).enabled;
+                mFiles.remove(i);
+            }
+        }
+
+        PoiFile pf    = new PoiFile();
+        pf.name       = name;
+        pf.importedAt = System.currentTimeMillis();
+        pf.enabled    = enabled;
+        pf.source     = source;
+        pf.skipped    = 0;
+        pf.pois       = new ArrayList<Poi>(pois);
+        pf.jsonFile   = jsonFor(new File(name));
+
+        if(!write(pf))
+            return null;
+
+        mFiles.add(pf);
+        return pf;
+    }
+
     /** Toggle a file's enabled flag and persist it. */
     public synchronized boolean setEnabled(PoiFile pf, boolean enabled)
     {
