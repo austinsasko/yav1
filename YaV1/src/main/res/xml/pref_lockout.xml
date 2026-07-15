@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
                   xmlns:app="http://schemas.android.com/apk/res-auto">
-    <com.franckyl.yav1.CustomSwitch
+    <com.glasslsoftware.yav1.CustomSwitch
         android:defaultValue="false"
         android:key="enable_lockout"
         android:title="@string/pref_lockout"
@@ -38,7 +38,7 @@
     <PreferenceScreen
             android:title="@string/pref_lockout_expert"
             android:persistent="false">
-        <com.franckyl.yav1.utils.BandRangeList
+        <com.glasslsoftware.yav1.utils.BandRangeList
             android:key="lockout_range_list"
             android:defaultValue=""
             android:title="Auto lockout exclusion"

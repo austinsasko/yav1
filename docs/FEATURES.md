@@ -2,7 +2,7 @@
 
 Every feature added during the 2026 modernization, its preference keys, its data source, and
 its limitations. All of these default **off**. Preference keys are the SharedPreferences
-keys, useful for debugging via `adb shell run-as com.franckyl.yav1`.
+keys, useful for debugging via `adb shell run-as com.glasslsoftware.yav1`.
 
 ---
 

@@ -1,6 +1,6 @@
 # Android Auto testing guide
 
-YaV1 now ships a native Android Auto car app (`com.franckyl.yav1.car`, branch
+YaV1 now ships a native Android Auto car app (`com.glasslsoftware.yav1.car`, branch
 `android-auto`): a NavigationTemplate whose background surface draws the live
 radar display (priority alert band / GHz frequency / direction arrow / 0-8
 signal bars, bogey count, secondary alerts) with a single Mute action, plus

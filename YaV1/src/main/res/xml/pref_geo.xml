@@ -20,8 +20,8 @@
         android:title="@string/geo_configure_title"
         android:summary="@string/geo_configure_summary">
         <intent
-            android:targetPackage="com.franckyl.yav1"
-            android:targetClass="com.franckyl.yav1.geo.GeoProfileActivity"/>
+            android:targetPackage="com.glasslsoftware.yav1"
+            android:targetClass="com.glasslsoftware.yav1.geo.GeoProfileActivity"/>
     </Preference>
 
 </PreferenceScreen>

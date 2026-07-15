@@ -2,7 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
         android:title="@string/pref_gen_alerts">
-        <com.franckyl.yav1.CustomSwitch
+        <com.glasslsoftware.yav1.CustomSwitch
             android:defaultValue="false"
             android:persistent="true"
             android:key="phone_alert"
@@ -52,7 +52,7 @@
             android:summary="@string/pref_gen_aa_hun_summary">
         </CheckBoxPreference>
 
-        <com.franckyl.yav1.YaV1SoundList
+        <com.glasslsoftware.yav1.YaV1SoundList
             android:defaultValue="1"
             android:dependency="phone_alert"
             android:key="sound_bogey"
@@ -61,7 +61,7 @@
             android:summary="%s"
             android:title="@string/pref_gen_sound_bogey"/>
 
-        <com.franckyl.yav1.YaV1SoundList
+        <com.glasslsoftware.yav1.YaV1SoundList
             android:defaultValue="3"
             android:dependency="phone_alert"
             android:key="sound_laser"
@@ -70,7 +70,7 @@
             android:summary="%s"
             android:title="@string/pref_gen_sound_laser"/>
 
-        <com.franckyl.yav1.YaV1SoundList
+        <com.glasslsoftware.yav1.YaV1SoundList
             android:defaultValue="3"
             android:dependency="phone_alert"
             android:key="sound_ka"
@@ -79,7 +79,7 @@
             android:summary="%s"
             android:title="@string/pref_gen_sound_ka"/>
 
-        <com.franckyl.yav1.YaV1SoundList
+        <com.glasslsoftware.yav1.YaV1SoundList
             android:defaultValue="4"
             android:dependency="phone_alert"
             android:key="sound_k"
@@ -88,7 +88,7 @@
             android:summary="%s"
             android:title="@string/pref_gen_sound_k"/>
 
-        <com.franckyl.yav1.YaV1SoundList
+        <com.glasslsoftware.yav1.YaV1SoundList
             android:defaultValue="5"
             android:key="sound_x"
             android:dependency="phone_alert"
@@ -97,7 +97,7 @@
             android:summary="%s"
             android:title="@string/pref_gen_sound_x"/>
 
-        <com.franckyl.yav1.YaV1SoundList
+        <com.glasslsoftware.yav1.YaV1SoundList
             android:defaultValue="0"
             android:key="sound_ku"
             android:dependency="phone_alert"

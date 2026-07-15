@@ -25,7 +25,7 @@
             android:id="@+id/gps_fragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            class="com.franckyl.yav1.YaV1GpsFragment"
+            class="com.glasslsoftware.yav1.YaV1GpsFragment"
             tools:layout="@layout/yav1_gps_fragment"
             android:layout_alignParentBottom="true">
         </fragment>

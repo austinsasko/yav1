@@ -3,7 +3,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
         android:title="@string/pref_psl_category">
-        <com.franckyl.yav1.CustomSwitch
+        <com.glasslsoftware.yav1.CustomSwitch
             android:defaultValue="false"
             android:key="psl_enable"
             android:title="@string/pref_psl_enable"

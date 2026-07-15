@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace 'com.franckyl.yav1'
+    namespace 'com.glasslsoftware.yav1'
     compileSdk 35
 
     defaultConfig {
-        applicationId "com.franckyl.yav1"
+        applicationId "com.glasslsoftware.yav1"
         minSdkVersion 23
         targetSdkVersion 35
         versionCode 53

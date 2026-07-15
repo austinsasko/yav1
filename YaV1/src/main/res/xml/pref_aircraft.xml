@@ -2,7 +2,7 @@
 <!-- [P2-ADSB] ADS-B aircraft-enforcement awareness preferences -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <com.franckyl.yav1.CustomSwitch
+    <com.glasslsoftware.yav1.CustomSwitch
         android:defaultValue="false"
         android:key="adsb_enable"
         android:title="@string/pref_adsb_enable"
@@ -33,7 +33,7 @@
         android:summary="%s"
         android:title="@string/pref_adsb_style"/>
 
-    <com.franckyl.yav1.aircraft.AircraftStatusPreference
+    <com.glasslsoftware.yav1.aircraft.AircraftStatusPreference
         android:key="adsb_status"
         android:title="@string/pref_adsb_status"
         android:summary="@string/pref_adsb_status_summary"

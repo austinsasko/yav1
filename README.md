@@ -97,10 +97,11 @@ Full build, emulator, and run instructions: **[docs/BUILD.md](docs/BUILD.md)**.
 
 ## Project heritage
 
-YaV1 was originally created by Francky L. and released under the GPL. This repository is a
-modernization fork: rebuilt for Android 15 and the AndroidX toolchain, given Bluetooth LE
-and V1 Gen2 support, and extended with the data services above. It is not affiliated with
-or endorsed by Valentine Research.
+YaV1 started as **Franckyl06**'s app, released under the GPL. This repository is the
+modern continuation of that work: recently modernized by **Austin Sasko / Glass L
+Software** (2026) — rebuilt for Android 15 and the AndroidX toolchain, given Bluetooth LE
+and V1 Gen2 support, Android Auto integration, and extended with the data services above.
+It is not affiliated with or endorsed by Valentine Research.
 
 ## License
 

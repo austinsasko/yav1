@@ -49,10 +49,10 @@
         <activity
                 android:name=".YaV1ScreenActivity"
                 android:exported="false"
-                android:parentActivityName="com.franckyl.yav1.YaV1Activity">
+                android:parentActivityName="com.glasslsoftware.yav1.YaV1Activity">
                 <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value="com.franckyl.yav1.YaV1Activity" />
+                    android:value="com.glasslsoftware.yav1.YaV1Activity" />
         </activity>
         <activity android:name=".ListPairedBTActivity"
                   android:exported="false" >
