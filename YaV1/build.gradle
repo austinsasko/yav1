@@ -41,4 +41,6 @@ dependencies {
     implementation project(':AmbilWarna')
     implementation project(':aFileDialog')
     testImplementation 'junit:junit:4.13.2'
+    // [P1-PSL] real org.json for JVM unit tests (the android.jar stub returns defaults)
+    testImplementation 'org.json:json:20180813'
 }

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- [P1-PSL] strings for posted-speed-limit muting -->
+<resources>
+    <string name="pref_psl_category">Speed limit muting</string>
+    <string name="pref_psl_enable">Mute at legal speed</string>
+    <string name="pref_psl_enable_summary">Mute alerts while at or below the posted speed limit plus the offset (limits from OpenStreetMap, needs GPS and network)</string>
+    <string name="pref_psl_offset">Speed offset over limit</string>
+    <string name="pref_psl_unknown">When the limit is unknown</string>
+
+    <string-array name="psl_offset_entries">
+        <item>0 over the limit</item>
+        <item>2 over the limit</item>
+        <item>3 over the limit</item>
+        <item>5 over the limit</item>
+        <item>7 over the limit</item>
+        <item>10 over the limit</item>
+        <item>15 over the limit</item>
+        <item>20 over the limit</item>
+    </string-array>
+    <string-array name="psl_offset_values">
+        <item>0</item>
+        <item>2</item>
+        <item>3</item>
+        <item>5</item>
+        <item>7</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+    </string-array>
+
+    <string-array name="psl_unknown_entries">
+        <item>Stay audible (recommended)</item>
+        <item>Mute</item>
+    </string-array>
+    <string-array name="psl_unknown_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+</resources>
