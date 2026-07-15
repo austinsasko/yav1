@@ -52,15 +52,31 @@ public class OverpassSpeedLimitProvider implements SpeedLimitProvider
     /** one maxspeed-tagged way from the Overpass response */
     public static class Way
     {
-        public final Integer  limitKph;   // parsed, null when unusable
+        public final Integer  limitKph;    // plain maxspeed, null when unusable
+        public final Integer  forwardKph;  // maxspeed:forward, null when absent
+        public final Integer  backwardKph; // maxspeed:backward, null when absent
         public final double[] lats;
         public final double[] lons;
 
         public Way(Integer limitKph, double[] lats, double[] lons)
         {
-            this.limitKph = limitKph;
-            this.lats     = lats;
-            this.lons     = lons;
+            this(limitKph, null, null, lats, lons);
+        }
+
+        public Way(Integer limitKph, Integer forwardKph, Integer backwardKph,
+                   double[] lats, double[] lons)
+        {
+            this.limitKph    = limitKph;
+            this.forwardKph  = forwardKph;
+            this.backwardKph = backwardKph;
+            this.lats        = lats;
+            this.lons        = lons;
+        }
+
+        /** true when no tag on this way ever yields a usable limit */
+        public boolean unusable()
+        {
+            return limitKph == null && forwardKph == null && backwardKph == null;
         }
     }
 
@@ -215,9 +231,18 @@ public class OverpassSpeedLimitProvider implements SpeedLimitProvider
 
     public static String buildQuery(double lat, double lon)
     {
-        return String.format(Locale.US,
-            "[out:json][timeout:8];way(around:%d,%.6f,%.6f)[\"highway\"][\"maxspeed\"];out tags geom;",
-            SEARCH_RADIUS_M, lat, lon);
+        // union: plain maxspeed OR directional-only tagging. Live check
+        // 2026-07-14: e.g. the US 290 Express Lane (Houston) carries only
+        // maxspeed:forward / maxspeed:backward (oneway=reversible) - a
+        // plain ["maxspeed"] filter never fetches such ways at all.
+        String around = String.format(Locale.US, "way(around:%d,%.6f,%.6f)[\"highway\"]",
+                                      SEARCH_RADIUS_M, lat, lon);
+
+        return "[out:json][timeout:8];("
+               + around + "[\"maxspeed\"];"
+               + around + "[\"maxspeed:forward\"];"
+               + around + "[\"maxspeed:backward\"];"
+               + ");out tags geom;";
     }
 
     private String httpPost(String query)
@@ -311,7 +336,9 @@ public class OverpassSpeedLimitProvider implements SpeedLimitProvider
                 if(tags == null || geom == null || geom.length() < 2)
                     continue;
 
-                Integer limit = parseMaxspeed(tags.optString("maxspeed", null));
+                Integer limit    = parseMaxspeed(tags.optString("maxspeed", null));
+                Integer forward  = parseMaxspeed(tags.optString("maxspeed:forward", null));
+                Integer backward = parseMaxspeed(tags.optString("maxspeed:backward", null));
 
                 double lats[] = new double[geom.length()];
                 double lons[] = new double[geom.length()];
@@ -330,7 +357,7 @@ public class OverpassSpeedLimitProvider implements SpeedLimitProvider
                 }
 
                 if(ok)
-                    ways.add(new Way(limit, lats, lons));
+                    ways.add(new Way(limit, forward, backward, lats, lons));
             }
         }
         catch(Exception exc)
@@ -399,8 +426,13 @@ public class OverpassSpeedLimitProvider implements SpeedLimitProvider
     /**
      * Pick the limit of the way best aligned with the travel bearing.
      * Score combines the (folded) bearing difference at the closest
-     * segment with the distance to the way; lowest score wins. Ways with
-     * an unusable maxspeed are skipped.
+     * segment with the distance to the way; lowest score wins.
+     *
+     * Per way, the effective limit is direction-aware: when the travel
+     * bearing points along the way's digitized direction (unfolded
+     * difference &lt;= 90 degrees) maxspeed:forward applies, otherwise
+     * maxspeed:backward; the plain maxspeed tag is the fallback. Ways with
+     * no usable limit for the direction traveled are skipped.
      */
     public static Integer selectLimitKph(List<Way> ways, double lat, double lon, float bearing)
     {
@@ -409,7 +441,7 @@ public class OverpassSpeedLimitProvider implements SpeedLimitProvider
 
         for(Way w : ways)
         {
-            if(w.limitKph == null)
+            if(w.unusable())
                 continue;
 
             double minDist     = Double.MAX_VALUE;
@@ -431,17 +463,36 @@ public class OverpassSpeedLimitProvider implements SpeedLimitProvider
             if(minDist == Double.MAX_VALUE)
                 continue;
 
+            Integer limit = effectiveLimitKph(w, bearing, segBearing);
+            if(limit == null)
+                continue;
+
             // 0-90 degrees misalignment + 0.5 point per meter away
             double score = foldedBearingDiff(bearing, segBearing) + minDist * 0.5;
 
             if(score < bestScore)
             {
                 bestScore = score;
-                best      = w.limitKph;
+                best      = limit;
             }
         }
 
         return best;
+    }
+
+    /**
+     * Direction-aware limit of a way: forward when traveling along the
+     * digitized direction, backward when against it, plain maxspeed as
+     * the fallback either way.
+     */
+    public static Integer effectiveLimitKph(Way w, double travelBearing, double segBearing)
+    {
+        double d = Math.abs(travelBearing - segBearing) % 360.0;
+        if(d > 180.0)
+            d = 360.0 - d;
+
+        Integer directional = (d <= 90.0 ? w.forwardKph : w.backwardKph);
+        return directional != null ? directional : w.limitKph;
     }
 
     /**

@@ -1,11 +1,16 @@
 package com.franckyl.yav1.psl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -225,5 +230,139 @@ public class OverpassSpeedLimitProviderTest
 		assertTrue(q.contains("[\"highway\"]"));
 		assertTrue(q.contains("[\"maxspeed\"]"));
 		assertTrue(q.contains("out tags geom"));
+
+		// union covers directional-only tagging (live find: US 290 Express
+		// Lane has maxspeed:forward/backward but no plain maxspeed)
+		assertTrue(q.contains("[\"maxspeed:forward\"]"));
+		assertTrue(q.contains("[\"maxspeed:backward\"]"));
+	}
+
+	// -- live-recorded Overpass fixtures (captured 2026-07-14) ---------------
+
+	private String fixture(String name) throws IOException
+	{
+		InputStream in = getClass().getResourceAsStream(name);
+		assertTrue("fixture " + name + " missing", in != null);
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+		StringBuilder sb = new StringBuilder();
+		String line;
+		while((line = br.readLine()) != null)
+			sb.append(line).append('\n');
+		br.close();
+		return sb.toString();
+	}
+
+	@Test
+	public void directionalOnlyTagsAreParsed() throws IOException
+	{
+		// recorded live at 29.79659,-95.45174 (US 290 Express Lane, Houston):
+		// reversible lane tagged maxspeed:forward=55 mph / backward=60 mph,
+		// no plain maxspeed
+		List<OverpassSpeedLimitProvider.Way> ways =
+			OverpassSpeedLimitProvider.parseWays(fixture("/psl/overpass_us290_directional.json"));
+
+		assertEquals(2, ways.size());
+
+		OverpassSpeedLimitProvider.Way express = null;
+		OverpassSpeedLimitProvider.Way plain   = null;
+		for(OverpassSpeedLimitProvider.Way w : ways)
+		{
+			if(w.forwardKph != null)
+				express = w;
+			else
+				plain = w;
+		}
+
+		assertTrue(express != null && plain != null);
+
+		assertNull(express.limitKph);
+		assertEquals(Integer.valueOf(89), express.forwardKph);   // 55 mph
+		assertEquals(Integer.valueOf(97), express.backwardKph);  // 60 mph
+		assertFalse(express.unusable());
+
+		assertEquals(Integer.valueOf(97), plain.limitKph);       // 60 mph
+		assertNull(plain.forwardKph);
+	}
+
+	@Test
+	public void reversibleExpressLaneLimitFollowsDirectionOfTravel() throws IOException
+	{
+		List<OverpassSpeedLimitProvider.Way> ways =
+			OverpassSpeedLimitProvider.parseWays(fixture("/psl/overpass_us290_directional.json"));
+
+		// on the express lane (digitized bearing ~14 deg): traveling with
+		// the digitized direction gets forward (55 mph), against it backward
+		assertEquals(Integer.valueOf(89),
+			OverpassSpeedLimitProvider.selectLimitKph(ways, 29.79659, -95.45174, 14f));
+		assertEquals(Integer.valueOf(97),
+			OverpassSpeedLimitProvider.selectLimitKph(ways, 29.79659, -95.45174, 194f));
+	}
+
+	@Test
+	public void liveInterstateFixtureGives65Mph() throws IOException
+	{
+		// recorded live at 30.11018,-95.43652 (I-45 north of Houston):
+		// five motorway ways, all maxspeed=65 mph
+		List<OverpassSpeedLimitProvider.Way> ways =
+			OverpassSpeedLimitProvider.parseWays(fixture("/psl/overpass_i45_live.json"));
+
+		assertEquals(5, ways.size());
+		assertEquals(Integer.valueOf(105),
+			OverpassSpeedLimitProvider.selectLimitKph(ways, 30.11018, -95.43652, 200f));
+	}
+
+	@Test
+	public void emptyLiveResponseGivesNoLimit() throws IOException
+	{
+		// recorded live at 30.05,-95.45 (residential subdivision, no
+		// maxspeed tags anywhere within the radius): a valid 200 response
+		// with an empty elements array
+		List<OverpassSpeedLimitProvider.Way> ways =
+			OverpassSpeedLimitProvider.parseWays(fixture("/psl/overpass_empty_residential.json"));
+
+		assertTrue(ways.isEmpty());
+		assertNull(OverpassSpeedLimitProvider.selectLimitKph(ways, 30.05, -95.45, 0f));
+	}
+
+	// -- direction-aware effective limit --------------------------------------
+
+	@Test
+	public void effectiveLimitPrefersDirectionalOverPlain()
+	{
+		OverpassSpeedLimitProvider.Way w = new OverpassSpeedLimitProvider.Way(
+			80, 89, 97, new double[] {0, 1}, new double[] {0, 0});
+
+		// segment digitized northbound (0 deg)
+		assertEquals(Integer.valueOf(89),
+			OverpassSpeedLimitProvider.effectiveLimitKph(w, 10, 0));   // along
+		assertEquals(Integer.valueOf(97),
+			OverpassSpeedLimitProvider.effectiveLimitKph(w, 170, 0));  // against
+	}
+
+	@Test
+	public void effectiveLimitFallsBackToPlainWhenDirectionalMissing()
+	{
+		OverpassSpeedLimitProvider.Way w = new OverpassSpeedLimitProvider.Way(
+			80, null, 97, new double[] {0, 1}, new double[] {0, 0});
+
+		assertEquals(Integer.valueOf(80),
+			OverpassSpeedLimitProvider.effectiveLimitKph(w, 0, 0));    // no forward -> plain
+		assertEquals(Integer.valueOf(97),
+			OverpassSpeedLimitProvider.effectiveLimitKph(w, 180, 0));
+	}
+
+	@Test
+	public void directionalOnlyWayIsSkippedWhenTraveledTheUntaggedWay()
+	{
+		List<OverpassSpeedLimitProvider.Way> ways = new ArrayList<OverpassSpeedLimitProvider.Way>();
+
+		// forward-only tagging, digitized eastbound
+		ways.add(new OverpassSpeedLimitProvider.Way(null, 89, null,
+			new double[] {28.0, 28.0}, new double[] {-81.001, -80.999}));
+
+		assertEquals(Integer.valueOf(89),
+			OverpassSpeedLimitProvider.selectLimitKph(ways, 28.0, -81.0, 90f));
+		assertNull(OverpassSpeedLimitProvider.selectLimitKph(ways, 28.0, -81.0, 270f));
 	}
 }
