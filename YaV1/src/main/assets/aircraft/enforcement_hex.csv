@@ -1,0 +1,282 @@
+# YaV1 aerial-enforcement watchlist (starter set)
+#
+# Format: icao_hex,registration,agency,model
+# Lines starting with '#' are comments. Matching is case-insensitive on the
+# ICAO hex (Mode S) address first, then on the registration / callsign.
+#
+# Sources:
+#  - FAA Releasable Aircraft Registry database (registry.faa.gov/database/ReleasableAircraft.zip),
+#    snapshot downloaded 2026-07-14. Entries are all aircraft whose registrant NAME matches
+#    HIGHWAY PATROL / STATE PATROL / STATE POLICE / DEPT[ARTMENT] OF PUBLIC SAFETY.
+#    The MODE S CODE HEX column is the FAA-assigned ICAO 24-bit address.
+#  - Cross-checked against the community list github.com/sdr-enthusiasts/plane-alert-db
+#    (plane-alert-pol.csv), which tags e.g. Texas DPS PC-12 "Spectre" and Ohio/Alaska
+#    aircraft as "Speed Enforced by Aircraft".
+#
+# Caveats: this list is state-level law-enforcement aviation in general. Fixed-wing
+# Cessna 172/182/206, GA8 and PC-12 airframes are the usual traffic-enforcement
+# platforms; helicopters are mostly patrol/medevac and rarely run speed traps.
+# Registrations change owners over time - refresh from the FAA registry periodically.
+# Users can extend this list in <app storage>/aircraft/enforcement_user.csv
+A2467E,N246CC,Alaska Department Of Public Safety,Cessna U206G
+A71FC4,N5582C,Alaska Department Of Public Safety,Piper PA-18-150
+AD05C6,N9380N,Alaska Department Of Public Safety,Cessna A185F
+AD2266,N9452N,Alaska Department Of Public Safety,Cessna A185F
+AB3861,N822AZ,Arizona Department Of Public Safety,Bell Textron Canada Ltd 429
+ACC1F9,N921AZ,Arizona Department Of Public Safety,Beech B200
+A695B1,N523SP,Arkansas State Police,Cessna T206H
+A69968,N524SP,Arkansas State Police,Bell Helicopter Textron Canada 407
+A095EF,N137HP,California Highway Patrol,Gippsaero Pty Ltd GA8 TC-320
+A09D5D,N139HP,California Highway Patrol,Gippsaero Pty Ltd GA8 TC-320
+A0A36D,N140HP,California Highway Patrol,Gippsaero Pty Ltd GA8 TC-320
+A0D611,N153HP,California Highway Patrol,Gippsaero Pty Ltd GA8 TC-320
+A0E136,N156HP,California Highway Patrol,Gippsaero Pty Ltd GA8 TC-320
+A0EC5B,N159HP,California Highway Patrol,Gippsaero Pty Ltd GA8 TC-320
+A19A2E,N202HP,California Highway Patrol,Textron Aviation Inc 208B
+A28ADF,N263HP,California Highway Patrol,Textron Aviation Inc 208
+A54F11,N441HP,California Highway Patrol,Cessna T206H
+A5567F,N443HP,California Highway Patrol,Cessna T206H
+A665E3,N511HP,California Highway Patrol,Cessna T206H
+A66D51,N513HP,California Highway Patrol,Cessna T206H
+A703DF,N551HP,California Highway Patrol,Cessna T206H
+A70B4D,N553HP,California Highway Patrol,Cessna T206H
+A8B8AD,N661HP,California Highway Patrol,Cessna T206H
+AC9A95,N911CA,California Highway Patrol,Raytheon Aircraft Company B300
+ACB496,N918CA,California Highway Patrol,Beech A200
+AD933E,N974HP,California Highway Patrol,Airbus Helicopters Inc AS350B3
+AD96F5,N975HP,California Highway Patrol,Airbus Helicopters Inc AS350B3
+AD9AAC,N976HP,California Highway Patrol,Airbus Helicopters Inc AS350B3
+ADA21A,N978HP,California Highway Patrol,Airbus Helicopters Inc AS350B3
+ADAF98,N981HP,California Highway Patrol,Airbus Helicopters Inc AS350B3
+ADB34F,N982HP,California Highway Patrol,Airbus Helicopters Inc AS350B3
+ADB706,N983HP,California Highway Patrol,Airbus Helicopters Inc AS350B3
+ADBABD,N984HP,California Highway Patrol,Airbus Helicopters AS 350B3
+ADBE74,N985HP,California Highway Patrol,Airbus Helicopters AS 350B3
+ADC22B,N986HP,California Highway Patrol,Airbus Helicopters Inc AS350B3
+ADC999,N988HP,California Highway Patrol,Airbus Helicopters Inc AS350B3
+ADA5D1,N979HP,California Highway Patrol Office Of Air Operations,Airbus Helicopters Inc AS350B3
+A19758,N201SP,Colorado State Patrol,Pilatus Aircraft Ltd PC-12/47E
+A19B0F,N202SP,Colorado State Patrol,Cessna T182T
+A19EC6,N203SP,Colorado State Patrol,Cessna T182T
+A4AC24,N40VA,Commonwealth Of Virgina Dept Of State Police,Bell Textron Canada Ltd 412EP
+A4B1F6,N401SP,Connecticut State Police,Bell OH-58A
+A4B5AD,N402SP,Connecticut State Police,Bell OH-58A
+A2A20A,N269SP,Department Of Public Safety,Bell UH-1V
+A3F542,N354SJ,Department Of Public Safety,Bell OH-58A
+A660B4,N51SP,Department Of Public Safety,Cessna 182Q
+A75920,N57266,Department Of Public Safety,Aero Commander 500 S
+A816FA,N620HP,Department Of Public Safety,Cessna T206H
+A8DD56,N670SP,Department Of Public Safety,Bell UH-1H
+A582A3,N454TB,Department Of Public Safety Of The State Of Texas,Hawker Beechcraft Corp B300
+A026E0,N109HP,Florida Highway Patrol,Textron Aviation Inc 208B
+A255E2,N25HP,Florida Highway Patrol,Cessna 182T
+A299BB,N267HP,Florida Highway Patrol,Cessna 172S
+A29D72,N268HP,Florida Highway Patrol,Cessna T206H
+A64989,N504HP,Florida Highway Patrol,Pilatus PC-12/45
+A6B4E1,N531HP,Florida Highway Patrol,Cessna T206H
+A7F332,N611HP,Florida Highway Patrol,Cessna 182T
+A96B95,N706HP,Florida Highway Patrol,Cessna R182
+AA74E9,N773HP,Florida Highway Patrol,Cessna T206H
+A208D5,N230DK,Georgia Department Of Public Safety,Bell Helicopter Textron Canada 407
+AC835D,N905SP,Georgia Department Of Public Safety,Bell OH-58A
+AC8714,N906SP,Georgia Department Of Public Safety,Bell OH-58A
+AC8E82,N908SP,Georgia Department Of Public Safety,Bell OH-58A
+ACC736,N922SP,Georgia Department Of Public Safety,Bell Helicopter Textron Canada 407
+ACD25B,N925SP,Georgia Department Of Public Safety,Bell Helicopter Textron Canada 407
+ACD9C9,N927SP,Georgia Department Of Public Safety,Bell OH-58C
+ACE747,N930SP,Georgia Department Of Public Safety,Bell 407
+ADD775,N991MH,Georgia Department Of Public Safety,Bell Helicopter Textron Canada 407
+A4DB92,N412AD,Georgia Dept Of Public Safety,Bell Helicopter Textron Canada 412EP
+A5B045,N466DW,Georgia Dept Of Public Safety,Bell Helicopter Textron Canada 407
+ACCEA4,N924SP,Georgia Dept Of Public Safety,Bell Helicopter Textron Canada 429
+A8F852,N67715,Georgia State Patrol Aviation Div,Bell 206B
+A8EA23,N67363,Georgia State Patrol Aviation Division,Bell 206B
+A05916,N121TD,Idaho State Police,Beech C-12
+A704C0,N551SP,Illinois State Police,Textron Aviation Inc T206H
+A72C3F,N561SP,Illinois State Police,Cessna 182S
+A84311,N631SP,Illinois State Police,Dji INSPIRE 1
+A8B98E,N661SP,Illinois State Police,Textron Aviation Inc T206H
+AA6E5C,N771SP,Illinois State Police,Textron Aviation Inc T206H
+AC232A,N881SP,Illinois State Police,Cessna 182S
+AD88FA,N971SP,Illinois State Police,Cessna 182S
+ADD7F8,N991SP,Illinois State Police,Cessna 182S
+A174EE,N193SP,Indiana State Police,Cessna 172P
+A6D731,N54SP,Indiana State Police,Bell 206L-3
+A1FCA0,N227SP,Iowa State Patrol,Cirrus Design Corp SR22
+A20DD5,N231SP,Iowa State Patrol,Cessna 182T
+ADE930,N996CS,Iowa State Patrol,Cessna T206H
+A7005D,N550KS,Kansas Highway Patrol,Textron Aviation Inc 525B
+A7C7FC,N600HP,Kansas Highway Patrol,Textron Aviation Inc 208B
+A88D77,N650HP,Kansas Highway Patrol,Airbus Helicopters Inc AS350B3
+A8DC75,N670HP,Kansas Highway Patrol,Airbus Helicopters Inc AS350B3
+AC6FE9,N900HP,Kansas Highway Patrol,Cessna 206H
+AD0DE5,N940HP,Kansas Highway Patrol,Cessna 206H
+AD3564,N950HP,Kansas Highway Patrol,Cessna 206H
+A1E29F,N220SP,Kentucky State Police,Bell OH-58A
+A2D707,N282SP,Kentucky State Police,Bell OH-58A
+A2DABE,N283SP,Kentucky State Police,Bell OH-58A
+A2DE75,N284SP,Kentucky State Police,Bell 407
+A2E22C,N285SP,Kentucky State Police,Bell Textron Canada Ltd 429
+A40B91,N36SP,Kentucky State Police,Gates Learjet Corp. 35A
+A500F4,N421SP,Kentucky State Police,Md Helicopters Inc 369FF
+A57161,N45SP,Kentucky State Police,Bell UH-1H
+A598E0,N46SP,Kentucky State Police,Hughes OH-6A
+A6AEFC,N53KG,Kentucky State Police,Textron Aviation Inc B300
+A846DD,N632TK,Kentucky State Police,Cessna 182T
+A97AA3,N71KP,King County Department Of Public Safety,Bell UH-1H
+A3FCB5,N356SP,Louisiana Department Of Public Safety,Bell UH-1
+A4006C,N357SP,Louisiana Department Of Public Safety,Bell 206-L4
+AD989B,N9750L,Louisiana Department Of Public Safety,Cessna 172P
+A3F547,N354SP,Louisiana State Police,Bell Textron Canada Ltd 407
+A3F8FE,N355SP,Louisiana State Police,Bell Textron Canada Ltd 407
+A65946,N508SP,Louisiana State Police,Bell Helicopter Textron Canada 407
+A7591F,N57265,Louisiana State Police,Pilatus Aircraft Ltd PC-12/47E
+AD7057,N965SP,Louisiana State Police,Bell Textron Canada Ltd 429
+A6BF32,N5339N,Maine State Police,Cessna 182Q
+AC9CE4,N9111G,Maryland State Police,Piper PA-32-301
+A46018,N381MD,Maryland State Police Aviation Command,Agustawestland Philadelphia AW139
+A463CF,N382MD,Maryland State Police Aviation Command,Agustawestland Philadelphia AW139
+A46786,N383MD,Maryland State Police Aviation Command,Agustawestland Philadelphia AW139
+A46B3D,N384MD,Maryland State Police Aviation Command,Agustawestland Philadelphia AW139
+A46EF4,N385MD,Maryland State Police Aviation Command,Agustawestland Philadelphia AW139
+A472AB,N386MD,Maryland State Police Aviation Command,Agustawestland Philadelphia AW139
+A47662,N387MD,Maryland State Police Aviation Command,Agustawestland Philadelphia AW139
+A47A19,N388MD,Maryland State Police Aviation Command,Agustawestland Philadelphia AW139
+A47DD0,N389MD,Maryland State Police Aviation Command,Agustawestland Philadelphia AW139
+A483E0,N390MD,Maryland State Police Aviation Command,Agusta Spa AW139
+AB399C,N822PP,Massachusetts State Police,Airbus Helicopters Deutschland EC135T3
+AB3CD4,N823JM,Massachusetts State Police,Airbus Helicopters Deutschland EC135T2+
+AB3FBF,N824AH,Massachusetts State Police,Eurocopter Deutschland Gmbh EC 135 T2+
+AB448D,N825MM,Massachusetts State Police,Eurocopter Deutschland Gmbh EC 135 T2+
+AC4AB8,N891TD,Massachusetts State Police,Textron Aviation Inc 208B
+AA60E2,N768ST,Mi State Police Field Supp Aviation,Bell UH-1H
+AB4C7E,N827ST,Mi State Police Field Supp Aviation,Bell UH-1H
+A539B4,N436DA,Michigan Department Of State Police,Aeryon Labs Inc SKY RANGER
+A6C703,N536DA,Michigan Department Of State Police,Aeryon Labs Inc SKY RANGER
+A129AB,N174ST,Michigan State Police,Cessna T206H
+A85452,N636DA,Michigan State Police,Aeryon Labs Inc SKY RANGER
+A0353F,N112SP,Minnesota Department Of Public Safety,Textron Aviation Inc 182T
+A03B59,N114CZ,Minnesota Department Of Public Safety,Cessna 182R
+A04064,N115SP,Minnesota State Patrol,Cirrus Design Corp SR22
+A04B89,N118SP,Minnesota State Patrol,Bell 407
+A0642C,N124SP,Minnesota State Patrol,Cirrus Design Corp SR22
+A997AC,N717SP,Minnesota State Patrol,Bell Textron Canada Ltd 429
+A3E5F1,N350MS,Mississippi Department Of Public Safety,American Eurocopter Corp AS350B3
+A3E9A8,N351MS,Mississippi Department Of Public Safety,Eurocopter Deutschland Gmbh EC 135 T2+
+AAB6CD,N79MP,Missouri State Highway Patrol,Cessna 182T
+AB5722,N83MP,Missouri State Highway Patrol,Hawker Beechcraft Corp B200GT
+ABCD9F,N86MP,Missouri State Highway Patrol,Kodiak Aircraft Co Inc KODIAK 200
+ACE471,N93MP,Missouri State Highway Patrol,Bell 407
+AD0BF0,N94MP,Missouri State Highway Patrol,Cessna 182S
+AD336F,N95MP,Missouri State Highway Patrol Aircraft Division,Bell Textron Canada Ltd 407
+A0CEA3,N151HP,Montana Highway Patrol,Bell OH-58A
+A4C7D1,N407NC,Nc Highway Patrol,Bell Helicopter Textron Canada 407
+A12B3E,N1746L,Nebraska State Patrol,Cessna T206H
+A22904,N2383L,Nebraska State Patrol,Cessna T206H
+A44021,N373NE,Nebraska State Patrol,Bell Textron Canada Ltd 505
+A7622D,N575NE,Nebraska State Patrol,Bell 407
+A42434,N366SP,New Hampshire State Police,Bell 407
+A18E86,N2NJ,New Jersey State Police,Bell 206L-3
+A7C3C2,N6NJ,New Jersey State Police,Bell 206-L4
+A7E2DE,N607SP,New Mexico State Police Aircraft Section,Airbus Helicopters Deutschland MBB-BK 117 D-2
+A076BF,N129SP,New York State Police,Bell UH-1H
+A052F7,N12SP,New York State Police,Bell 430
+A07A76,N13SP,New York State Police,Cessna 172H
+A129A7,N174SP,New York State Police,Bell UH-1H
+A11872,N17SP,New York State Police,Bell 407
+A16770,N19SP,New York State Police,Bell UH-1H
+A19346,N200NY,New York State Police,Beech C-12C
+A19148,N20SP,New York State Police,Bell 430
+A52461,N430NY,New York State Police,Bell 430
+A7D9D1,N605,New York State Police,Partenavia S.P.A. P 68 OBSERVER
+A7EE03,N61SP,New York State Police,Bell UH-1H
+A8920F,N651SP,New York State Police,Cessna U206G
+AA1597,N749SP,New York State Police,Cessna U206G
+AA4682,N761NY,New York State Police,Sikorsky Aircraft Corp S-76D
+A1F17B,N224SP,New York State Police Aviation Unit,Bell UH-1H
+A06006,N123NC,North Carolina State Highway Patrol,Bell 206A
+A4B187,N401NC,North Carolina State Highway Patrol,Bell Textron Canada Ltd 429
+A4BCAC,N404NC,North Carolina State Highway Patrol,Bell 407
+A4C063,N405NC,North Carolina State Highway Patrol,Bell Helicopter Textron Canada 407
+A4C41A,N406NC,North Carolina State Highway Patrol,Bell Textron Canada Ltd 407
+A31887,N299SP,North Dakota Highway Patrol,Cessna T206H
+A34B45,N311HP,Ohio Department Of Public Safety,Cessna 182S
+A88B1E,N65HP,Ohio Department Of Public Safety,Gippsaero Pty Ltd GA8 TC-320
+A98F5D,N715HP,Ohio Department Of Public Safety,Cessna 182S
+A996CB,N717HP,Ohio Department Of Public Safety,Textron Aviation Inc 208B
+A97A71,N71HP,Ohio Department Of Public Safety,Airbus Helicopters Inc AS350B3
+A9A1F0,N72HP,Ohio Department Of Public Safety,Airbus Helicopters Inc AS350B3
+A9C96F,N73HP,Ohio State Highway Patrol,Eurocopter AS 350 B2
+A192C0,N200HP,Oklahoma Department Of Public Safety,Cessna U206G
+A43488,N370HP,Oklahoma Department Of Public Safety,American Eurocopter Corp AS350B3
+AC6D90,N90HP,Oklahoma Department Of Public Safety,Cessna 182T
+A127E1,N17386,Oregon State Police,Cessna T206H
+A1EF84,N2237S,Oregon State Police,Cessna T182T
+ABF7F8,N870ST,Pennsylvania State Police,Textron Aviation Inc B300
+ABFBAF,N871ST,Pennsylvania State Police,Bell Helicopter Textron Canada 407
+ABFF66,N872ST,Pennsylvania State Police,Bell Helicopter Textron Canada 407
+AC031D,N873ST,Pennsylvania State Police,Bell Helicopter Textron Canada 407
+AC06D4,N874ST,Pennsylvania State Police,Bell Helicopter Textron Canada 407
+AC0A8B,N875ST,Pennsylvania State Police,Bell Helicopter Textron Canada 407
+AC0E42,N876ST,Pennsylvania State Police,Bell Helicopter Textron Canada 407
+AC15B0,N878ST,Pennsylvania State Police,Textron Aviation Inc 208B
+AC1967,N879ST,Pennsylvania State Police,Pilatus Aircraft Ltd PC-12/47E
+A1C0AA,N2118A,South Dakota Highway Patrol,Cessna T206H
+A028C4,N1092C,State Of Alaska Department Of Public Safety,Robinson Helicopter Company R44 II
+A2B331,N273S,State Of Alaska Department Of Public Safety,Robinson Helicopter Company R44 II
+A2B98C,N275F,State Of Alaska Department Of Public Safety,Cessna U206G
+A96AB4,N7059,State Of Alaska Department Of Public Safety,Piper PA-18-150
+A9D5B4,N7326S,State Of Alaska Department Of Public Safety,Cessna 182P
+AC7D0A,N90322,State Of Alaska Department Of Public Safety,Cessna 206H
+AC8ACF,N907ST,State Of Alaska Department Of Public Safety,Piper PA-18-150
+A724A9,N56AZ,State Of Arizona Department Of Public Safety,Bell 407
+AA9BC3,N783AZ,State Of Arizona Department Of Public Safety,Bell Textron Canada Ltd 429
+A45E0E,N3803C,State Of Colorado Department Of Public Safety,Bell 205A-1
+A45E31,N3804C,State Of Colorado Department Of Public Safety,Bell 205A-1
+A11E82,N171SP,State Of Iowa - Iowa State Patrol,Cessna 182T
+A46811,N383ST,State Of Michigan Department Of State Police,Bell Helicopter Textron Canada 407
+A67108,N514HP,State Of Ohio / Department Of Public Safety,Cessna 182T
+A11791,N17HP,State Of Ohio Dept Of Public Safety,Cessna 182T
+A1668F,N19HP,State Of Ohio Dept Of Public Safety,Cessna 182T
+A9A449,N720HP,Tennessee Highway Patrol Department Of Safety,Bell Helicopter Textron Canada 407
+A9CBC8,N730HP,Tennessee Highway Patrol Department Of Safety,Bell Helicopter Textron Canada 407
+A0644D,N124TX,Texas Department Of Public Safety,Eurocopter AS 350 B2
+A0B702,N145TX,Texas Department Of Public Safety,Eurocopter Deutschland Gmbh MBB-BK 117 C-2
+A123F3,N1727L,Texas Department Of Public Safety,Cessna T206H
+A1DCB0,N219TX,Texas Department Of Public Safety,Pilatus Aircraft Ltd PC-12/47E
+A1FCC1,N227TX,Texas Department Of Public Safety,Airbus Helicopters Inc AS350B3
+A2256B,N2374F,Texas Department Of Public Safety,Airbus Helicopters Inc AS350B3
+A23CE3,N243TX,Texas Department Of Public Safety,Pilatus Aircraft Ltd PC-12/47E
+A3917E,N329TX,Texas Department Of Public Safety,Eurocopter AS 350 B3
+A411C2,N361TX,Texas Department Of Public Safety,Airbus Helicopters Inc AS350B3
+A4C0F3,N405TX,Texas Department Of Public Safety,American Eurocopter Llc AS350B2
+A524DD,N430TX,Texas Department Of Public Safety,Textron Aviation Inc 208
+A6A56C,N5271B,Texas Department Of Public Safety,Cessna T206H
+A7C6A5,N60TX,Texas Department Of Public Safety,Eurocopter AS 350 B2
+A8EC53,N674TX,Texas Department Of Public Safety,Airbus Helicopters Inc AS350B3
+A95DBB,N702TX,Texas Department Of Public Safety,Eurocopter AS 350 B2
+AB2C8A,N819TX,Texas Department Of Public Safety,American Eurocopter Corp AS350B3
+AB4176,N824TX,Texas Department Of Public Safety,Airbus Helicopters Inc AS350B3
+AB4C9B,N827TX,Texas Department Of Public Safety,Airbus Helicopters AS 350B3
+AB9074,N844TX,Texas Department Of Public Safety,Airbus Helicopters Inc AS350B3
+AC6E92,N90TX,Texas Department Of Public Safety,American Eurocopter Llc AS350B2
+ACE158,N929TX,Texas Department Of Public Safety,Airbus Helicopters Inc AS350B3
+AD4CB0,N956TX,Texas Department Of Public Safety,Cessna 208
+AD7B9D,N968TX,Texas Department Of Public Safety,Textron Aviation Inc 208
+A16DA1,N191TX,Texas Dept Of Public Safety,American Eurocopter Corp AS350B3
+A1CDD4,N215TX,Texas Dept Of Public Safety,Cessna 208
+A71774,N556TX,Texas Dept Of Public Safety,Airbus Helicopters Inc AS350B3
+AC7499,N901TN,Tn Dept Of Public Safety,Bell OH-58A
+A27E80,N26VA,Virginia State Police,Bell 407
+A2CD7E,N28VA,Virginia State Police,Bell Helicopter Textron Canada 412EP
+A97B90,N71VA,Virginia State Police,Bell Textron Canada Ltd 407
+A00D2A,N102LP,Washington State Patrol,Cessna 182T
+A2421B,N2446X,Washington State Patrol,Cessna 206H
+A3323A,N305DK,Washington State Patrol,Cessna 206H
+A3335F,N305RC,Washington State Patrol,Cessna 182T
+A87C5E,N646JS,Washington State Patrol,Textron Aviation Inc T206H
+AB3C6B,N823EG,Washington State Patrol,Textron Aviation Inc T206H
+AC46F2,N890SP,West Virginia State Police,Bell 206B
+AC5985,N895SP,West Virginia State Police,Bell 206B
+A6C800,N536PD,Westchester County Department Of Public Safety,Bell Textron Canada Ltd 407
+A7A61E,N592PD,Westchester County Dept Of Public Safety Trnspn,Bell Helicopter Textron Canada 407

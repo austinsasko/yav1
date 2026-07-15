@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- [P2-POI] Camera / POI database alert preferences -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <com.franckyl.yav1.CustomSwitch
+        android:defaultValue="false"
+        android:key="poi_enable"
+        android:title="@string/pref_poi_enable"
+        android:summary="@string/pref_poi_enable_summary"/>
+
+    <com.franckyl.yav1.poi.PoiFilesPreference
+        android:key="poi_files"
+        android:dependency="poi_enable"
+        android:title="@string/poi_files_title"
+        android:summary="@string/poi_files_summary_loading"
+        android:persistent="false"/>
+
+    <ListPreference
+        android:defaultValue="500"
+        android:key="poi_radius"
+        android:dependency="poi_enable"
+        android:entries="@array/poi_radius_entries"
+        android:entryValues="@array/poi_radius_values"
+        android:summary="%s"
+        android:title="@string/pref_poi_radius"/>
+
+    <ListPreference
+        android:defaultValue="0"
+        android:key="poi_alert_style"
+        android:dependency="poi_enable"
+        android:entries="@array/poi_style_entries"
+        android:entryValues="@array/poi_style_values"
+        android:summary="%s"
+        android:title="@string/pref_poi_style"/>
+
+</PreferenceScreen>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- [P2-POI] strings for the camera / POI database alert feature -->
+<resources>
+
+    <string name="pref_h_poi">Camera / POI alerts</string>
+    <string name="pref_h_poi_summary">Import camera databases and get proximity alerts</string>
+
+    <string name="pref_poi_enable">Enable POI alerts</string>
+    <string name="pref_poi_enable_summary">Alert when approaching a camera / POI from an imported database</string>
+
+    <string name="pref_poi_radius">Alert radius</string>
+    <string name="pref_poi_style">Alert style</string>
+
+    <string name="poi_files_title">POI databases</string>
+    <string name="poi_files_summary">%1$d file(s), %2$d POIs enabled</string>
+    <string name="poi_files_summary_loading">Tap to manage imported CSV files</string>
+    <string name="poi_files_none">No POI database imported yet. Use Import to load a CSV file (lat,lon,type[,speed][,name] — IGO/SCDB column orders are detected automatically).</string>
+    <string name="poi_file_detail">%1$d POIs, %2$d rows skipped\nImported from: %3$s</string>
+
+    <string name="poi_import">Import CSV…</string>
+    <string name="poi_import_hint">Pick a .csv POI database file</string>
+    <string name="poi_import_done">Imported %1$s: %2$d POIs (%3$d rows skipped)</string>
+    <string name="poi_import_failed">Import failed: %1$s</string>
+
+    <string name="poi_enable_file">Enable</string>
+    <string name="poi_disable">Disable</string>
+    <string name="poi_remove">Remove</string>
+
+    <string-array name="poi_radius_entries">
+        <item>250 m</item>
+        <item>500 m</item>
+        <item>750 m</item>
+        <item>1000 m</item>
+        <item>1500 m</item>
+    </string-array>
+    <string-array name="poi_radius_values">
+        <item>250</item>
+        <item>500</item>
+        <item>750</item>
+        <item>1000</item>
+        <item>1500</item>
+    </string-array>
+
+    <string-array name="poi_style_entries">
+        <item>Voice + tone</item>
+        <item>Voice only</item>
+        <item>Tone only</item>
+    </string-array>
+    <string-array name="poi_style_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+</resources>
