@@ -204,6 +204,10 @@ public class YaV1 extends Application
 
         // start our memory boss if possible
         nbStart++;
+
+        // [P2-POI][P2-ADSB] data services subscribe to GpsEvent on the bus
+        com.franckyl.yav1.poi.PoiAlertManager.init(sContext);
+        com.franckyl.yav1.aircraft.AircraftMonitor.init(sContext);
     }
 
     // return the event Bus

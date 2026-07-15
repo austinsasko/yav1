@@ -1,0 +1,55 @@
+{
+  "ac": [
+    {
+      "hex": "a255e2",
+      "flight": "FHP25   ",
+      "r": "N25HP",
+      "t": "C182",
+      "alt_baro": 1800,
+      "gs": 95.3,
+      "track": 140.0,
+      "lat": 28.5500,
+      "lon": -81.3600,
+      "category": "A1"
+    },
+    {
+      "hex": "abc123",
+      "flight": "N842XY  ",
+      "r": "N842XY",
+      "t": "C172",
+      "alt_baro": 1200,
+      "gs": 88.0,
+      "track": 45.0,
+      "lat": 28.5300,
+      "lon": -81.4000,
+      "category": "A1"
+    },
+    {
+      "hex": "a00001",
+      "flight": "DAL2049 ",
+      "r": "N100DL",
+      "t": "B738",
+      "alt_baro": 35000,
+      "gs": 445.0,
+      "track": 270.0,
+      "lat": 28.6000,
+      "lon": -81.3000,
+      "category": "A3"
+    },
+    {
+      "hex": "a00002",
+      "flight": "",
+      "r": "N200GR",
+      "t": "C208",
+      "alt_baro": "ground",
+      "gs": 5.0,
+      "track": 10.0,
+      "lat": 28.5450,
+      "lon": -81.3300,
+      "category": "A2"
+    }
+  ],
+  "total": 4,
+  "now": 1770000000000,
+  "msg": "No error"
+}
