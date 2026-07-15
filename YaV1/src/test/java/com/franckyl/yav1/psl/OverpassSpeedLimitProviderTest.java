@@ -380,6 +380,79 @@ public class OverpassSpeedLimitProviderTest
 	}
 
 	@Test
+	public void alignedSameLimitWaysAreSeededTogether()
+	{
+		OverpassSpeedLimitProvider p = new OverpassSpeedLimitProvider(null);
+
+		// live finding: OSM chops motorways into short ways, so a single
+		// fetch returns the vehicle's segment plus continuations
+		OverpassSpeedLimitProvider.Way segment = new OverpassSpeedLimitProvider.Way(
+			105, new double[] {30.100, 30.105}, new double[] {-95.44, -95.44});
+		OverpassSpeedLimitProvider.Way continuation = new OverpassSpeedLimitProvider.Way(
+			105, new double[] {30.105, 30.115}, new double[] {-95.44, -95.44});
+		// aligned frontage road with a DIFFERENT limit: never seeded
+		OverpassSpeedLimitProvider.Way frontage = new OverpassSpeedLimitProvider.Way(
+			72, new double[] {30.100, 30.115}, new double[] {-95.4425, -95.4425});
+		// perpendicular crossing road with the same limit: not aligned
+		OverpassSpeedLimitProvider.Way crossing = new OverpassSpeedLimitProvider.Way(
+			105, new double[] {30.102, 30.102}, new double[] {-95.45, -95.43});
+
+		List<OverpassSpeedLimitProvider.Way> ways = new ArrayList<OverpassSpeedLimitProvider.Way>();
+		ways.add(segment);
+		ways.add(continuation);
+		ways.add(frontage);
+		ways.add(crossing);
+
+		p.seedMatchingWays(ways, segment, 105, 30.1005, -95.44, 0f, 1000L);
+
+		// the whole 30.100-30.115 corridor on the mainline is now known
+		for(double lat = 30.100; lat <= 30.115; lat += 0.001)
+		{
+			SpeedLimitCache.Entry e = p.getCache().get(SpeedLimitCache.tileKey(lat, -95.44));
+			assertTrue("mainline tile at " + lat + " missing", e != null);
+			assertEquals(Integer.valueOf(105), e.limitKph);
+		}
+
+		// frontage tiles were NOT seeded with the mainline limit
+		assertNull(p.getCache().get(SpeedLimitCache.tileKey(30.110, -95.4425)));
+		// the crossing road's distant tiles were not seeded either
+		assertNull(p.getCache().get(SpeedLimitCache.tileKey(30.102, -95.448)));
+	}
+
+	@Test
+	public void projectionMovesThePointAlongTheBearing()
+	{
+		// 500m due north from the equator: ~0.0045 deg lat
+		double[] p = OverpassSpeedLimitProvider.projectM(0, 0, 0, 500);
+		assertEquals(0.00449, p[0], 0.0001);
+		assertEquals(0.0, p[1], 1e-9);
+
+		// due east
+		p = OverpassSpeedLimitProvider.projectM(0, 0, 90, 500);
+		assertEquals(0.0, p[0], 1e-9);
+		assertEquals(0.00449, p[1], 0.0001);
+
+		// round trip distance check at a real latitude
+		p = OverpassSpeedLimitProvider.projectM(30.11, -95.44, 350, 400);
+		assertEquals(400.0, OverpassSpeedLimitProvider.distanceM(30.11, -95.44, p[0], p[1]), 5.0);
+	}
+
+	@Test
+	public void rateLimitAnswersPauseFetching()
+	{
+		OverpassSpeedLimitProvider p = new OverpassSpeedLimitProvider(null);
+
+		assertTrue(!p.isBackedOff(1000L));
+
+		p.noteHttpStatus(200, 1000L);
+		assertTrue(!p.isBackedOff(1001L));
+
+		p.noteHttpStatus(429, 1000L);
+		assertTrue(p.isBackedOff(1000L + OverpassSpeedLimitProvider.HTTP_BACKOFF_MS - 1));
+		assertTrue(!p.isBackedOff(1000L + OverpassSpeedLimitProvider.HTTP_BACKOFF_MS + 1));
+	}
+
+	@Test
 	public void seedingStopsAtTheDistanceCap()
 	{
 		OverpassSpeedLimitProvider p = new OverpassSpeedLimitProvider(null);

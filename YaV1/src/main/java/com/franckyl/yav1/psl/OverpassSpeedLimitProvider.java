@@ -116,6 +116,24 @@ public class OverpassSpeedLimitProvider implements SpeedLimitProvider
         });
     }
 
+    /** seconds of travel to project the fetch point ahead of the vehicle */
+    public static final double PREFETCH_AHEAD_S = 12.0;
+
+    /** cap on the look-ahead (limits GPS-bearing error at range) */
+    public static final double PREFETCH_MAX_M   = 500.0;
+
+    /** don't retry Overpass for this long after a rate-limit answer */
+    public static final long   HTTP_BACKOFF_MS  = 5 * 60 * 1000L;
+
+    private volatile double mSpeedHintMps  = 0;
+    private volatile long   mBackoffUntilMs = 0;
+
+    /** current speed in m/s; drives the prefetch look-ahead */
+    public void setSpeedHintMps(double mps)
+    {
+        mSpeedHintMps = mps > 0 ? mps : 0;
+    }
+
     @Override
     public Integer getSpeedLimitKph(double lat, double lon, float bearing)
     {
@@ -127,12 +145,37 @@ public class OverpassSpeedLimitProvider implements SpeedLimitProvider
         SpeedLimitCache.Entry e = mCache.get(key);
 
         // missing or stale: try to refresh in the background, but still
-        // answer with what we have (stale-while-revalidate)
+        // answer with what we have (stale-while-revalidate).
+        //
+        // The fetch point is projected ahead along the travel bearing
+        // (up to PREFETCH_MAX_M) so at speed the query lands where the
+        // vehicle is about to be; way seeding covers the stretch behind
+        // the projected point, including the current tile.
 
         if(!SpeedLimitCache.isFresh(e, now))
-            maybeScheduleFetch(lat, lon);
+        {
+            double aheadM = Math.min(mSpeedHintMps * PREFETCH_AHEAD_S, PREFETCH_MAX_M);
+
+            if(aheadM > 50)
+            {
+                double[] p = projectM(lat, lon, bearing, aheadM);
+                maybeScheduleFetch(p[0], p[1]);
+            }
+            else
+                maybeScheduleFetch(lat, lon);
+        }
 
         return e != null ? e.limitKph : null;
+    }
+
+    /** destination point distM meters from lat/lon along bearing (degrees) */
+    public static double[] projectM(double lat, double lon, double bearingDeg, double distM)
+    {
+        double dLat = distM * Math.cos(Math.toRadians(bearingDeg)) / 111320.0;
+        double dLon = distM * Math.sin(Math.toRadians(bearingDeg))
+                      / (111320.0 * Math.max(0.01, Math.cos(Math.toRadians(lat))));
+
+        return new double[] { lat + dLat, lon + dLon };
     }
 
     // -- background fetch ------------------------------------------------
@@ -143,6 +186,11 @@ public class OverpassSpeedLimitProvider implements SpeedLimitProvider
             return;
 
         long now = System.currentTimeMillis();
+
+        // observed live: overpass-api.de answers 429 under combined load;
+        // honor it with a hard pause instead of retrying every 20s
+        if(now < mBackoffUntilMs)
+            return;
 
         if(mHasRequested)
         {
@@ -211,9 +259,15 @@ public class OverpassSpeedLimitProvider implements SpeedLimitProvider
         // far more road than the query point: seed every tile the selected
         // way passes through (within SEED_MAX_DIST_M of the fetch point) so
         // the road ahead is already cached when the vehicle gets there.
+        //
+        // OSM chops motorways into short ways (live: seededTiles=3..11 per
+        // fetch), so also seed the OTHER returned ways that are aligned
+        // with the travel bearing and carry the SAME limit - typically the
+        // continuation segments and the opposite carriageway. Ways with a
+        // different limit (frontage roads, ramps) are never seeded.
         if(limit != null)
         {
-            seeded = seedAlongWay(best, limit, lat, lon, now);
+            seeded = seedMatchingWays(ways, best, limit, lat, lon, bearing, now);
 
             if(mCacheFile != null)
                 mCache.save(mCacheFile);
@@ -229,6 +283,43 @@ public class OverpassSpeedLimitProvider implements SpeedLimitProvider
 
     /** sampling step along the way when seeding (must stay below tile size) */
     public static final double SEED_STEP_M      = 60.0;
+
+    /** other returned ways must align within this to be seeded */
+    public static final double SEED_ALIGN_MAX_DEG = 30.0;
+
+    /**
+     * Seed along the selected way plus every other returned way that is
+     * bearing-aligned (within {@link #SEED_ALIGN_MAX_DEG}) and carries
+     * the SAME effective limit - typically the continuation segments and
+     * the opposite carriageway. Frontage roads / ramps with a different
+     * limit are never seeded. Returns the number of tiles written.
+     */
+    int seedMatchingWays(List<Way> ways, Way best, Integer limit,
+                         double lat, double lon, float bearing, long nowMs)
+    {
+        int seeded = 0;
+
+        for(Way w : ways)
+        {
+            if(w == best)
+            {
+                seeded += seedAlongWay(w, limit, lat, lon, nowMs);
+                continue;
+            }
+            if(w.unusable())
+                continue;
+
+            double segB = closestSegmentBearing(w, lat, lon);
+            if(foldedBearingDiff(bearing, segB) > SEED_ALIGN_MAX_DEG)
+                continue;
+
+            Integer wLimit = effectiveLimitKph(w, bearing, segB);
+            if(wLimit != null && wLimit.intValue() == limit.intValue())
+                seeded += seedAlongWay(w, limit, lat, lon, nowMs);
+        }
+
+        return seeded;
+    }
 
     /**
      * Seed the cache with the way's limit for every ~150m tile its
@@ -312,6 +403,19 @@ public class OverpassSpeedLimitProvider implements SpeedLimitProvider
         return mCache;
     }
 
+    /** rate-limit / server-trouble answers pause fetching for a while */
+    void noteHttpStatus(int code, long nowMs)
+    {
+        if(code == 429 || code == 504 || code == 503)
+            mBackoffUntilMs = nowMs + HTTP_BACKOFF_MS;
+    }
+
+    /** visible for tests */
+    boolean isBackedOff(long nowMs)
+    {
+        return nowMs < mBackoffUntilMs;
+    }
+
     // -- Overpass query / HTTP -------------------------------------------
 
     public static String buildQuery(double lat, double lon)
@@ -355,9 +459,11 @@ public class OverpassSpeedLimitProvider implements SpeedLimitProvider
                 os.close();
             }
 
-            if(conn.getResponseCode() != 200)
+            int code = conn.getResponseCode();
+            if(code != 200)
             {
-                Log.d(TAG, "Overpass HTTP " + conn.getResponseCode());
+                Log.d(TAG, "Overpass HTTP " + code);
+                noteHttpStatus(code, System.currentTimeMillis());
                 return null;
             }
 

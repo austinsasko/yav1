@@ -55,10 +55,22 @@ public class PoiOnlineManager
     public static final String META_FILE_NAME = "online_meta.json";
 
     public static final int  FETCH_RADIUS_M          = 8000;
-    public static final long MIN_REQUEST_INTERVAL_MS = 60 * 1000L;
+
+    /**
+     * Sharing overpass-api.de with the PSL provider tripped its per-IP
+     * rate limit during the live pass (HTTP 429, 2026-07-14). Mirror
+     * instances (kumi.systems, private.coffee) were unreachable when
+     * evaluated, so both clients stay on the main instance; this longer
+     * interval (tiles are ~4.4km - crossed every ~2min at highway
+     * speed anyway) plus the 429 backoff keep the combined load polite.
+     */
+    public static final long MIN_REQUEST_INTERVAL_MS = 120 * 1000L;
     public static final double MIN_SPEED_MS          = 3.0;
 
     public static final String OVERPASS_URL = "https://overpass-api.de/api/interpreter";
+
+    /** don't retry after a rate-limit / overload answer for this long */
+    public static final long HTTP_BACKOFF_MS = 5 * 60 * 1000L;
 
     private static final int CONNECT_TIMEOUT_MS = 5000;
     private static final int READ_TIMEOUT_MS    = 15000;
@@ -71,8 +83,9 @@ public class PoiOnlineManager
 
     private final ExecutorService mExecutor;
     private final AtomicBoolean   mInFlight = new AtomicBoolean(false);
-    private volatile long         mLastFetchMs = 0;
-    private volatile boolean      mLoaded      = false;
+    private volatile long         mLastFetchMs   = 0;
+    private volatile long         mBackoffUntilMs = 0;
+    private volatile boolean      mLoaded        = false;
 
     private PoiOnlineManager()
     {
@@ -135,6 +148,8 @@ public class PoiOnlineManager
             if(mLoaded && mCache.isTileFresh(tile, now))
                 return;
             if(now - mLastFetchMs < MIN_REQUEST_INTERVAL_MS)
+                return;
+            if(now < mBackoffUntilMs)
                 return;
             if(!mInFlight.compareAndSet(false, true))
                 return;
@@ -268,9 +283,12 @@ public class PoiOnlineManager
                 os.close();
             }
 
-            if(conn.getResponseCode() != 200)
+            int code = conn.getResponseCode();
+            if(code != 200)
             {
-                Log.d(LOG_TAG, "online fetch HTTP " + conn.getResponseCode());
+                Log.d(LOG_TAG, "online fetch HTTP " + code);
+                if(code == 429 || code == 503 || code == 504)
+                    mBackoffUntilMs = System.currentTimeMillis() + HTTP_BACKOFF_MS;
                 return null;
             }
 
