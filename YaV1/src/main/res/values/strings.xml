@@ -659,4 +659,10 @@
     <string name="picker_scanning">Scanning for BTLE devices…</string>
     <string name="badge_le">LE</string>
     <string name="badge_spp">SPP</string>
+
+    <!-- Settings information architecture groups -->
+    <string name="settings_cat_detector">Detector</string>
+    <string name="settings_cat_quiet">Quiet ride</string>
+    <string name="settings_cat_awareness">Awareness</string>
+    <string name="settings_cat_automation">Automation</string>
 </resources>

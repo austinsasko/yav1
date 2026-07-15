@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <preference-headers
     xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- ===== Detector ===== -->
+    <header android:title="@string/settings_cat_detector" />
+
     <header android:fragment="com.franckyl.yav1.YaV1PrefFragment"
             android:title="@string/pref_h_general"
             android:summary="@string/pref_h_general_summary">
@@ -16,6 +20,10 @@
         android:summary="@string/pref_h_sound_summary">
         <extra android:name="settings" android:value="sound"/>
     </header>
+
+    <!-- ===== Quiet ride ===== -->
+    <header android:title="@string/settings_cat_quiet" />
+
     <header android:fragment="com.franckyl.yav1.YaV1PrefFragment"
             android:title="@string/pref_h_lockout"
             android:summary="@string/pref_h_lockout_summary">
@@ -26,16 +34,10 @@
             android:summary="@string/pref_h_boxes_summary">
         <extra android:name="settings" android:value="box"/>
     </header>
-    <header android:fragment="com.franckyl.yav1.YaV1PrefFragment"
-            android:title="@string/pref_h_logging"
-            android:summary="@string/pref_h_logging_summary">
-        <extra android:name="settings" android:value="record"/>
-    </header>
-    <header android:fragment="com.franckyl.yav1.YaV1PrefFragment"
-        android:title="@string/pref_h_g_map"
-        android:summary="@string/pref_h_g_map_summary">
-        <extra android:name="settings" android:value="gmap"/>
-    </header>
+
+    <!-- ===== Awareness ===== -->
+    <header android:title="@string/settings_cat_awareness" />
+
     <!-- [P2-POI] -->
     <header android:fragment="com.franckyl.yav1.YaV1PrefFragment"
         android:title="@string/pref_h_poi"
@@ -48,6 +50,20 @@
         android:summary="@string/pref_h_aircraft_summary">
         <extra android:name="settings" android:value="aircraft"/>
     </header>
+    <header android:fragment="com.franckyl.yav1.YaV1PrefFragment"
+        android:title="@string/pref_h_g_map"
+        android:summary="@string/pref_h_g_map_summary">
+        <extra android:name="settings" android:value="gmap"/>
+    </header>
+    <header android:fragment="com.franckyl.yav1.YaV1PrefFragment"
+            android:title="@string/pref_h_logging"
+            android:summary="@string/pref_h_logging_summary">
+        <extra android:name="settings" android:value="record"/>
+    </header>
+
+    <!-- ===== Automation ===== -->
+    <header android:title="@string/settings_cat_automation" />
+
     <!-- [P3-GEO] location based automatic V1 profile switching -->
     <header android:fragment="com.franckyl.yav1.YaV1PrefFragment"
         android:title="@string/pref_h_geo"
