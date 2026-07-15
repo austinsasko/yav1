@@ -892,6 +892,31 @@ public class YaV1ScreenActivity extends FragmentActivity
                 }
             }
 
+            // update the full-width mute bar label: green MUTE when available,
+            // band-red MUTED on a user mute, quiet "under speed limit" on auto.
+            TextView muteLabel = (TextView) findViewById(R.id.mute_label);
+            if(muteLabel != null)
+            {
+                if(s)
+                {
+                    if(mService.isMuteByUser())
+                    {
+                        muteLabel.setText(R.string.mute_active);
+                        muteLabel.setTextColor(getResources().getColor(R.color.band_ka));
+                    }
+                    else
+                    {
+                        muteLabel.setText(R.string.mute_auto_psl);
+                        muteLabel.setTextColor(getResources().getColor(R.color.ink2));
+                    }
+                }
+                else
+                {
+                    muteLabel.setText(R.string.mute_available);
+                    muteLabel.setTextColor(getResources().getColor(R.color.status_good));
+                }
+            }
+
         }
     }
 
