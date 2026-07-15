@@ -57,7 +57,7 @@ avdmanager create avd -n yav1 -k "system-images;android-35;google_apis;arm64-v8a
 # boot it, install, launch
 emulator -avd yav1 -no-snapshot &
 adb install -r YaV1/build/outputs/apk/debug/YaV1-debug.apk
-adb shell am start -n com.franckyl.yav1/.YaV1Activity
+adb shell am start -n com.glasslsoftware.yav1/.YaV1Activity
 ```
 
 ### Trying it without hardware

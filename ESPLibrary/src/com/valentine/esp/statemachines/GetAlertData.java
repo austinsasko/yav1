@@ -12,8 +12,8 @@ import com.valentine.esp.data.BandArrowData;
 import com.valentine.esp.packets.response.ResponseAlertData;
 import com.valentine.esp.utilities.Utilities;
 
-import com.franckyl.yav1lib.YaV1Alert;
-import com.franckyl.yav1lib.YaV1AlertList;
+import com.glasslsoftware.yav1lib.YaV1Alert;
+import com.glasslsoftware.yav1lib.YaV1AlertList;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
