@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Paired / scanned device card used by the picker's ArrayAdapter. The device
+     name already carries the LE suffix; SPP devices show none. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/space_s">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/bg_alert_card"
+        android:paddingLeft="@dimen/alert_card_pad"
+        android:paddingRight="@dimen/alert_card_pad">
+
+        <View
+            android:layout_width="4dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="@dimen/space_m"
+            android:background="@color/band_ku" />
+
+        <TextView
+            android:id="@+id/device_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/ink"
+            android:textSize="16sp" />
+    </LinearLayout>
+</FrameLayout>

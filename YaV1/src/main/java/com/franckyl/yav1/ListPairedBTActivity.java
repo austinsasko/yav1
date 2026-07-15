@@ -63,6 +63,8 @@ public class ListPairedBTActivity extends ListActivity
         // we show our view
         setContentView(R.layout.listpairbt_activity);
 
+        m_searchingBar = (TextView) findViewById(R.id.scan_status);
+
         m_scanLeButton = (Button) findViewById(R.id.scan_le_button);
         m_scanLeButton.setOnClickListener(new View.OnClickListener()
         {
@@ -208,13 +210,12 @@ public class ListPairedBTActivity extends ListActivity
             }
         }
 
-        m_pairedAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, m_deviceNameList);
+        m_pairedAdapter = new ArrayAdapter<String>(this, R.layout.device_row, R.id.device_name, m_deviceNameList);
 
         // set the list
         setListAdapter(m_pairedAdapter);
-        // always warn user that the list show only the paired devices
-        if(warn)
-            mShowMessage(getString(R.string.device_must_be_paired), getString(R.string.warning));
+        // The pairing guidance now lives inline in the layout (guidance card +
+        // empty state), so we no longer show a blocking dialog on entry.
         return true;
     }
 
@@ -288,6 +289,8 @@ public class ListPairedBTActivity extends ListActivity
 
         m_leScanning = true;
         m_scanLeButton.setText(R.string.bt_scanning_le);
+        if (m_searchingBar != null)
+            m_searchingBar.setVisibility(View.VISIBLE);
 
         m_handler.postDelayed(new Runnable()
         {
@@ -317,6 +320,8 @@ public class ListPairedBTActivity extends ListActivity
         m_leScanning = false;
         if (m_scanLeButton != null)
             m_scanLeButton.setText(R.string.bt_scan_le);
+        if (m_searchingBar != null)
+            m_searchingBar.setVisibility(View.GONE);
     }
 
     private void addLeDevice(BluetoothDevice device)

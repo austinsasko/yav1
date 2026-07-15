@@ -651,4 +651,12 @@
     <string name="mute_available">MUTE</string>
     <string name="mute_active">MUTED</string>
     <string name="mute_auto_psl">Muted — under speed limit</string>
+
+    <!-- Device picker redesign -->
+    <string name="picker_title">Connect your Valentine One</string>
+    <string name="picker_guidance">Gen1 (SPP): pair in Android Bluetooth settings first, PIN 1234. V1connection LE and Gen2 BLE need no pairing — just tap Scan below.</string>
+    <string name="picker_empty">No detectors found yet.\n\nTap “Scan for BTLE devices” to find a V1connection LE or Gen2, or pair a Gen1 in Android Bluetooth settings.</string>
+    <string name="picker_scanning">Scanning for BTLE devices…</string>
+    <string name="badge_le">LE</string>
+    <string name="badge_spp">SPP</string>
 </resources>
