@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/black">
+    android:background="@color/ground">
 
     <View
         android:layout_width="match_parent"
@@ -13,7 +13,7 @@
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
         android:layout_marginBottom="4dp"
-        android:background="?android:attr/dividerVertical"/>
+        android:background="@color/line"/>
 
     <LinearLayout
         android:orientation="vertical"
@@ -106,7 +106,7 @@
             android:textColor="#ff0000"
             android:clickable="true"
             android:layout_weight="30"
-            android:background="@drawable/btn_default_normal_green"/>
+            android:background="@drawable/bg_tool_button"/>
 
         <Button
             android:layout_width="wrap_content"
@@ -117,7 +117,7 @@
             android:onClick="clickCtrl"
             android:clickable="true"
             android:layout_weight="30"
-            android:background="@drawable/btn_default_normal_lblue"/>
+            android:background="@drawable/bg_tool_button"/>
 
         <Button
             android:layout_width="wrap_content"
@@ -128,7 +128,7 @@
             android:onClick="clickCtrl"
             android:clickable="false"
             android:layout_weight="30"
-            android:background="@drawable/btn_default_normal_yellow"/>
+            android:background="@drawable/bg_tool_button"/>
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"

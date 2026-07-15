@@ -5,7 +5,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:gravity="center_horizontal"
-              android:divider="#48c1ff"
+              android:divider="@color/line"
               android:dividerPadding="2dp"
               android:clickable="true"
               style="?android:attr/textAppearanceLarge">
@@ -28,7 +28,7 @@
                     android:text="@string/v1_setting_h_name"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:singleLine="true"
-                    android:background="#3776ff"
+                    android:background="@color/panel_high"
                     android:paddingLeft="5dp"/>
 
             <LinearLayout
@@ -64,7 +64,7 @@
                     android:orientation="vertical"
                     android:id="@+id/bands"
                     android:showDividers="middle|end"
-                    android:divider="#48c1ff"
+                    android:divider="@color/line"
                     android:dividerPadding="2dp"
                 android:baselineAligned="false">
                 <TextView
@@ -73,7 +73,7 @@
                         android:text="@string/v1_setting_h_bands"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:singleLine="true"
-                        android:background="#3776ff"
+                        android:background="@color/panel_high"
                         android:paddingLeft="5dp"/>
 
                 <LinearLayout
@@ -142,7 +142,7 @@
                     android:layout_below="@+id/bands"
                     android:orientation="vertical"
                     android:id="@+id/kaguard"
-                    android:divider="#48c1ff"
+                    android:divider="@color/line"
                     android:dividerPadding="2dp">
                 <TextView
                         android:layout_width="fill_parent"
@@ -150,7 +150,7 @@
                         android:text="@string/v1_setting_h_ka_band"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:singleLine="true"
-                        android:background="#3776ff"
+                        android:background="@color/panel_high"
                         android:paddingLeft="5dp"/>
                     <LinearLayout
                             android:layout_width="fill_parent"
@@ -235,7 +235,7 @@
                     android:layout_below="@+id/kaguard"
                     android:orientation="vertical"
                     android:id="@+id/mutes"
-                    android:divider="#48c1ff"
+                    android:divider="@color/line"
                     android:dividerPadding="2dp">
                 <TextView
                         android:layout_width="fill_parent"
@@ -243,7 +243,7 @@
                         android:text="@string/v1_setting_h_mute"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:singleLine="true"
-                        android:background="#3776ff"
+                        android:background="@color/panel_high"
                         android:paddingLeft="5dp"/>
                 <LinearLayout
                         android:layout_width="fill_parent"
@@ -363,7 +363,7 @@
                     android:orientation="vertical"
                     android:layout_below="@+id/mutes"
                     android:id="@+id/kmuting"
-                    android:divider="#48c1ff"
+                    android:divider="@color/line"
                     android:dividerPadding="2dp"
                     android:layout_alignParentStart="false">
                 <TextView
@@ -372,7 +372,7 @@
                         android:text="@string/v1_setting_h_k_mute"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:singleLine="true"
-                        android:background="#3776ff"
+                        android:background="@color/panel_high"
                         android:paddingLeft="5dp"/>
                 <LinearLayout
                         android:layout_width="fill_parent"
@@ -483,7 +483,7 @@
                     android:orientation="vertical"
                     android:layout_below="@+id/kmuting"
                     android:id="@+id/special"
-                    android:divider="#48c1ff"
+                    android:divider="@color/line"
                     android:dividerPadding="2dp"
                     android:layout_alignParentStart="false">
                 <TextView
@@ -492,7 +492,7 @@
                         android:text="@string/v1_setting_h_special"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:singleLine="true"
-                        android:background="#3776ff"
+                        android:background="@color/panel_high"
                         android:paddingLeft="5dp"/>
                 <LinearLayout
                         android:layout_width="fill_parent"

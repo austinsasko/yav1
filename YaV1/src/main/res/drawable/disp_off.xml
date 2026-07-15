@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- V1 display OFF: dark screen outline with a stand. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="28dp" android:height="28dp"
+    android:viewportWidth="24" android:viewportHeight="24">
+    <path android:fillColor="#6B6560"
+        android:fillType="evenOdd"
+        android:pathData="M3,4h18v13H3z M5,6v9h14V6z" />
+    <path android:fillColor="#6B6560"
+        android:pathData="M9,18h6v2H9z" />
+</vector>

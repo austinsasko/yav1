@@ -106,11 +106,11 @@ public class YaV1SweepSetAdapter extends BaseAdapter
 
             // we can set the color if empty / current / lastKnown
             if(isCurrent)
-                convertView.setBackgroundColor(Color.parseColor("#3776ff"));
+                convertView.setBackgroundColor(Color.parseColor("#1E3A5F"));
             else if (isLast)
-                convertView.setBackgroundColor(Color.parseColor("#40570d"));
+                convertView.setBackgroundColor(Color.parseColor("#1E3A1E"));
             else if(isEmpty)
-                convertView.setBackgroundColor(Color.parseColor("#ff9b32"));
+                convertView.setBackgroundColor(Color.parseColor("#3A2E1E"));
             else
                 convertView.setBackgroundColor(YaV1SweepSetActivity.DEFAULT_COLOR);
 

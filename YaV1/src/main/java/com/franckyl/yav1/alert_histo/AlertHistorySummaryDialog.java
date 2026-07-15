@@ -138,9 +138,9 @@ public class AlertHistorySummaryDialog implements View.OnClickListener
                     // we would handle the remove button
                     btn = (Button) v.findViewById(R.id.alert_remove);
                     if ((mLockout.mFlag & mLockout.LOCKOUT_WHITE) > 0) {
-                        btn.setBackgroundResource(R.drawable.btn_default_normal_yellow);
+                        btn.setBackgroundResource(R.drawable.bg_tool_button);
                     } else {
-                        btn.setBackgroundResource(R.drawable.btn_default_normal_lblue);
+                        btn.setBackgroundResource(R.drawable.bg_tool_on);
                         btn.setText(R.string.unlock);
                     }
 
