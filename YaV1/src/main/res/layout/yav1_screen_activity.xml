@@ -1,63 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/black">
-    <RelativeLayout
+    android:orientation="vertical"
+    android:background="@color/ground">
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/ground">
+
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/pager"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/black">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/ground">
         </androidx.viewpager.widget.ViewPager>
-    </RelativeLayout>
-    <!-- Full-width mute bar (drive surfaces) -->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/mute_bar_height"
-        android:id="@+id/v1_name"
-        android:visibility="gone"
-        android:background="@drawable/bg_mute_bar"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="0dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/setting_name"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/space_l"
-            android:layout_toLeftOf="@+id/mute_label"
-            android:background="@android:color/transparent"
-            android:textColor="@color/ink2"
-            android:textSize="13sp"
-            android:maxLines="2"
-            android:ellipsize="end" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/mute_label"
-            android:layout_toLeftOf="@+id/mute_button"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/space_m"
-            android:textColor="@color/status_good"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:text="@string/mute_available" />
-        <ImageButton
-            android:layout_width="64dp"
-            android:layout_height="56dp"
-            android:id="@+id/mute_button"
-            android:src="@drawable/mute_off"
-            android:scaleType="center"
-            android:background="@drawable/bg_mute_button"
-            android:onClick="clickCtrl"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/space_l"
-            android:contentDescription="@string/cd_mute" />
-    </RelativeLayout>
-</FrameLayout>
+
+        <!-- Full-width mute bar (floats at the bottom of the content area) -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/mute_bar_height"
+            android:id="@+id/v1_name"
+            android:visibility="gone"
+            android:background="@drawable/bg_mute_bar"
+            android:layout_gravity="bottom">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/setting_name"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/space_l"
+                android:layout_toLeftOf="@+id/mute_label"
+                android:background="@android:color/transparent"
+                android:textColor="@color/ink2"
+                android:textSize="13sp"
+                android:maxLines="2"
+                android:ellipsize="end" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/mute_label"
+                android:layout_toLeftOf="@+id/mute_button"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/space_m"
+                android:textColor="@color/status_good"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:text="@string/mute_available" />
+            <ImageButton
+                android:layout_width="64dp"
+                android:layout_height="56dp"
+                android:id="@+id/mute_button"
+                android:src="@drawable/mute_off"
+                android:scaleType="center"
+                android:background="@drawable/bg_mute_button"
+                android:onClick="clickCtrl"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/space_l"
+                android:contentDescription="@string/cd_mute" />
+        </RelativeLayout>
+    </FrameLayout>
+
+    <include layout="@layout/bottom_nav" />
+</LinearLayout>
