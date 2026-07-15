@@ -63,6 +63,11 @@ public class Lockout
     public  int     mUpdateFlag = 0;
     public  long    mTimeStamp;
 
+    // last time (epoch seconds) this lockout was actually seen; used to require
+    // sightings from separate visits before auto-locking. Runtime only, seeded
+    // from the DB timestamp when the lockout is loaded.
+    public  long    mLastSeenTime = 0;
+
     // default constructor
 
     public Lockout(int id)
@@ -109,6 +114,70 @@ public class Lockout
         mDistance  = 0;
         mNbCheck   = 0;
         mTimeStamp = timestamp;
+        // seed the visit tracking with the last DB update time
+        mLastSeenTime = timestamp;
+    }
+
+    /**
+     * Should a sighting at nowSec count as a new visit for the lockout learning?
+     * Two sightings separated by less than gapSec belong to the same visit and
+     * only count once toward the auto lockout threshold.
+     *
+     * @param lastSeenSec  when the lockout was last seen (epoch seconds, <= 0 for never)
+     * @param nowSec       current time in epoch seconds
+     * @param gapSec       minimum separation between visits, 0 to always count
+     *
+     * @return true when the sighting counts as a new visit.
+     */
+    public static boolean isNewVisit(long lastSeenSec, long nowSec, int gapSec)
+    {
+        if(gapSec <= 0 || lastSeenSec <= 0)
+            return true;
+
+        return (nowSec - lastSeenSec) >= gapSec;
+    }
+
+    /**
+     * Is a lockout stale enough to be automatically unlocked (removed)?
+     * Manual and white listed lockouts are exempted by the caller.
+     *
+     * @param timestampSec  last update time of the lockout (epoch seconds)
+     * @param nowSec        current time in epoch seconds
+     * @param expireDays    expiry in days, 0 to disable
+     *
+     * @return true when the lockout has expired.
+     */
+    public static boolean isExpired(long timestampSec, long nowSec, int expireDays)
+    {
+        if(expireDays <= 0 || timestampSec <= 0)
+            return false;
+
+        return (nowSec - timestampSec) >= (long) expireDays * 86400L;
+    }
+
+    /**
+     * Track the slow oscillator drift of a locked out signal by moving the stored
+     * frequency halfway toward the observed one. The match window (LockoutParam.mDrift)
+     * stays anchored on recent observations instead of the original recording.
+     *
+     * @param storedFreq    the frequency currently stored for the lockout (MHz)
+     * @param observedFreq  the frequency just observed (MHz)
+     *
+     * @return the new frequency to store.
+     */
+    public static int trackFrequency(int storedFreq, int observedFreq)
+    {
+        int diff = observedFreq - storedFreq;
+
+        if(diff == 0)
+            return storedFreq;
+
+        // move halfway (rounding toward the observation)
+        int step = diff / 2;
+        if(step == 0)
+            step = (diff > 0 ? 1 : -1);
+
+        return storedFreq + step;
     }
 
     // constructor from current frequency and position
@@ -137,6 +206,8 @@ public class Lockout
         Location.distanceBetween(a.mInitialPosition.lat, a.mInitialPosition.lon, mLat, mLon, LockoutArea.sResults);
         mDistance  = (int) LockoutArea.sResults[0];
         mTimeStamp = System.currentTimeMillis()/1000;
+        // this lockout was just seen
+        mLastSeenTime = mTimeStamp;
     }
 
     // reset some values when adding the lockout in the current area

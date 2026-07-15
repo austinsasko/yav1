@@ -191,12 +191,13 @@ public class DataWriterThread extends Thread
 	
 	/**
 	 * Converts reserved bytes to escape bytes, so they can be sent to the V1Connection.
-	 * 
+	 * Static (and public) so the framing can be unit tested.
+	 *
 	 * @param _bytes	The byte to escape.
-	 * 
+	 *
 	 * @return			The modified byte.
 	 */
-	private byte[] escape(byte[] _bytes)
+	public static byte[] escape(byte[] _bytes)
 	{
 		int count = 0;
 		for (int i = 1; i < _bytes.length-1; i++)

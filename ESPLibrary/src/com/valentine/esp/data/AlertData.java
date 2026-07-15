@@ -37,6 +37,7 @@ public class AlertData
 	private byte m_rearSignalStrengthByte;
 	private BandArrowData m_bandArrowData;
 	private boolean m_priorityAlert;
+	private boolean m_junkAlert;
 	
 	/**
 	 * Returns the AlertIndex count
@@ -100,12 +101,24 @@ public class AlertData
 	
 	/**
 	 * Sets the priority of the alert
-	 * 
+	 *
 	 * @param m_priorityAlert		The priority of the alert
 	 */
 	public void setPriorityAlert(boolean _priority)
 	{
 		m_priorityAlert = _priority;
+	}
+
+	/**
+	 * Returns whether the V1 flagged this alert as junk (e.g. a blind spot monitor
+	 * false). Only meaningful when the connected V1 is a Gen2 running V4.1032 or
+	 * later; older units always leave this bit clear.
+	 *
+	 * @return true if the junk alert bit is set.
+	 */
+	public boolean isJunkAlert()
+	{
+		return m_junkAlert;
 	}
 	
 	/**
@@ -290,6 +303,10 @@ public class AlertData
 		{
 			m_priorityAlert = false;
 		}
+
+		// Bit 6 of the aux byte is the junk alert indicator on the V1 Gen2
+		// (V4.1032 and later). Earlier units always send 0 here.
+		m_junkAlert = ((_bytes[6] & 64) > 0);
 	}
 	
 	/**

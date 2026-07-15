@@ -655,4 +655,49 @@
         <item>25</item>
         <item>26</item>
     </string-array>
+    <!-- lockout Ka drift -->
+    <string-array name="lockout_ka_drift">
+        <item>4 MHz</item>
+        <item>5 MHz</item>
+        <item>6 MHz (Default)</item>
+        <item>7 MHz</item>
+        <item>8 MHz</item>
+    </string-array>
+    <string-array name="lockout_ka_drift_values">
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+    </string-array>
+    <!-- lockout visit separation -->
+    <string-array name="lockout_visit_gap">
+        <item>Every pass (legacy)</item>
+        <item>15 minutes</item>
+        <item>30 minutes (Default)</item>
+        <item>1 hour</item>
+        <item>2 hours</item>
+    </string-array>
+    <string-array name="lockout_visit_gap_values">
+        <item>0</item>
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>120</item>
+    </string-array>
+    <!-- lockout automatic expiry -->
+    <string-array name="lockout_expire_days">
+        <item>Never</item>
+        <item>30 days</item>
+        <item>60 days</item>
+        <item>90 days (Default)</item>
+        <item>180 days</item>
+    </string-array>
+    <string-array name="lockout_expire_days_values">
+        <item>0</item>
+        <item>30</item>
+        <item>60</item>
+        <item>90</item>
+        <item>180</item>
+    </string-array>
 </resources>

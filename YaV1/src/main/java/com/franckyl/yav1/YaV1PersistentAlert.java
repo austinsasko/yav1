@@ -58,6 +58,11 @@ public class YaV1PersistentAlert
     public int     mNextCap                     = -1;
     public int     mAreaRevision                = 0;
 
+    // Blind spot monitor filter state: signal (LEDs) when the alert first appeared
+    // and the strongest signal seen since.
+    public int     mBsmBaseSignal               = 0;
+    public int     mBsmMaxSignal                = 0;
+
     // the initial position of the alert
     public YaV1GpsPos mInitialPosition;
 
@@ -85,6 +90,9 @@ public class YaV1PersistentAlert
 
         // suppose active
         mFlag         = PERSISTENT_ACTIVE;
+
+        // BSM filter baseline
+        mBsmBaseSignal = mBsmMaxSignal = a.getSignal();
 
         // compute display property
         mDisplayProperty    = mOrder * 10000000 + mFrequency * 100 + a.getSignal() * 10 + a.getArrowDir() + 1;

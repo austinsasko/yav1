@@ -20,6 +20,10 @@ android {
     lint {
         abortOnError false
     }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -36,4 +40,5 @@ dependencies {
     implementation project(':ESPLibrary')
     implementation project(':AmbilWarna')
     implementation project(':aFileDialog')
+    testImplementation 'junit:junit:4.13.2'
 }

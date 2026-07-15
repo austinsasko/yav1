@@ -23,6 +23,14 @@ android {
             java.srcDirs = ['src']
             res.srcDirs = ['res']
         }
+        test {
+            // 'src' is the whole main source dir, so tests live next to it
+            java.srcDirs = ['tests']
+        }
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
     }
 }
 
@@ -30,4 +38,5 @@ dependencies {
     api 'androidx.core:core:1.13.1'
     api 'androidx.localbroadcastmanager:localbroadcastmanager:1.1.0'
     api project(':YaV1Lib')
+    testImplementation 'junit:junit:4.13.2'
 }

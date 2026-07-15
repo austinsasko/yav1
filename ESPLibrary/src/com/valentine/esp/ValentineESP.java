@@ -947,12 +947,12 @@ public class ValentineESP
 			m_closeSocket (false);
 			m_closeLeConnection();
 			
-			if (m_readerThread.isAlive())
+			if (m_readerThread != null && m_readerThread.isAlive())
 			{
 				m_readerThread.setRun(false);
 				m_readerThread.interrupt();
 			}
-			if (m_writerThread.isAlive())
+			if (m_writerThread != null && m_writerThread.isAlive())
 			{
 				m_writerThread.setRun(false);
 				m_writerThread.interrupt();
