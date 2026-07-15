@@ -189,6 +189,9 @@ public class LockoutDb
                 COLUMN_ID + "> 1 AND " + COLUMN_LAT + " >= " + Double.toString(latMin) + " AND " + COLUMN_LAT + " <= " + Double.toString(latMax) +
                         " AND " + COLUMN_LON + " >= " + Double.toString(lonMin) + " AND " + COLUMN_LON + " <= "  + Double.toString(lonMax), null, null, null, null);
 
+        long nowSec = System.currentTimeMillis() / 1000;
+        java.util.ArrayList<Integer> expired = new java.util.ArrayList<Integer>();
+
         try
         {
             if(cursor.moveToFirst())
@@ -198,6 +201,16 @@ public class LockoutDb
                     Lockout l = new Lockout(cursor.getInt(0), cursor.getInt(1), cursor.getDouble(2), cursor.getDouble(3),
                                             cursor.getInt(4), cursor.getInt(5), cursor.getFloat(6), cursor.getInt(7),
                                             cursor.getInt(8), cursor.getInt(9), cursor.getInt(10), cursor.getLong(11));
+
+                    // Automatic unlock: drop learned lockouts that have not been
+                    // updated for LockoutParam.mExpireDays days. Manual and white
+                    // listed lockouts represent explicit user decisions and are kept.
+                    if( (l.mFlag & Lockout.LOCKOUT_CHECK_MANUAL) == 0
+                        && Lockout.isExpired(l.mTimeStamp, nowSec, LockoutParam.mExpireDays))
+                    {
+                        expired.add(l.getId());
+                        continue;
+                    }
 
                     // l.resetAfterRead();
                     ll.put(l.getId(), l);
@@ -210,6 +223,18 @@ public class LockoutDb
         finally
         {
             cursor.close();
+        }
+
+        // physically remove the expired lockouts
+        for(Integer id: expired)
+        {
+            deleteLockout(id.intValue());
+        }
+
+        if(expired.size() > 0)
+        {
+            Log.d("Valentine Lockout", "Auto-unlocked " + expired.size() + " expired lockouts");
+            YaV1.DbgLog("Lockout auto-unlock removed " + expired.size() + " expired entries");
         }
 
         Log.d("Valentine Lockout", "End Query DB for short list size " + ll.size());
@@ -384,7 +409,7 @@ public class LockoutDb
         mInsertStmt = mDb.compileStatement(str + " " + v);
 
         // for the update ...
-        str = "UPDATE " + TB_LOCKOUT + " SET " + COLUMN_SEEN + " =?, " + COLUMN_MISSED + " =?, " + COLUMN_PARAM1 + " =?, " + COLUMN_PARAM2 + " =?, " +COLUMN_FLAG + "=?,"  + COLUMN_TIME + "=? WHERE " + COLUMN_ID + "=?";
+        str = "UPDATE " + TB_LOCKOUT + " SET " + COLUMN_SEEN + " =?, " + COLUMN_MISSED + " =?, " + COLUMN_PARAM1 + " =?, " + COLUMN_PARAM2 + " =?, " +COLUMN_FLAG + "=?,"  + COLUMN_TIME + "=?, " + COLUMN_FREQUENCY + "=? WHERE " + COLUMN_ID + "=?";
         mUpdateStmt = mDb.compileStatement(str);
 
         // for the delete
@@ -575,7 +600,8 @@ public class LockoutDb
         mUpdateStmt.bindLong(4, l.mParam2);
         mUpdateStmt.bindLong(5, l.mFlag);
         mUpdateStmt.bindLong(6, l.mTimeStamp);
-        mUpdateStmt.bindLong(7, l.getId());
+        mUpdateStmt.bindLong(7, l.mFrequency);
+        mUpdateStmt.bindLong(8, l.getId());
         mUpdateStmt.execute();
     }
 

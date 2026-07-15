@@ -24,7 +24,14 @@ android {
             java.exclude 'test/**'
             res.srcDirs = ['res']
         }
-        test.java.srcDirs = ['src/test/java']
+        test {
+            // suite tests live in 'tests' (next to 'src'); LE frame tests in 'src/test/java'
+            java.srcDirs = ['tests', 'src/test/java']
+        }
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
     }
 }
 

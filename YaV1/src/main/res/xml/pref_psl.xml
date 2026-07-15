@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- [P1-PSL] posted-speed-limit muting preferences (appended to the lockout/muting screen) -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/pref_psl_category">
+        <com.franckyl.yav1.CustomSwitch
+            android:defaultValue="false"
+            android:key="psl_enable"
+            android:title="@string/pref_psl_enable"
+            android:summary="@string/pref_psl_enable_summary"/>
+        <ListPreference
+            android:defaultValue="5"
+            android:dependency="psl_enable"
+            android:key="psl_offset"
+            android:entries="@array/psl_offset_entries"
+            android:entryValues="@array/psl_offset_values"
+            android:summary="%s"
+            android:title="@string/pref_psl_offset"/>
+        <ListPreference
+            android:defaultValue="0"
+            android:dependency="psl_enable"
+            android:key="psl_unknown"
+            android:entries="@array/psl_unknown_entries"
+            android:entryValues="@array/psl_unknown_values"
+            android:summary="%s"
+            android:title="@string/pref_psl_unknown"/>
+    </PreferenceCategory>
+</PreferenceScreen>

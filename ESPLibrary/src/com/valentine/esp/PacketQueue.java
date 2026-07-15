@@ -273,7 +273,7 @@ public class PacketQueue
 			{
 				if (id == m_busyPacketIds.get(i) )
 				{
-					toRemove = 0;
+					toRemove = i;
 					break;
 				}
 			}

@@ -92,6 +92,11 @@
             android:noHistory="true"
             android:exported="false">
         </activity>
+        <!-- [P3-GEO] location based automatic V1 profile switching config -->
+        <activity
+            android:name=".geo.GeoProfileActivity"
+            android:exported="false">
+        </activity>
         <service android:name=".YaV1AlertService"
                  android:exported="false"
                  android:foregroundServiceType="connectedDevice"/>

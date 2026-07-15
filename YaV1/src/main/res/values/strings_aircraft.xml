@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- [P2-ADSB] strings for the ADS-B aircraft awareness feature -->
+<resources>
+
+    <string name="pref_h_aircraft">Aircraft awareness</string>
+    <string name="pref_h_aircraft_summary">ADS-B watch for aerial speed enforcement</string>
+
+    <string name="pref_adsb_enable">Enable aircraft awareness</string>
+    <string name="pref_adsb_enable_summary">Poll free ADS-B data while driving and warn about likely enforcement aircraft (uses ~1 network request / 30 s)</string>
+
+    <string name="pref_adsb_radius">Search radius</string>
+
+    <string name="pref_adsb_heuristic">Behavior heuristic</string>
+    <string name="pref_adsb_heuristic_summary">Also flag unknown aircraft flying low, slow and in circles as "possible aerial enforcement" (guess: traffic watch and training flights look the same)</string>
+
+    <string name="pref_adsb_style">Alert style</string>
+
+    <string name="pref_adsb_status">Last seen aircraft</string>
+    <string name="pref_adsb_status_summary">Show the aircraft from the most recent ADS-B poll</string>
+    <string name="adsb_status_disabled">Aircraft monitor not running.</string>
+    <string name="adsb_status_no_poll">No ADS-B poll yet. The monitor polls every 30 s while the feature is enabled and you are moving with GPS.</string>
+    <string name="adsb_status_age">Last poll %1$d s ago:</string>
+    <string name="adsb_status_empty">No aircraft in range.</string>
+
+    <string name="pref_adsb_fixture">Debug: canned data</string>
+    <string name="pref_adsb_fixture_summary">Use the bundled fixture instead of live ADS-B (pipeline test, Orlando area coordinates)</string>
+
+    <string-array name="adsb_radius_entries">
+        <item>5 nm (~9 km)</item>
+        <item>10 nm (~19 km)</item>
+        <item>15 nm (~28 km)</item>
+        <item>25 nm (~46 km)</item>
+    </string-array>
+    <string-array name="adsb_radius_values">
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>25</item>
+    </string-array>
+
+    <string-array name="adsb_style_entries">
+        <item>Voice + tone</item>
+        <item>Voice only</item>
+        <item>Tone only</item>
+    </string-array>
+    <string-array name="adsb_style_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+</resources>

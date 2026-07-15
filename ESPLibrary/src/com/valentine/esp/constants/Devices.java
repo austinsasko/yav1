@@ -62,11 +62,18 @@ public enum Devices
 		if ( val == Devices.VALENTINE1_LEGACY.toByteValue() ){
 			return Devices.VALENTINE1_LEGACY;
 		}
-		
+
 		if ( val == Devices.UNKNOWN.toByteValue() ){
 			return Devices.UNKNOWN;
 		}
-		
-		return Devices.values()[val]; 
+
+		// Only the device ids 0x00 - 0x0A are assigned by the ESP specification.
+		// Anything else (e.g. a corrupted origin nibble from a noisy Bluetooth link)
+		// must not crash with an ArrayIndexOutOfBoundsException, so map it to UNKNOWN.
+		if ( val < 0 || val > Devices.VALENTINE1_WITH_CHECKSUM.toByteValue() ){
+			return Devices.UNKNOWN;
+		}
+
+		return Devices.values()[val];
 	}
 }

@@ -66,6 +66,15 @@ public class LockoutParam
     // allow the reset busy when still in the area, default false
     public  static boolean mAllowRemoveInCurrent          = false;
 
+    // Minimum time between two sightings for them to count as separate visits
+    // toward the auto lockout threshold (mMinSeen). 0 restores the legacy
+    // behavior where every pass through the area counts.
+    public  static int  mVisitGapSec                      = 1800;
+
+    // Lockouts (except manual/white listed ones) whose last update is older than
+    // this many days are automatically unlocked (removed). 0 disables the expiry.
+    public  static int  mExpireDays                       = 90;
+
     // init from shared preferences
 
     public static void init(SharedPreferences sh)
@@ -74,6 +83,10 @@ public class LockoutParam
         mMaxUnseen      = Integer.valueOf(sh.getString("lockout_unseen", "5"));
         mLearningSeen   = Integer.valueOf(sh.getString("lockout_learning", "0"));
         mMaxWhiteUnseen = Integer.valueOf(sh.getString("lockout_white_unseen", "0"));
+
+        // visit separation (preference is in minutes) and automatic expiry
+        mVisitGapSec    = Integer.valueOf(sh.getString("lockout_visit_gap", "30")) * 60;
+        mExpireDays     = Integer.valueOf(sh.getString("lockout_expire_days", "90"));
 
         // get the colors
 
@@ -93,8 +106,9 @@ public class LockoutParam
 
         mMaxManualUnseen = mMaxUnseen + Integer.valueOf(sh.getString("lockout_manual_add_unseen", "0"));
 
-        // the drift is now only adjustable for K band
-        mDrift[YaV1Alert.BAND_K] = Integer.valueOf(sh.getString("lockout_k_drift", "10"));
+        // the drift is adjustable for K and Ka band
+        mDrift[YaV1Alert.BAND_K]  = Integer.valueOf(sh.getString("lockout_k_drift", "10"));
+        mDrift[YaV1Alert.BAND_KA] = Integer.valueOf(sh.getString("lockout_ka_drift", "6"));
         mInitDone = true;
     }
 }

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- [P2-POI] Camera / POI database alert preferences -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <com.franckyl.yav1.CustomSwitch
+        android:defaultValue="false"
+        android:key="poi_enable"
+        android:title="@string/pref_poi_enable"
+        android:summary="@string/pref_poi_enable_summary"/>
+
+    <com.franckyl.yav1.poi.PoiFilesPreference
+        android:key="poi_files"
+        android:dependency="poi_enable"
+        android:title="@string/poi_files_title"
+        android:summary="@string/poi_files_summary_loading"
+        android:persistent="false"/>
+
+    <!-- [P2-POI] network-driven camera data (Overpass / OSM, incl. DeFlock ALPR) -->
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="poi_online_enable"
+        android:dependency="poi_enable"
+        android:title="@string/pref_poi_online"
+        android:summary="@string/pref_poi_online_summary"/>
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="poi_online_cams"
+        android:dependency="poi_online_enable"
+        android:title="@string/pref_poi_online_cams"
+        android:summary="@string/pref_poi_online_cams_summary"/>
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="poi_online_alpr"
+        android:dependency="poi_online_enable"
+        android:title="@string/pref_poi_online_alpr"
+        android:summary="@string/pref_poi_online_alpr_summary"/>
+
+    <ListPreference
+        android:defaultValue="500"
+        android:key="poi_radius"
+        android:dependency="poi_enable"
+        android:entries="@array/poi_radius_entries"
+        android:entryValues="@array/poi_radius_values"
+        android:summary="%s"
+        android:title="@string/pref_poi_radius"/>
+
+    <ListPreference
+        android:defaultValue="0"
+        android:key="poi_alert_style"
+        android:dependency="poi_enable"
+        android:entries="@array/poi_style_entries"
+        android:entryValues="@array/poi_style_values"
+        android:summary="%s"
+        android:title="@string/pref_poi_style"/>
+
+</PreferenceScreen>

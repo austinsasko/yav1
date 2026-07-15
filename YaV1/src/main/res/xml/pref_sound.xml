@@ -128,4 +128,19 @@
             android:ringtoneType="notification">
         </RingtonePreference>
     </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/pref_gen_voice_filter">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="tts_alert"
+            android:title="@string/pref_gen_tts"
+            android:summary="@string/pref_gen_tts_summary">
+        </CheckBoxPreference>
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="bsm_filter"
+            android:title="@string/pref_bsm_filter"
+            android:summary="@string/pref_bsm_filter_summary">
+        </CheckBoxPreference>
+    </PreferenceCategory>
 </PreferenceScreen>

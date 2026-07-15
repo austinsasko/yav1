@@ -589,6 +589,12 @@ public class YaV1AlertService extends Service
         if(!sBatteryVoltage)
             sBatteryLastTime = 0;
 
+        // voice announcements (TTS)
+        YaV1Tts.init(YaV1.sContext, sPrefs.getBoolean("tts_alert", false));
+
+        // K band blind-spot-monitor filter
+        YaV1BsmFilter.init(sPrefs);
+
         // box muting settings
         mPrefMuteKa = Integer.valueOf(sPrefs.getString("mute_ka", "0"));
         mPrefMuteK = Integer.valueOf(sPrefs.getString("mute_k", "0"));
@@ -841,6 +847,10 @@ public class YaV1AlertService extends Service
                     rc = true;
             }
         }
+
+        // [P1-PSL] posted-speed-limit muting (mute at/below limit + offset)
+        if(!rc)
+            rc = com.franckyl.yav1.psl.PslMute.shouldMute();
 
         return rc;
     }
@@ -1134,6 +1144,18 @@ public class YaV1AlertService extends Service
             // been installed already or not
             if(!mCallInstalled)
             {
+                // StartUp() deliberately forgets the firmware version for every new
+                // connection. Keep the app-side request state in step with it so a
+                // reconnect (or a detector swap) always obtains a fresh version before
+                // applying version-dependent Gen2 behavior.
+                NbDisplay           = 0;
+                mRequestVersionSent = false;
+                mRequestSettingSent = false;
+                mRequestSweep       = 1;
+                YaV1.sV1Version     = "";
+                YaV1.sV1Serial      = "";
+                YaV1.sModeData      = null;
+
                 // install the display callback
                 YaV1.mV1Client.registerForDisplayData(this, "displayCallback");
                 // register for no data received
@@ -1200,6 +1222,9 @@ public class YaV1AlertService extends Service
 
         // stop sound
         mSoundManager.releaseAll();
+
+        // stop the voice announcements
+        YaV1Tts.release();
 
         // remove all callbacks
         // mHandler.removeCallbacksAndMessages(null);
@@ -1349,7 +1374,8 @@ public class YaV1AlertService extends Service
                         //Log.d("Valentine", "YaV1Alert.PROP_INBOX: " + YaV1Alert.PROP_INBOX);
                     }
 
-                    isMuted = (mAlertProp & YaV1Alert.PROP_MUTE) > 0;
+                    // PROP_BSM: alert currently held back by the blind-spot-monitor filter
+                    isMuted = (mAlertProp & (YaV1Alert.PROP_MUTE | YaV1Alert.PROP_BSM)) > 0;
                     isExcep = (!isMuted && (mCurrBand == YaV1Alert.BAND_KA && mExcludeKaSavvy));
                 }
                 else

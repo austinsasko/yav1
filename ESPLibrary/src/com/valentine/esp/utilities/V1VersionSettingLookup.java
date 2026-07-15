@@ -26,13 +26,20 @@ public class V1VersionSettingLookup
 	
 	// Default to not in demo mode.
 	protected static boolean isInDemoMode = false;
-	
-	// Use version V3.8930 as the default version for this app. 
-	protected final static double DEFAULT_VERSION = 3.8930;	
-	
+
+	// Use version V3.8930 as the default version for this app.
+	protected final static double DEFAULT_VERSION = 3.8930;
+
 	// The TMF & Junk-K Fighter feature was turned on by default in verison 3.8945
 	protected final static double START_TMF_ON_BY_DEFAULT = 3.8945;
-	
+
+	// Baseline firmware version of the V1 Gen2 platform. Any V1 reporting a version
+	// of V4.1000 or later is a second generation Valentine One.
+	public final static double V1_GEN2_BASELINE_VERSION = 4.1000;
+
+	// First V1 Gen2 version that reports junk (BSM) alerts in the alert data aux byte.
+	public final static double V1_GEN2_JUNK_ALERT_VERSION = 4.1032;
+
 	protected static double currentVersion = DEFAULT_VERSION;
 	
 	/*************************************************************************************************************
@@ -110,15 +117,58 @@ public class V1VersionSettingLookup
 	 */
 	public void setV1Version (final String _version)
 	{
-		if ( _version.substring(0, 1).equals(new String("V")) ) {
+		if ( _version != null && _version.length() > 1 && _version.substring(0, 1).equals(new String("V")) ) {
 			try{
-				// The version is in the format V0.1234 so we need to start with the second character. 
-				currentVersion = Double.parseDouble(_version.substring(1));					
+				// The version is in the format V0.1234 so we need to start with the second character.
+				currentVersion = Double.parseDouble(_version.substring(1));
 			}
 			catch (Exception e){
 				currentVersion = DEFAULT_VERSION;
 			}
 		}
+	}
+
+	/**
+	 * Reset the stored V1 version to the default. Call when a new connection is
+	 * established so version based feature decisions (e.g. Gen2 detection) do not
+	 * leak from a previously connected V1.
+	 */
+	public static void resetV1Version ()
+	{
+		currentVersion = DEFAULT_VERSION;
+	}
+
+	/**
+	 * The last V1 version received, as a floating point value (e.g. 4.1031 for "V4.1031").
+	 *
+	 * @return the current V1 version value.
+	 */
+	public static double getV1Version ()
+	{
+		return currentVersion;
+	}
+
+	/**
+	 * Determine if the connected V1 is a second generation Valentine One (V1 Gen2).
+	 * The V1 Gen2 keeps the ESP device id of a V1 with checksum (0x0A); the only way
+	 * to identify it is by its firmware version, which is V4.1000 or later.
+	 *
+	 * @return true if the last version received belongs to the Gen2 platform.
+	 */
+	public static boolean isGen2 ()
+	{
+		return currentVersion >= V1_GEN2_BASELINE_VERSION;
+	}
+
+	/**
+	 * Determine if the connected V1 reports junk (blind spot monitor) alerts in the
+	 * aux byte of the alert data. Only V1 Gen2 units running V4.1032 or later do.
+	 *
+	 * @return true if the junk alert bit of the alert data is meaningful.
+	 */
+	public static boolean isJunkAlertReported ()
+	{
+		return currentVersion >= V1_GEN2_JUNK_ALERT_VERSION;
 	}
 	
 	/**

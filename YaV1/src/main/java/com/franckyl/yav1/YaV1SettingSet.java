@@ -2,6 +2,7 @@ package com.franckyl.yav1;
 
 import android.os.Environment;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.franckyl.yav1.events.InfoEvent;
 import com.google.gson.Gson;
@@ -187,6 +188,17 @@ public class YaV1SettingSet extends ArrayList<YaV1Setting>
 
     public boolean pushSetting(int id)
     {
+        // The V1 profile editor is built around the Gen1 user byte layout; the
+        // V1 Gen2 assigns different meanings to its user bytes, so pushing a
+        // Gen1 profile would misconfigure the detector. Refuse gracefully.
+        if(YaV1.mV1Client != null && YaV1.mV1Client.isGen2())
+        {
+            Log.d("Valentine", "V1 profile push refused: connected V1 is a Gen2");
+            if(YaV1.sContext != null)
+                Toast.makeText(YaV1.sContext, R.string.gen2_setting_push_not_supported, Toast.LENGTH_LONG).show();
+            return false;
+        }
+
         YaV1Setting set = getSettingFromId(id);
 
         if(set != null)

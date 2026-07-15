@@ -18,6 +18,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
+import com.franckyl.yav1.poi.PoiFilesPreference;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -37,6 +39,8 @@ import ar.com.daidalos.afiledialog.FileChooserLabels;
  */
 public class YaV1PreferenceActivity extends PreferenceActivity
 {
+    public static final int GET_POI_CSV = 201;
+
     private String mLastError = "";
     private static SharedPreferences mPref;
 
@@ -111,6 +115,9 @@ public class YaV1PreferenceActivity extends PreferenceActivity
     // to handle our voice picker
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
+        if(PoiFilesPreference.handleActivityResult(requestCode, resultCode, data))
+            return;
+
         if(requestCode == YaV1Activity.GET_VOICEALERT && resultCode == RESULT_OK)
         {
             Uri uri= data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
@@ -123,6 +130,8 @@ public class YaV1PreferenceActivity extends PreferenceActivity
             else
                 DialogBandRange.setVoice("", "");
         }
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     // backup the settings

@@ -1,0 +1,101 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-07-15T02:16:54Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "way",
+  "id": 103225754,
+  "bounds": {
+    "minlat": 29.7890572,
+    "minlon": -95.4531346,
+    "maxlat": 29.8003592,
+    "maxlon": -95.4513140
+  },
+  "geometry": [
+    { "lat": 29.7890572, "lon": -95.4531188 },
+    { "lat": 29.7904044, "lon": -95.4531346 },
+    { "lat": 29.7907350, "lon": -95.4531321 },
+    { "lat": 29.7910700, "lon": -95.4531088 },
+    { "lat": 29.7913383, "lon": -95.4530680 },
+    { "lat": 29.7915256, "lon": -95.4530320 },
+    { "lat": 29.7924725, "lon": -95.4527969 },
+    { "lat": 29.7930832, "lon": -95.4526394 },
+    { "lat": 29.7963223, "lon": -95.4518060 },
+    { "lat": 29.7965942, "lon": -95.4517356 },
+    { "lat": 29.7974847, "lon": -95.4514718 },
+    { "lat": 29.7979382, "lon": -95.4513820 },
+    { "lat": 29.7981380, "lon": -95.4513524 },
+    { "lat": 29.7984375, "lon": -95.4513223 },
+    { "lat": 29.7989133, "lon": -95.4513140 },
+    { "lat": 29.7993838, "lon": -95.4513162 },
+    { "lat": 29.8002185, "lon": -95.4513199 },
+    { "lat": 29.8003592, "lon": -95.4513147 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "bus:conditional": "designated @ (Mo-Su 05:00-11:00,13:00-20:00; PH off)",
+    "destination:backward": "Old Katy Road",
+    "destination:street:backward": "Old Katy Road",
+    "hgv:conditional": "no @ (axles>2)",
+    "highway": "motorway",
+    "hov:conditional": "designated @ (Mo-Fr 06:30-08:00,16:30-18:00; PH off)",
+    "hov:minimum": "2",
+    "hov:minimum:conditional": "3 @ (Mo-Fr 06:30-08:00)",
+    "lanes": "1",
+    "layer": "2",
+    "lit": "yes",
+    "maxspeed:backward": "60 mph",
+    "maxspeed:forward": "55 mph",
+    "maxweightrating:hgv": "1 st",
+    "motor_vehicle": "no",
+    "motor_vehicle:conditional": "yes @ (Mo-Fr 05:00-06:30,08:00-11:00,13:00-16:30,18:00-20:00; Sa-Su 05:00-11:00,13:00-20:00; PH off)",
+    "motorcycle:conditional": "yes @ (Mo-Su 05:00-11:00,13:00-20:00); no @ (Jan 1; May Mo[-1]; Jul 4; Sep Mo[1]; Nov Th[4]; Nov Th[4] + 1 days; Dec 25)",
+    "name": "US 290 Express Lane",
+    "oneway": "reversible",
+    "oneway:conditional": "yes @ (Mo-Su 13:00-20:00); -1 @ (Mo-Su 05:00-11:00)",
+    "ref": "US 290 HOV",
+    "toll": "yes",
+    "toll:hov:conditional": "no @ (Mo-Fr)",
+    "toll:motorcycle:conditional": "no @ (Mo-Fr)",
+    "trailer": "no"
+  }
+},
+{
+  "type": "way",
+  "id": 521733865,
+  "bounds": {
+    "minlat": 29.7960625,
+    "minlon": -95.4511382,
+    "maxlat": 29.7982632,
+    "maxlon": -95.4508281
+  },
+  "geometry": [
+    { "lat": 29.7982632, "lon": -95.4508281 },
+    { "lat": 29.7976652, "lon": -95.4508844 },
+    { "lat": 29.7960625, "lon": -95.4511382 }
+  ],
+  "tags": {
+    "hazmat": "designated",
+    "hgv": "designated",
+    "hgv:national_network": "yes",
+    "highway": "motorway",
+    "lanes": "2",
+    "lit": "yes",
+    "loc_name": "610 Loop",
+    "maxspeed": "60 mph",
+    "name": "West Loop North",
+    "old_ref": "Loop 137",
+    "oneway": "yes",
+    "ref": "I 610",
+    "source:hgv:national_network": "https://www.ecfr.gov/current/title-23/chapter-I/subchapter-G/part-658;https://hepgis-usdot.hub.arcgis.com/apps/usdot::national-network-conventional-combination-trucks-map",
+    "surface": "concrete"
+  }
+}
+
+  ]
+}

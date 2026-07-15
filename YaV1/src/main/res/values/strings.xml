@@ -630,4 +630,14 @@
     <string name="gmap_tab_files">Files</string>
     <string name="gmap_tab_alerts">Alerts</string>
     <string name="gmap_tab_map">Map</string>
+    <!-- Voice announcements and BSM filter -->
+    <string name="pref_gen_voice_filter">Voice &amp; filters</string>
+    <string name="pref_gen_tts">Voice announcements</string>
+    <string name="pref_gen_tts_summary">Speak new alerts (band, direction and frequency), e.g. \u0022Ka front, 35.5\u0022</string>
+    <string name="pref_bsm_filter">K band BSM filter</string>
+    <string name="pref_bsm_filter_summary">Hold back short K band hits with fast signal changes (blind spot monitor falses) until they persist</string>
+    <!-- Lockout learning upgrades -->
+    <string name="pref_lockout_ka_drift">Allowed drift on Ka Band (freq. precision)</string>
+    <string name="pref_lockout_visit_gap">Minimum time between visits (learning)</string>
+    <string name="pref_lockout_expire">Auto unlock when not seen for</string>
 </resources>

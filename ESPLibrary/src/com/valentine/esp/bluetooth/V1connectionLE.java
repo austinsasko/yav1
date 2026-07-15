@@ -110,15 +110,20 @@ public class V1connectionLE
 			return false;
 		}
 
-		m_closed = false;
-		m_ready = false;
-		m_readyLatch = new CountDownLatch(1);
-		m_writeComplete.drainPermits();
-		m_lastWriteStatus = BluetoothGatt.GATT_FAILURE;
+		beginConnectAttempt();
 
 		try
 		{
-			m_gatt = _device.connectGatt(_context, false, m_gattCallback);
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+			{
+				// Force the LE transport; letting the stack pick on dual-mode devices is a
+				// well known source of spurious GATT status 133 disconnects.
+				m_gatt = _device.connectGatt(_context, false, m_gattCallback, BluetoothDevice.TRANSPORT_LE);
+			}
+			else
+			{
+				m_gatt = _device.connectGatt(_context, false, m_gattCallback);
+			}
 		}
 		catch (SecurityException e)
 		{
@@ -132,6 +137,33 @@ public class V1connectionLE
 			return false;
 		}
 
+		return awaitReady(_timeoutMs);
+	}
+
+	/**
+	 * Reset the connection state for a fresh connect attempt.
+	 *
+	 * Package visible for unit testing.
+	 */
+	void beginConnectAttempt()
+	{
+		m_closed = false;
+		m_ready = false;
+		m_readyLatch = new CountDownLatch(1);
+		m_writeComplete.drainPermits();
+		m_lastWriteStatus = BluetoothGatt.GATT_FAILURE;
+	}
+
+	/**
+	 * Block until the link becomes ready (markReady), the connection is closed, or the
+	 * timeout elapses. On anything but a ready link the connection is closed.
+	 *
+	 * Package visible for unit testing.
+	 *
+	 * @return true if the link is ready for ESP traffic, else false.
+	 */
+	boolean awaitReady(long _timeoutMs)
+	{
 		try
 		{
 			m_readyLatch.await(_timeoutMs, TimeUnit.MILLISECONDS);
@@ -166,23 +198,24 @@ public class V1connectionLE
 	}
 
 	/**
-	 * Tear down the GATT connection and unblock the streams. Safe to call repeatedly.
+	 * Tear down the GATT connection and unblock the streams. Safe to call repeatedly
+	 * and from any thread (including the Bluetooth callback thread).
 	 */
 	public void close()
 	{
-		if (m_closed)
+		synchronized (this)
 		{
-			if (m_readyLatch != null)
+			if (m_closed)
 			{
-				m_readyLatch.countDown();
+				return;
 			}
-			return;
+			m_closed = true;
+			m_ready = false;
 		}
-		m_closed = true;
-		m_ready = false;
 
 		BluetoothGatt gatt = m_gatt;
 		m_gatt = null;
+		m_writeCharacteristic = null;
 		if (gatt != null)
 		{
 			try
@@ -199,13 +232,18 @@ public class V1connectionLE
 			}
 		}
 
+		// Shutting the input stream down makes available() throw in DataReaderThread,
+		// which shuts the whole ESP stack down cleanly (threads, queues, callbacks).
 		m_inputStream.shutdown();
 		// Unblock any writer waiting on a GATT write completion.
 		m_lastWriteStatus = BluetoothGatt.GATT_FAILURE;
 		m_writeComplete.release();
-		if (m_readyLatch != null)
+
+		// Unblock a connect() caller that is still waiting for the link to become ready.
+		CountDownLatch latch = m_readyLatch;
+		if (latch != null)
 		{
-			m_readyLatch.countDown();
+			latch.countDown();
 		}
 
 		boolean wasConnected = m_esp.getIsConnected();
@@ -244,13 +282,16 @@ public class V1connectionLE
 					failConnection("Bluetooth permission revoked during service discovery");
 				}
 			}
-			else
+			else if (newState == BluetoothProfile.STATE_DISCONNECTED || status != BluetoothGatt.GATT_SUCCESS)
 			{
+				// Covers both an orderly disconnect and error statuses (e.g. the
+				// infamous 133) reported with a bogus connection state. close() shuts
+				// the ESP stack down and releases any connect() waiter.
 				if (ESPLibraryLogController.LOG_WRITE_DEBUG)
 				{
-					Log.d(LOG_TAG, "GATT connection failed/disconnected (status " + status + ")");
+					Log.d(LOG_TAG, "GATT disconnected (status " + status + ", state " + newState + ")");
 				}
-				failConnection("GATT connection failed with status " + status);
+				close();
 			}
 		}
 
@@ -306,7 +347,8 @@ public class V1connectionLE
 					notifyCharacteristic.getDescriptor(CLIENT_CHARACTERISTIC_CONFIGURATION_UUID);
 			if (descriptor == null)
 			{
-				failConnection("Notification descriptor not found");
+				// No CCC descriptor; assume notifications are on and continue.
+				markReady();
 				return;
 			}
 
@@ -340,7 +382,7 @@ public class V1connectionLE
 
 			if (status == BluetoothGatt.GATT_SUCCESS)
 			{
-				markReady(gatt);
+				markReady();
 			}
 			else
 			{
@@ -374,16 +416,31 @@ public class V1connectionLE
 		}
 	};
 
-	private void markReady(BluetoothGatt _gatt)
+	/**
+	 * Mark the link usable and release a connect() waiter. A close() that happened
+	 * first wins the race and the connection stays down.
+	 *
+	 * Package visible for unit testing.
+	 */
+	void markReady()
 	{
-		if (m_closed || _gatt != m_gatt)
+		synchronized (this)
 		{
-			return;
+			if (m_closed)
+			{
+				// close() won the race (e.g. a disconnect arrived while the descriptor
+				// write completion was in flight); do not resurrect the connection.
+				return;
+			}
+			m_ready = true;
 		}
-		m_ready = true;
 		m_esp.setIsConnected(true);
 		m_esp.broadcastV1Event(com.valentine.esp.ValentineClient.V1_ESP_CONNECTED, true);
-		m_readyLatch.countDown();
+		CountDownLatch latch = m_readyLatch;
+		if (latch != null)
+		{
+			latch.countDown();
+		}
 	}
 
 	private void failConnection(String _message)
@@ -398,9 +455,18 @@ public class V1connectionLE
 	/**
 	 * Reassemble bare ESP frames from notification data and hand complete frames to the
 	 * input stream in PACK framing.
+	 *
+	 * Package visible for unit testing.
 	 */
-	private synchronized void handleNotification(byte[] _data)
+	synchronized void handleNotification(byte[] _data)
 	{
+		if (m_closed)
+		{
+			// A GATT callback can still fire briefly after close(); drop the data so
+			// stale packets are not processed on a dead connection.
+			return;
+		}
+
 		// Append to the reassembly buffer, growing it if needed.
 		if (m_leBufferLen + _data.length > m_leBuffer.length)
 		{
@@ -467,6 +533,8 @@ public class V1connectionLE
 	/**
 	 * Wrap a bare ESP frame in the PACK framing produced by the classic SPP V1connection:
 	 * 0x7F, length, escaped frame bytes, wrapper checksum, 0x7F.
+	 *
+	 * Package visible for unit testing.
 	 */
 	static byte[] wrapInPackFraming(byte[] _espFrame)
 	{
@@ -517,6 +585,8 @@ public class V1connectionLE
 	 * remove the delimiters, unescape, then drop the length byte and wrapper checksum.
 	 *
 	 * @return the bare ESP frame, or null if the buffer is not a valid PACK frame.
+	 *
+	 * Package visible for unit testing.
 	 */
 	static byte[] stripPackFraming(byte[] _packFrame)
 	{

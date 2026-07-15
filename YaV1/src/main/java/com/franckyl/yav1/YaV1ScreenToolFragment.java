@@ -231,7 +231,16 @@ public class YaV1ScreenToolFragment extends Fragment
         }
 
         // check the current mode, if not euro mode remove the sweep view
-        if(YaV1.sModeData == null || !YaV1.sModeData.getEuroMode())
+        if(YaV1.mV1Client != null && YaV1.mV1Client.isGen2())
+        {
+            // The V1 Gen2 has no custom sweeps: say so instead of offering the
+            // quick sweep push list.
+            ( (RelativeLayout) mFragmentView.findViewById(R.id.v1_sweep)).setVisibility(View.VISIBLE);
+            txtV = (TextView) mFragmentView.findViewById(R.id.current_sweep_name);
+            txtV.setText(R.string.gen2_no_custom_sweeps);
+            txtV.setEnabled(false);
+        }
+        else if(YaV1.sModeData == null || !YaV1.sModeData.getEuroMode())
         {
             ( (RelativeLayout) mFragmentView.findViewById(R.id.v1_sweep)).setVisibility(View.GONE);
         }
@@ -240,6 +249,7 @@ public class YaV1ScreenToolFragment extends Fragment
             ( (RelativeLayout) mFragmentView.findViewById(R.id.v1_sweep)).setVisibility(View.VISIBLE);
             txtV = (TextView) mFragmentView.findViewById(R.id.current_sweep_name);
             txtV.setText(YaV1.sSweep.getCurrentName());
+            txtV.setEnabled(true);
         }
     }
 }
