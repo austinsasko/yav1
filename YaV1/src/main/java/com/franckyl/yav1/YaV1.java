@@ -419,6 +419,11 @@ public class YaV1 extends Application
 
     public static boolean customPossible()
     {
+        // The V1 Gen2 platform has no custom sweeps (it uses "custom frequencies"
+        // configured on the detector itself), so never offer to push sweeps to one.
+        if(mV1Client != null && mV1Client.isGen2())
+            return false;
+
         return (sModeData != null && sModeData.getEuroMode());
     }
 
@@ -481,6 +486,16 @@ public class YaV1 extends Application
 
     public boolean getSweeps()
     {
+        // The V1 Gen2 has no custom sweeps; don't query for them, just show that
+        // there is no current sweep set instead of erroring out.
+        if(mV1Client != null && mV1Client.isGen2())
+        {
+            sSweep.setNoCurrent();
+            Log.d("Valentine", "V1 Gen2 connected, custom sweeps not applicable");
+            YaV1.postEvent(new InfoEvent(InfoEvent.Type.V1_INFO));
+            return false;
+        }
+
         // we request the Custom Sweep (if any)
         if(sModeData.getEuroMode())
         {

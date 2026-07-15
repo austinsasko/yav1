@@ -58,6 +58,27 @@ public abstract class ESPPacket
 	
 	private static ArrayList<Byte> mLastStartBuffer = new ArrayList<Byte>();
 	private static ArrayList<Byte> mLastEndBuffer = new ArrayList<Byte>();
+
+	/**
+	 * Reset the static decoder state (last known V1 type and debug buffers). Called
+	 * when a new connection is established and used by the unit tests to isolate
+	 * test cases from each other.
+	 */
+	public static void resetDecoderState()
+	{
+		lastKnownV1Type = Devices.UNKNOWN;
+		mLastStartBuffer.clear();
+		mLastEndBuffer.clear();
+	}
+
+	/**
+	 * The V1 type the packet decoder is currently assuming, based on the origin of
+	 * the last infDisplayData packet seen.
+	 */
+	public static Devices getLastKnownV1Type()
+	{
+		return lastKnownV1Type;
+	}
 	
 	private enum ProcessState
 	{
@@ -110,12 +131,13 @@ public abstract class ESPPacket
 			return false;
 		}
 		
-		if ( payloadData != null && rhs.payloadData != null){ 
+		if ( payloadData != null && rhs.payloadData != null){
 			// Duplicate null check, but that is OK
 			try {
 				for ( int i = 0; i < payloadLength; i++ ){
 					if ( payloadData[i] != rhs.payloadData[i] ){
 						// Payload data mismatch
+						return false;
 					}
 				}
 			}
@@ -668,10 +690,16 @@ public abstract class ESPPacket
 			}
 		}
 		
-		if (_packet.checkSum == 0)
+		// A packet built for a V1 with checksum always carries the ESP checksum byte,
+		// even in the rare case where the checksum legitimately computes to 0x00.
+		boolean hasChecksum = (_packet.checkSum != 0
+				|| (_packet.m_valentineType == Devices.VALENTINE1_WITH_CHECKSUM
+					&& _packet.payloadLength == payloadDataSize + 1));
+
+		if (!hasChecksum)
 		{
 			buffer[7 + payloadDataSize] = (byte)_packet.endOfFrame;
-			
+
 			buffer[8 + payloadDataSize] = _packet.packetChecksum;
 			buffer[9 + payloadDataSize] = _packet.endDelimter;
 		}
@@ -679,7 +707,7 @@ public abstract class ESPPacket
 		{
 			buffer[7 + payloadDataSize] = (byte)_packet.checkSum;
 			buffer[8 + payloadDataSize] = (byte)_packet.endOfFrame;
-			
+
 			buffer[9 + payloadDataSize] = _packet.packetChecksum;
 			buffer[10 + payloadDataSize] = _packet.endDelimter;
 		}

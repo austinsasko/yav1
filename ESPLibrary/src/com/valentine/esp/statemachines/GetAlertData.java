@@ -157,6 +157,10 @@ public class GetAlertData
                 if (alert.getPriorityAlert())
                     n.setProperty(n.PROP_PRIORITY);
 
+                // V1 Gen2 (V4.1032+) reports junk / blind spot monitor falses
+                if (alert.isJunkAlert())
+                    n.setProperty(n.getProperty() | YaV1Alert.PROP_JUNK);
+
                 n.setOrder(index);
 
                 // Log.d("Valentine", "Alert index " + index + " Frequency " + alert.getFrequency() + " Remain bytes " + alert.getReserved());

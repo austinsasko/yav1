@@ -153,7 +153,16 @@ public class DataReaderThread extends Thread
 										byte packetId = idInt.byteValue(); // (Byte)newPacket.getResponseData();
 										ESPPacket packet = PacketQueue.getLastWrittenPacketOfType(PacketIdLookup.getConstant(packetId));
 
-										if (!packet.getResentFlag())
+										if (packet == null)
+										{
+											// We never sent a packet of that type (or it was sent by another
+											// device on the ESP bus), so there is nothing to resend.
+											if(ESPLibraryLogController.LOG_WRITE_WARNING){
+												Log.w(LOG_TAG, "respRequestNotProcessed for a packet we never sent: " + PacketIdLookup.getConstant(packetId).toString());
+											}
+											PacketQueue.pushInputPacketOntoQueue(newPacket);
+										}
+										else if (!packet.getResentFlag())
 										{
 											if(ESPLibraryLogController.LOG_WRITE_INFO){
 												Log.i("Valentine", "Requeuing packet of type " + PacketIdLookup.getConstant(packetId).toString() ); 
@@ -220,10 +229,20 @@ public class DataReaderThread extends Thread
 				m_run = false;
 				m_valentineEsp.stop();
 			} 
-			catch (IOException e) 
+			catch (IOException e)
 			{
 				if(ESPLibraryLogController.LOG_WRITE_WARNING){
 					Log.w(LOG_TAG, "IOException encountered, shutting down esp...", e);
+				}
+				m_run = false;
+				m_valentineEsp.stop();
+			}
+			catch (RuntimeException e)
+			{
+				// Never let corrupted data kill the reader thread silently: shut the
+				// ESP stack down cleanly so the app level reconnect logic can run.
+				if(ESPLibraryLogController.LOG_WRITE_ERROR){
+					Log.e(LOG_TAG, "Unexpected exception in reader thread, shutting down esp...", e);
 				}
 				m_run = false;
 				m_valentineEsp.stop();

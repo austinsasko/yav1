@@ -185,7 +185,16 @@ public class LockoutArea extends SparseArray<Lockout>
 
             a.mLockoutId = l.getId();
 
-            l.mSeen++;
+            // A sighting only counts toward the auto lockout threshold when it
+            // belongs to a new visit (separated from the last sighting by at
+            // least LockoutParam.mVisitGapSec seconds).
+            long nowSec = System.currentTimeMillis() / 1000;
+            if(Lockout.isNewVisit(l.mLastSeenTime, nowSec, LockoutParam.mVisitGapSec))
+                l.mSeen++;
+            l.mLastSeenTime = nowSec;
+
+            // follow the slow frequency drift of the source
+            l.mFrequency = Lockout.trackFrequency(l.mFrequency, f);
 
             // check the seen number compare to mMinSeen
 

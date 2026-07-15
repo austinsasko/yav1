@@ -312,6 +312,8 @@ public class YaV1AlertProcessor
         int     iniProperty;
         int     diff;
         int     lastColor;
+        boolean announceAlert;
+        long    nowMs    = SystemClock.elapsedRealtime();
 
         YaV1Alert           a;
         YaV1PersistentAlert pa;
@@ -387,6 +389,7 @@ public class YaV1AlertProcessor
             {
                 a = al.get(i);
                 pa = mMatchPersist.get(i);
+                announceAlert = false;
 
                 if(a.isLaser())
                 {
@@ -397,11 +400,33 @@ public class YaV1AlertProcessor
                     if((iniProperty & YaV1Alert.PROP_LOG) > 0)
                         YaV1.sLog.log(a);
 
+                    // voice announce the laser onset
+                    if(!mHadLaser && (iniProperty & YaV1Alert.PROP_MUTE) < 1 && !YaV1AlertService.getMute())
+                        YaV1Tts.announce(YaV1Alert.BAND_LASER, a.getArrowDir(), 0);
+
                     continue;
                 }
 
                 if(pa != null)
                 {
+                    // blind spot monitor filter: track the signal and release the
+                    // alert once it proves persistent
+                    if((pa.mPersistentProperty & YaV1Alert.PROP_BSM) > 0)
+                    {
+                        if(a.getSignal() > pa.mBsmMaxSignal)
+                            pa.mBsmMaxSignal = a.getSignal();
+
+                        boolean junk = (a.getProperty() & YaV1Alert.PROP_JUNK) > 0;
+
+                        if(!YaV1BsmFilter.shouldStayHeld(nowMs - pa.mFirstTime, pa.mBsmBaseSignal, pa.mBsmMaxSignal, junk))
+                        {
+                            // the alert survived the hold: release it and announce it now
+                            pa.mPersistentProperty = (pa.mPersistentProperty & (~YaV1Alert.PROP_BSM));
+                            announceAlert = true;
+                            rc = true;
+                        }
+                    }
+
                     if((diff = pa.isSame(a)) > 0)
                     {
                         if(diff > 1)
@@ -513,6 +538,20 @@ public class YaV1AlertProcessor
                             }
                         }
                     }
+
+                    // blind spot monitor filter: hold back brand new K band alerts
+                    // (and alerts the V1 Gen2 flagged as junk) instead of sounding them
+                    if(YaV1BsmFilter.shouldHoldNew(pa.mBand)
+                       || (YaV1BsmFilter.isEnabled() && (a.getProperty() & YaV1Alert.PROP_JUNK) > 0))
+                    {
+                        pa.mPersistentProperty |= YaV1Alert.PROP_BSM;
+                        rc = true;
+                    }
+                    else
+                    {
+                        // a brand new, unfiltered alert: candidate for voice announce
+                        announceAlert = true;
+                    }
                 }
 
                 // affect the property and check
@@ -521,6 +560,14 @@ public class YaV1AlertProcessor
                 a.setProperty(pa.mPersistentProperty);
                 a.setColor(pa.mColor);
                 a.setTextColor(pa.mTextColor);
+
+                // voice announce new (or just released) alerts that are not muted
+                if(announceAlert && YaV1Tts.isEnabled()
+                   && (pa.mPersistentProperty & (YaV1Alert.PROP_MUTE | YaV1Alert.PROP_BSM | YaV1Alert.PROP_LOCKOUT | YaV1Alert.PROP_WHITE)) < 1
+                   && !YaV1AlertService.getMute())
+                {
+                    YaV1Tts.announce(pa.mBand, a.getArrowDir(), pa.mFrequency);
+                }
 
                 // if lockout or white, we set the lockout id * -1
                 if((pa.mPersistentProperty & CHECK_FOR_LOCKWHITE) > 0)

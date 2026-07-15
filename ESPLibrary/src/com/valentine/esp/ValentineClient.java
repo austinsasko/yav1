@@ -313,10 +313,10 @@ public class ValentineClient
     {
         m_valentineESP.enableBtWorkAround(bt);
     }
-	/** 
+	/**
 	 * Returns if the connected Valentine One is a legacy device.
-	 * 
-	 * @return True if the device is a legacy Valentine One, false otherwise. 
+	 *
+	 * @return True if the device is a legacy Valentine One, false otherwise.
 	 */
 	public boolean isLegacyMode()
 	{
@@ -328,6 +328,29 @@ public class ValentineClient
 		{
 			return false;
 		}
+	}
+
+	/**
+	 * Returns if the connected Valentine One is a second generation unit (V1 Gen2).
+	 * A Gen2 uses the same ESP device id as a V1 with checksum, so it is identified
+	 * by its firmware version (V4.1000 and later), which is captured whenever a
+	 * version response from the V1 is processed.
+	 *
+	 * @return True if the connected V1 is a Gen2, false otherwise.
+	 */
+	public boolean isGen2()
+	{
+		return V1VersionSettingLookup.isGen2();
+	}
+
+	/**
+	 * Returns the firmware version of the connected V1 as a floating point value,
+	 * e.g. 4.1031 for "V4.1031". Returns the library default until a version
+	 * response has been received.
+	 */
+	public double getV1Version()
+	{
+		return V1VersionSettingLookup.getV1Version();
 	}
 	
 	/**
@@ -583,6 +606,10 @@ public class ValentineClient
 		m_valentineType = Devices.UNKNOWN;
 		m_lastV1Type = Devices.UNKNOWN;
 		m_v1TypeChangeCnt = 0;
+
+		// Forget the version of a previously connected V1 so Gen2 detection does not
+		// leak across connections.
+		V1VersionSettingLookup.resetV1Version();
 		
 		// Do not allow writing to the V1 type is known
 		PacketQueue.initOutputQueue(Devices.UNKNOWN, false, true);
