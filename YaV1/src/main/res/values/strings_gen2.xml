@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Strings for the V1 Gen2 support and the demo chooser. Kept in a separate
+     file so they do not conflict with strings.xml. -->
+<resources>
+    <!-- Demo chooser -->
+    <string name="demo_choose_title">Choose a demo</string>
+    <string name="demo_random">Random</string>
+
+    <!-- V1 Gen2 degradation -->
+    <string name="gen2_no_custom_sweeps">V1 Gen2: no custom sweeps</string>
+    <string name="gen2_sweep_push_not_supported">Custom sweeps are not supported on the V1 Gen2</string>
+    <string name="gen2_setting_push_not_supported">Pushing V1 profiles is not supported on the V1 Gen2</string>
+</resources>

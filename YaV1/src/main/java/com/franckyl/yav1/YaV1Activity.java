@@ -412,7 +412,7 @@ public class YaV1Activity extends Activity implements ActionBar.OnNavigationList
                     builder.setPositiveButton(R.string.ok, null).show();
                 }
                 else
-                    startAlert(true);
+                    chooseDemoFile();
                 return true;
             case R.id.yav1_lockout:
                 if(!YaV1.sPrefs.getBoolean("enable_lockout", false) || YaV1.sAutoLockout == null)
@@ -909,8 +909,62 @@ public class YaV1Activity extends Activity implements ActionBar.OnNavigationList
     }
 
 
+    // Let the user pick which demo file to play (e.g. the V1 Gen2 demo) instead of
+    // always playing a random one.
+
+    private void chooseDemoFile()
+    {
+        String[] files = null;
+        try
+        {
+            files = getResources().getAssets().list("demo");
+        }
+        catch(IOException e)
+        {
+        }
+
+        if(files == null || files.length == 0)
+            return;
+
+        if(files.length == 1)
+        {
+            startAlert(true, files[0]);
+            return;
+        }
+
+        final String[] fList = files;
+        String[] labels = new String[files.length + 1];
+        labels[0] = getString(R.string.demo_random);
+
+        for(int i = 0; i < files.length; i++)
+        {
+            String name = files[i];
+            // strip the extension for display
+            int dot = name.lastIndexOf('.');
+            labels[i + 1] = (dot > 0 ? name.substring(0, dot) : name);
+        }
+
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.demo_choose_title)
+                .setItems(labels, new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        startAlert(true, (which == 0 ? null : fList[which - 1]));
+                    }
+                })
+                .setNegativeButton(R.string.cancel, null)
+                .show();
+    }
+
     // Start the Service on the Given Device
     private void startAlert(boolean demo)
+    {
+        startAlert(demo, null);
+    }
+
+    // Start the Service on the Given Device, optionally forcing a specific demo file
+    private void startAlert(boolean demo, String demoFile)
     {
         Log.d("Valentine", "In start alert service");
         // we launch our service here (if not there)
@@ -942,7 +996,11 @@ public class YaV1Activity extends Activity implements ActionBar.OnNavigationList
             dIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             // we can fire it
             if(demo)
+            {
                 dIntent.putExtra("demoMode", true);
+                if(demoFile != null)
+                    dIntent.putExtra("demoFile", demoFile);
+            }
             // from Dark
             if(mFromDark)
                 dIntent.putExtra("fromdark", true);

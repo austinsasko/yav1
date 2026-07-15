@@ -291,6 +291,16 @@ public class YaV1SweepSets extends ArrayList<YaV1Sweep>
 
     public boolean internalPush(int sweepId, final Context ctx)
     {
+        // custom sweeps do not exist on the V1 Gen2; never try to push one
+        // (all push entry points funnel through here)
+        if(YaV1.mV1Client != null && YaV1.mV1Client.isGen2())
+        {
+            Log.d("Valentine", "Sweep push refused: connected V1 is a Gen2");
+            if(ctx != null)
+                Toast.makeText(ctx, R.string.gen2_sweep_push_not_supported, Toast.LENGTH_LONG).show();
+            return false;
+        }
+
         final     YaV1Sweep s   = getSweepFromId(sweepId);
         boolean   rc            = false;
 

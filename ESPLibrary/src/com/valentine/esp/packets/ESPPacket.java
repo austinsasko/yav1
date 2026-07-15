@@ -79,7 +79,18 @@ public abstract class ESPPacket
 	{
 		return lastKnownV1Type;
 	}
-	
+
+	/**
+	 * Preset the V1 type the packet decoder assumes. Demo mode uses this because the
+	 * demo data simulates a V1 with checksum on the ESP bus, and the configuration
+	 * packets at the top of a demo file would otherwise be discarded ("V1 type is
+	 * unknown") until the first infDisplayData packet is encountered.
+	 */
+	public static void presetV1Type(Devices _v1Type)
+	{
+		lastKnownV1Type = _v1Type;
+	}
+
 	private enum ProcessState
 	{
 		START_PACK_BYTE,

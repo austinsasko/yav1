@@ -436,7 +436,8 @@ public class YaV1ScreenActivity extends FragmentActivity
             }
             case R.id.current_sweep_name:
             {
-                if(mBound)
+                // no quick sweep push on a V1 Gen2 (no custom sweeps there)
+                if(mBound && YaV1.customPossible())
                 {
                     popupQuickSweeps();
                 }
@@ -898,7 +899,7 @@ public class YaV1ScreenActivity extends FragmentActivity
 
     private boolean pushDemo()
     {
-        // get random demo data file
+        // play the requested demo data file, or a random one when none was requested
         try
         {
             String [] list = getResources().getAssets().list("demo");
@@ -908,8 +909,19 @@ public class YaV1ScreenActivity extends FragmentActivity
                 Random rnd = new Random();
                 int index  = rnd.nextInt(list.length);
 
-                // for each band after others
-                //index = 2;
+                // a specific file can be requested from the demo chooser
+                String wanted = getIntent().getStringExtra("demoFile");
+                if(wanted != null)
+                {
+                    for(int i = 0; i < list.length; i++)
+                    {
+                        if(wanted.equals(list[i]))
+                        {
+                            index = i;
+                            break;
+                        }
+                    }
+                }
 
                 Log.d("Valentine", "Playing demo " + list[index] + " Index " + index);
 
