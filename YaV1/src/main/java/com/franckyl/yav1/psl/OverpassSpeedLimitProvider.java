@@ -190,15 +190,100 @@ public class OverpassSpeedLimitProvider implements SpeedLimitProvider
         if(body == null)
             return;
 
-        List<Way> ways  = parseWays(body);
-        Integer   limit = selectLimitKph(ways, lat, lon, currentBearingHint());
+        List<Way> ways    = parseWays(body);
+        float     bearing = currentBearingHint();
+        Way       best    = selectBestWay(ways, lat, lon, bearing);
+        Integer   limit   = null;
+        long      now     = System.currentTimeMillis();
+        int       seeded  = 0;
 
-        mCache.put(SpeedLimitCache.tileKey(lat, lon), limit, System.currentTimeMillis());
+        if(best != null)
+        {
+            double segBearing = closestSegmentBearing(best, lat, lon);
+            limit = effectiveLimitKph(best, bearing, segBearing);
+        }
+
+        mCache.put(SpeedLimitCache.tileKey(lat, lon), limit, now);
+
+        // Live finding (2026-07-14, I-45): 150m tiles + 1 fetch / 20s means
+        // at highway speed only ~1 in 5 tiles ever gets a limit, so muting
+        // flaps between known and unknown tiles. The response geometry spans
+        // far more road than the query point: seed every tile the selected
+        // way passes through (within SEED_MAX_DIST_M of the fetch point) so
+        // the road ahead is already cached when the vehicle gets there.
+        if(limit != null)
+        {
+            seeded = seedAlongWay(best, limit, lat, lon, now);
+
+            if(mCacheFile != null)
+                mCache.save(mCacheFile);
+        }
+
         Log.d(TAG, "Overpass result " + String.format(Locale.US, "%.5f,%.5f", lat, lon)
-                   + " ways=" + ways.size() + " limitKph=" + limit);
+                   + " ways=" + ways.size() + " limitKph=" + limit
+                   + " seededTiles=" + seeded);
+    }
 
-        if(limit != null && mCacheFile != null)
-            mCache.save(mCacheFile);
+    /** how far along the selected way tiles are seeded from the fetch point */
+    public static final double SEED_MAX_DIST_M  = 3000.0;
+
+    /** sampling step along the way when seeding (must stay below tile size) */
+    public static final double SEED_STEP_M      = 60.0;
+
+    /**
+     * Seed the cache with the way's limit for every ~150m tile its
+     * geometry passes through, within {@link #SEED_MAX_DIST_M} of the
+     * fetch point. Existing tiles are refreshed (same limit source).
+     * Returns the number of tiles written.
+     */
+    int seedAlongWay(Way w, Integer limitKph, double lat, double lon, long nowMs)
+    {
+        java.util.HashSet<String> keys = new java.util.HashSet<String>();
+
+        for(int i = 0; i + 1 < w.lats.length; i++)
+        {
+            double segLen = distanceM(w.lats[i], w.lons[i], w.lats[i + 1], w.lons[i + 1]);
+            int    steps  = Math.max(1, (int) Math.ceil(segLen / SEED_STEP_M));
+
+            for(int s = 0; s <= steps; s++)
+            {
+                double f   = (double) s / steps;
+                double pla = w.lats[i] + (w.lats[i + 1] - w.lats[i]) * f;
+                double plo = w.lons[i] + (w.lons[i + 1] - w.lons[i]) * f;
+
+                if(distanceM(lat, lon, pla, plo) > SEED_MAX_DIST_M)
+                    continue;
+
+                keys.add(SpeedLimitCache.tileKey(pla, plo));
+            }
+        }
+
+        for(String k : keys)
+            mCache.put(k, limitKph, nowMs);
+
+        return keys.size();
+    }
+
+    /** bearing of the way segment closest to the location */
+    public static double closestSegmentBearing(Way w, double lat, double lon)
+    {
+        double minDist    = Double.MAX_VALUE;
+        double segBearing = 0;
+
+        for(int i = 0; i + 1 < w.lats.length; i++)
+        {
+            double d = distanceToSegmentM(lat, lon,
+                                          w.lats[i], w.lons[i],
+                                          w.lats[i + 1], w.lons[i + 1]);
+            if(d < minDist)
+            {
+                minDist    = d;
+                segBearing = segmentBearing(w.lats[i], w.lons[i],
+                                            w.lats[i + 1], w.lons[i + 1]);
+            }
+        }
+
+        return segBearing;
     }
 
     // bearing at selection time: getSpeedLimitKph() keeps this fresh so the
@@ -436,7 +521,17 @@ public class OverpassSpeedLimitProvider implements SpeedLimitProvider
      */
     public static Integer selectLimitKph(List<Way> ways, double lat, double lon, float bearing)
     {
-        Integer best      = null;
+        Way best = selectBestWay(ways, lat, lon, bearing);
+        if(best == null)
+            return null;
+
+        return effectiveLimitKph(best, bearing, closestSegmentBearing(best, lat, lon));
+    }
+
+    /** the winning way itself (for seeding); null when nothing is usable */
+    public static Way selectBestWay(List<Way> ways, double lat, double lon, float bearing)
+    {
+        Way     best      = null;
         double  bestScore = Double.MAX_VALUE;
 
         for(Way w : ways)
@@ -473,7 +568,7 @@ public class OverpassSpeedLimitProvider implements SpeedLimitProvider
             if(score < bestScore)
             {
                 bestScore = score;
-                best      = limit;
+                best      = w;
             }
         }
 

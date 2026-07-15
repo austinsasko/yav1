@@ -352,6 +352,50 @@ public class OverpassSpeedLimitProviderTest
 			OverpassSpeedLimitProvider.effectiveLimitKph(w, 180, 0));
 	}
 
+	// -- tile seeding along the selected way ---------------------------------
+	// (live finding 2026-07-14: at highway speed only ~1 in 5 tiles was ever
+	// populated by point fetches, so PSL muting flapped known/unknown)
+
+	@Test
+	public void seedingFillsEveryTileAlongTheWay()
+	{
+		OverpassSpeedLimitProvider p = new OverpassSpeedLimitProvider(null);
+
+		// straight north-south way, ~2.2km long through the fetch point
+		OverpassSpeedLimitProvider.Way w = new OverpassSpeedLimitProvider.Way(
+			105, new double[] {30.10, 30.12}, new double[] {-95.44, -95.44});
+
+		int seeded = p.seedAlongWay(w, 105, 30.11, -95.44, 1000L);
+
+		// 0.02 deg lat = ~2225m = ~15 tiles of 150m
+		assertTrue("seeded " + seeded, seeded >= 14 && seeded <= 17);
+
+		// every tile along the way now answers without a fetch
+		for(double lat = 30.100; lat <= 30.120; lat += 0.0005)
+		{
+			SpeedLimitCache.Entry e = p.getCache().get(SpeedLimitCache.tileKey(lat, -95.44));
+			assertTrue("tile at " + lat + " missing", e != null);
+			assertEquals(Integer.valueOf(105), e.limitKph);
+		}
+	}
+
+	@Test
+	public void seedingStopsAtTheDistanceCap()
+	{
+		OverpassSpeedLimitProvider p = new OverpassSpeedLimitProvider(null);
+
+		// ~11km way; fetch point at the south end
+		OverpassSpeedLimitProvider.Way w = new OverpassSpeedLimitProvider.Way(
+			105, new double[] {30.10, 30.20}, new double[] {-95.44, -95.44});
+
+		p.seedAlongWay(w, 105, 30.10, -95.44, 1000L);
+
+		// within the cap: seeded
+		assertTrue(p.getCache().get(SpeedLimitCache.tileKey(30.125, -95.44)) != null);
+		// beyond SEED_MAX_DIST_M (3km = ~0.027 deg): not seeded
+		assertTrue(p.getCache().get(SpeedLimitCache.tileKey(30.16, -95.44)) == null);
+	}
+
 	@Test
 	public void directionalOnlyWayIsSkippedWhenTraveledTheUntaggedWay()
 	{
