@@ -107,9 +107,7 @@ public class V1connectionLE
 			return false;
 		}
 
-		m_closed = false;
-		m_ready = false;
-		m_readyLatch = new CountDownLatch(1);
+		beginConnectAttempt();
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
 		{
@@ -127,6 +125,31 @@ public class V1connectionLE
 			return false;
 		}
 
+		return awaitReady(_timeoutMs);
+	}
+
+	/**
+	 * Reset the connection state for a fresh connect attempt.
+	 *
+	 * Package visible for unit testing.
+	 */
+	void beginConnectAttempt()
+	{
+		m_closed = false;
+		m_ready = false;
+		m_readyLatch = new CountDownLatch(1);
+	}
+
+	/**
+	 * Block until the link becomes ready (markReady), the connection is closed, or the
+	 * timeout elapses. On anything but a ready link the connection is closed.
+	 *
+	 * Package visible for unit testing.
+	 *
+	 * @return true if the link is ready for ESP traffic, else false.
+	 */
+	boolean awaitReady(long _timeoutMs)
+	{
 		try
 		{
 			m_readyLatch.await(_timeoutMs, TimeUnit.MILLISECONDS);
@@ -338,7 +361,13 @@ public class V1connectionLE
 		}
 	};
 
-	private void markReady()
+	/**
+	 * Mark the link usable and release a connect() waiter. A close() that happened
+	 * first wins the race and the connection stays down.
+	 *
+	 * Package visible for unit testing.
+	 */
+	void markReady()
 	{
 		synchronized (this)
 		{
@@ -362,9 +391,18 @@ public class V1connectionLE
 	/**
 	 * Reassemble bare ESP frames from notification data and hand complete frames to the
 	 * input stream in PACK framing.
+	 *
+	 * Package visible for unit testing.
 	 */
-	private synchronized void handleNotification(byte[] _data)
+	synchronized void handleNotification(byte[] _data)
 	{
+		if (m_closed)
+		{
+			// A GATT callback can still fire briefly after close(); drop the data so
+			// stale packets are not processed on a dead connection.
+			return;
+		}
+
 		// Append to the reassembly buffer, growing it if needed.
 		if (m_leBufferLen + _data.length > m_leBuffer.length)
 		{

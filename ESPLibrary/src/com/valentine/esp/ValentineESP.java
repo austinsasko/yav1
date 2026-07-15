@@ -965,6 +965,16 @@ public class ValentineESP
 			}
 		}
 		
+		// Demo data simulates a V1 with checksum plugged into the ESP bus. Preset the
+		// packet decoder accordingly so the configuration packets at the top of the
+		// demo file (version, serial, sweeps...) parse even when no real V1 has been
+		// seen since app start, and forget the firmware version of any previously
+		// connected V1 so version based features (e.g. Gen2 detection) are driven
+		// purely by the demo data.
+		ESPPacket.resetDecoderState();
+		ESPPacket.presetV1Type(com.valentine.esp.constants.Devices.VALENTINE1_WITH_CHECKSUM);
+		com.valentine.esp.utilities.V1VersionSettingLookup.resetV1Version();
+
 		m_demoFileThread = new ProcessDemoFileThread(_demoData, _repeat);
 		m_demoFileThread.start();
 		

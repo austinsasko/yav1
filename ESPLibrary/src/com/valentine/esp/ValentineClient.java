@@ -607,6 +607,11 @@ public class ValentineClient
 		m_lastV1Type = Devices.UNKNOWN;
 		m_v1TypeChangeCnt = 0;
 
+		// Reset the static packet decoder state too. Without this, the V1 type assumed
+		// by ESPPacket.makeFromBuffer() (and used for checksum validation) leaks from a
+		// previously connected V1, or from a demo mode run, into the new connection.
+		com.valentine.esp.packets.ESPPacket.resetDecoderState();
+
 		// Forget the version of a previously connected V1 so Gen2 detection does not
 		// leak across connections.
 		V1VersionSettingLookup.resetV1Version();
@@ -1429,6 +1434,20 @@ public class ValentineClient
 	 */
 	public void setCustomSweeps(ArrayList<SweepDefinition> _definitions, Object _callbackObject, String _function, Object _errorObject, String _errorFunction)
 	{
+		if ( isGen2() ){
+			// The V1 Gen2 has no custom sweeps (it uses "custom frequencies" configured
+			// on the detector itself). Fail fast through the error callback instead of
+			// starting a write state machine that would wait forever on sweep responses
+			// the Gen2 will never send.
+			if ( ESPLibraryLogController.LOG_WRITE_WARNING ){
+				Log.w(LOG_TAG, "Rejecting custom sweep write: the connected V1 is a Gen2");
+			}
+			if ( _errorObject != null && _errorFunction != null ){
+				Utilities.doCallback(_errorObject, _errorFunction, String.class, "Custom sweeps are not supported on the V1 Gen2");
+			}
+			return;
+		}
+
 		m_writeCustomSweepsMachine = new WriteCustomSweeps(_definitions, m_valentineType, m_valentineESP, _callbackObject, _function, _errorObject, _errorFunction);
 		m_writeCustomSweepsMachine.Start();
 	}
@@ -1455,6 +1474,14 @@ public class ValentineClient
 	 */
 	public void setSweepsToDefault()
 	{
+		if ( isGen2() ){
+			// No custom sweeps on a V1 Gen2, so there is nothing to reset.
+			if ( ESPLibraryLogController.LOG_WRITE_WARNING ){
+				Log.w(LOG_TAG, "Ignoring set-sweeps-to-default request: the connected V1 is a Gen2");
+			}
+			return;
+		}
+
 		RequestSetSweepsToDefault packet = new RequestSetSweepsToDefault(m_valentineType);
 		m_valentineESP.sendPacket(packet);
 	}
