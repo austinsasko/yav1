@@ -157,7 +157,7 @@ public class YaV1ScreenToolFragment extends Fragment
 
         if(SoundParam.phoneAlertEnabled)
         {
-            imgBtn.setBackgroundResource(R.drawable.btn_default_normal_lblue);
+            imgBtn.setBackgroundResource(R.drawable.bg_tool_on);
             imgBtn.setClickable(true);
             imgBtn.setEnabled(true);
             // set image according to current state
@@ -165,7 +165,7 @@ public class YaV1ScreenToolFragment extends Fragment
         }
         else
         {
-            imgBtn.setBackgroundResource(R.drawable.btn_default_normal_yellow);
+            imgBtn.setBackgroundResource(R.drawable.bg_tool_off);
             imgBtn.setImageResource(R.drawable.alert_off);
             imgBtn.setClickable(false);
             imgBtn.setEnabled(false);
@@ -177,7 +177,7 @@ public class YaV1ScreenToolFragment extends Fragment
 
         if(SoundParam.sVoiceCount > 0)
         {
-            imgBtn.setBackgroundResource(R.drawable.btn_default_normal_lblue);
+            imgBtn.setBackgroundResource(R.drawable.bg_tool_on);
             imgBtn.setClickable(true);
             imgBtn.setEnabled(true);
             // set image according to state
@@ -185,7 +185,7 @@ public class YaV1ScreenToolFragment extends Fragment
         }
         else
         {
-            imgBtn.setBackgroundResource(R.drawable.btn_default_normal_yellow);
+            imgBtn.setBackgroundResource(R.drawable.bg_tool_off);
             imgBtn.setImageResource(R.drawable.voice_off);
             imgBtn.setClickable(false);
             imgBtn.setEnabled(false);
@@ -197,7 +197,7 @@ public class YaV1ScreenToolFragment extends Fragment
 
         if(SoundParam.mVibratorEnabled > SoundParam.VIB_DISABLED)
         {
-            imgBtn.setBackgroundResource(R.drawable.btn_default_normal_lblue);
+            imgBtn.setBackgroundResource(R.drawable.bg_tool_on);
             imgBtn.setClickable(true);
             imgBtn.setEnabled(true);
             // set image according to state - SoundManager
@@ -205,7 +205,7 @@ public class YaV1ScreenToolFragment extends Fragment
         }
         else
         {
-            imgBtn.setBackgroundResource(R.drawable.btn_default_normal_yellow);
+            imgBtn.setBackgroundResource(R.drawable.bg_tool_off);
             imgBtn.setImageResource(R.drawable.vibrate_off);
             imgBtn.setClickable(false);
             imgBtn.setEnabled(false);
@@ -216,14 +216,14 @@ public class YaV1ScreenToolFragment extends Fragment
 
         if(!YaV1CurrentPosition.sLockout || YaV1.sAutoLockout == null)
         {
-            lBtn.setBackgroundResource(R.drawable.btn_default_normal_yellow);
+            lBtn.setBackgroundResource(R.drawable.bg_tool_off);
             lBtn.setText(R.string.tool_tab_lockout_disabled);
             lBtn.setClickable(false);
             lBtn.setEnabled(false);
         }
         else
         {
-            lBtn.setBackgroundResource(R.drawable.btn_default_normal_lblue);
+            lBtn.setBackgroundResource(R.drawable.bg_tool_on);
             // check for frozen text
             lBtn.setText((YaV1.sAutoLockout.mMode == LockoutData.MODE_NORMAL ? R.string.tool_tab_lockout_normal : R.string.tool_tab_lockout_frozen));
             lBtn.setClickable(true);

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Active/enabled TOOLS control: band-ku accent, tappable (ripple). -->
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="#405AC8FA">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/panel_high" />
+            <corners android:radius="@dimen/radius_card" />
+            <stroke android:width="2dp" android:color="@color/band_ku" />
+        </shape>
+    </item>
+</ripple>

@@ -667,13 +667,13 @@ public class YaV1ScreenActivity extends FragmentActivity
             TextView tv1 = (TextView) row.findViewById (R.id.singleItem);
             if(position == currentPosition)
             {
-                tv1.setBackgroundResource(R.drawable.btn_default_normal_yellow);
-                tv1.setTextColor(Color.parseColor("#ff0000"));
+                tv1.setBackgroundResource(R.drawable.bg_tool_on);
+                tv1.setTextColor(getResources().getColor(R.color.ink));
             }
             else
             {
-                tv1.setBackgroundResource(R.drawable.btn_default_normal_lblue);
-                tv1.setTextColor(Color.parseColor("#000000"));
+                tv1.setBackgroundResource(R.drawable.bg_tool_off);
+                tv1.setTextColor(getResources().getColor(R.color.ink2));
             }
             tv1.setText(v1Settings.get(position));
             return row;
