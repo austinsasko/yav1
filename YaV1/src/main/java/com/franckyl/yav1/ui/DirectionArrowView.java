@@ -25,6 +25,7 @@ public class DirectionArrowView extends View
     private int     mDir   = FRONT;
     private int     mColor = BandPalette.COLOR_LOCKED;
     private boolean mMuted = false;
+    private float   mScale = 1f;   // 1.0 = full size (alert-board default)
 
     public DirectionArrowView(Context c)                        { super(c); }
     public DirectionArrowView(Context c, AttributeSet a)        { super(c, a); }
@@ -34,6 +35,19 @@ public class DirectionArrowView extends View
     {
         if(dir == mDir) return;
         mDir = dir;
+        invalidate();
+    }
+
+    /**
+     * V1 display: scale the arrow with the raw 0..8 signal level (0 hides it).
+     * Mirrors the old front_0..4 raster ramp. Not used by the alert board, which
+     * keeps the full-size default.
+     */
+    public void setLevel(int level)
+    {
+        float s = level <= 0 ? 0f : 0.4f + 0.6f * Math.min(level, 8) / 8f;
+        if(s == mScale) return;
+        mScale = s;
         invalidate();
     }
 
@@ -58,9 +72,11 @@ public class DirectionArrowView extends View
         final float h = getHeight() - getPaddingTop()  - getPaddingBottom();
         if(w <= 0 || h <= 0) return;
 
+        if(mScale <= 0f) return;   // level 0 -> arrow hidden
+
         final float cx = getPaddingLeft() + w / 2f;
         final float cy = getPaddingTop()  + h / 2f;
-        final float r  = Math.min(w, h) / 2f * 0.9f;
+        final float r  = Math.min(w, h) / 2f * 0.9f * mScale;
 
         mPaint.setColor(mMuted ? BandPalette.COLOR_LOCKED : mColor);
         mPaint.setStyle(Paint.Style.FILL);

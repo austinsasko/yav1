@@ -13,6 +13,8 @@ import android.widget.ListView;
 
 import com.franckyl.yav1.events.AlertEvent;
 import com.franckyl.yav1.events.InfoEvent;
+import com.franckyl.yav1.ui.DirectionArrowView;
+import com.franckyl.yav1.ui.DotMeterView;
 import com.franckyl.yav1.ui.SegmentDisplayView;
 import com.franckyl.yav1lib.YaV1Alert;
 import com.franckyl.yav1lib.YaV1AlertList;
@@ -29,10 +31,10 @@ public class YaV1ScreenV1Fragment extends YaV1ScreenBaseAlertFragment
     private ImageView          mX;
     private ImageView          mDot;
     private SegmentDisplayView mBogey;
-    private ImageView          mSignal;
-    private ImageView          mFront;
-    private ImageView          mSide;
-    private ImageView          mRear;
+    private DotMeterView       mSignal;
+    private DirectionArrowView mFront;
+    private DirectionArrowView mSide;
+    private DirectionArrowView mRear;
 
     private YaV1V1ViewAdapter  mAlertAdapter;
     private AtomicBoolean      mStop = new AtomicBoolean(false);
@@ -203,7 +205,7 @@ public class YaV1ScreenV1Fragment extends YaV1ScreenBaseAlertFragment
             // update the view and set the runSecond (crisp 7-seg from the raw byte)
             mBogey.setSegments(YaV1CurrentView.sBogey0);
             // strength
-            mSignal.setImageResource(mImageS[mStrength]);
+            mSignal.setCount(mStrength);
 
             adjustBand(0);
 
@@ -300,12 +302,19 @@ public class YaV1ScreenV1Fragment extends YaV1ScreenBaseAlertFragment
         // the decimal dot is rendered inside SegmentDisplayView (segment bit 7)
         if(mDot != null)
             mDot.setVisibility(View.GONE);
-        mSignal = (ImageView) mFragmentView.findViewById(R.id.signal);
+        mSignal = (DotMeterView) mFragmentView.findViewById(R.id.signal);
 
-        // arrows
-        mFront  = (ImageView) mFragmentView.findViewById(R.id.front);
-        mSide   = (ImageView) mFragmentView.findViewById(R.id.side);
-        mRear   = (ImageView) mFragmentView.findViewById(R.id.rear);
+        // arrows: fixed direction + colour matching the classic V1 display
+        // (front red, side green, rear yellow); strength drives the size.
+        mFront  = (DirectionArrowView) mFragmentView.findViewById(R.id.front);
+        mSide   = (DirectionArrowView) mFragmentView.findViewById(R.id.side);
+        mRear   = (DirectionArrowView) mFragmentView.findViewById(R.id.rear);
+        mFront.setDirection(DirectionArrowView.FRONT);
+        mFront.setColor(0xFFCC1200);
+        mSide.setDirection(DirectionArrowView.SIDE);
+        mSide.setColor(0xFF067012);
+        mRear.setDirection(DirectionArrowView.REAR);
+        mRear.setColor(0xFFFFE800);
     }
 
     // update the arrows
@@ -316,19 +325,19 @@ public class YaV1ScreenV1Fragment extends YaV1ScreenBaseAlertFragment
 
         if(mBandArrowIndicator[i].getFront())
             z = (mSignalDir[0] > 0 ? mSignalDir[0] : mStrength);
-        mFront.setImageResource(mFrontImg[z]);
+        mFront.setLevel(z);
 
         z = 0;
         if(mBandArrowIndicator[i].getSide())
             z = (mSignalDir[2] > 0 ? mSignalDir[2] : mStrength);
 
-        mSide.setImageResource(mSideImg[z]);
+        mSide.setLevel(z);
 
         z = 0;
         if(mBandArrowIndicator[i].getRear())
             z = (mSignalDir[1] > 0 ? mSignalDir[1] : mStrength);
 
-        mRear.setImageResource(mRearImg[z]);
+        mRear.setLevel(z);
     }
 
     // update the bands
