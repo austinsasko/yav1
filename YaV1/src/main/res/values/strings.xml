@@ -660,6 +660,26 @@
     <string name="badge_le">LE</string>
     <string name="badge_spp">SPP</string>
 
+    <!-- TOOLS control panel redesign -->
+    <string name="tools_savvy_label">Savvy speed</string>
+    <string name="tools_savvy_sub">Auto-mute below this speed</string>
+    <string name="tools_audio_label">Audio output</string>
+    <string name="tools_chip_phone">Phone</string>
+    <string name="tools_chip_voice">Voice</string>
+    <string name="tools_chip_vibrate">Vibrate</string>
+    <string name="tools_state_on">On</string>
+    <string name="tools_state_off">Off</string>
+    <string name="tools_lockout_label">Lockouts</string>
+    <string name="tools_lockout_sub">GPS junk-signal learning</string>
+    <string name="tools_mode_label">V1 mode</string>
+    <string name="tools_mode_sub">Tap to change mode</string>
+    <string name="tools_settings_label">Settings profile</string>
+    <string name="cd_savvy_minus">Decrease savvy speed</string>
+    <string name="cd_savvy_plus">Increase savvy speed</string>
+    <string name="cd_phone_alert">Toggle phone alert sounds</string>
+    <string name="cd_voice_alert">Toggle voice announcements</string>
+    <string name="cd_vibrate_alert">Toggle vibration</string>
+
     <!-- Settings information architecture groups -->
     <string name="settings_cat_detector">Detector</string>
     <string name="settings_cat_quiet">Quiet ride</string>

@@ -150,82 +150,35 @@ public class YaV1ScreenToolFragment extends Fragment
         if(txtV != null && str != null)
             txtV.setText(str);
 
-        // button states
-        ImageButton imgBtn = (ImageButton) mFragmentView.findViewById(R.id.alert_sound);
+        // audio chips: colour = state (green tint when sounding, dim when unavailable)
 
-        // Phone alerts
+        applyAudioChip(R.id.chip_alert, R.id.alert_sound, R.id.alert_state,
+                       SoundParam.phoneAlertEnabled, SoundParam.mPhoneAlertOn,
+                       R.drawable.alert_on, R.drawable.alert_off);
 
-        if(SoundParam.phoneAlertEnabled)
-        {
-            imgBtn.setBackgroundResource(R.drawable.bg_tool_on);
-            imgBtn.setClickable(true);
-            imgBtn.setEnabled(true);
-            // set image according to current state
-            imgBtn.setImageResource((SoundParam.mPhoneAlertOn ? R.drawable.alert_on : R.drawable.alert_off));
-        }
-        else
-        {
-            imgBtn.setBackgroundResource(R.drawable.bg_tool_off);
-            imgBtn.setImageResource(R.drawable.alert_off);
-            imgBtn.setClickable(false);
-            imgBtn.setEnabled(false);
-        }
+        applyAudioChip(R.id.chip_voice, R.id.voice_sound, R.id.voice_state,
+                       SoundParam.sVoiceCount > 0, SoundParam.mVoiceAlertOn,
+                       R.drawable.voice_on, R.drawable.voice_off);
 
-        imgBtn = (ImageButton) mFragmentView.findViewById(R.id.voice_sound);
+        applyAudioChip(R.id.chip_vibrate, R.id.vibrate_sound, R.id.vibrate_state,
+                       SoundParam.mVibratorEnabled > SoundParam.VIB_DISABLED, SoundParam.mVibratorOn,
+                       R.drawable.vibrate_on, R.drawable.vibrate_off);
 
-        // Voice alert
-
-        if(SoundParam.sVoiceCount > 0)
-        {
-            imgBtn.setBackgroundResource(R.drawable.bg_tool_on);
-            imgBtn.setClickable(true);
-            imgBtn.setEnabled(true);
-            // set image according to state
-            imgBtn.setImageResource( (SoundParam.mVoiceAlertOn ? R.drawable.voice_on : R.drawable.voice_off));
-        }
-        else
-        {
-            imgBtn.setBackgroundResource(R.drawable.bg_tool_off);
-            imgBtn.setImageResource(R.drawable.voice_off);
-            imgBtn.setClickable(false);
-            imgBtn.setEnabled(false);
-        }
-
-        // vibrator
-
-        imgBtn = (ImageButton) mFragmentView.findViewById(R.id.vibrate_sound);
-
-        if(SoundParam.mVibratorEnabled > SoundParam.VIB_DISABLED)
-        {
-            imgBtn.setBackgroundResource(R.drawable.bg_tool_on);
-            imgBtn.setClickable(true);
-            imgBtn.setEnabled(true);
-            // set image according to state - SoundManager
-            imgBtn.setImageResource( (SoundParam.mVibratorOn ? R.drawable.vibrate_on : R.drawable.vibrate_off));
-        }
-        else
-        {
-            imgBtn.setBackgroundResource(R.drawable.bg_tool_off);
-            imgBtn.setImageResource(R.drawable.vibrate_off);
-            imgBtn.setClickable(false);
-            imgBtn.setEnabled(false);
-        }
-
-        // lockout
+        // lockout state pill: Off grey / On green / Frozen amber
         Button lBtn = (Button) mFragmentView.findViewById(R.id.lockout);
 
         if(!YaV1CurrentPosition.sLockout || YaV1.sAutoLockout == null)
         {
-            lBtn.setBackgroundResource(R.drawable.bg_tool_off);
             lBtn.setText(R.string.tool_tab_lockout_disabled);
+            lBtn.setTextColor(getResources().getColor(R.color.state_locked));
             lBtn.setClickable(false);
             lBtn.setEnabled(false);
         }
         else
         {
-            lBtn.setBackgroundResource(R.drawable.bg_tool_on);
-            // check for frozen text
-            lBtn.setText((YaV1.sAutoLockout.mMode == LockoutData.MODE_NORMAL ? R.string.tool_tab_lockout_normal : R.string.tool_tab_lockout_frozen));
+            boolean normal = (YaV1.sAutoLockout.mMode == LockoutData.MODE_NORMAL);
+            lBtn.setText(normal ? R.string.tool_tab_lockout_normal : R.string.tool_tab_lockout_frozen);
+            lBtn.setTextColor(getResources().getColor(normal ? R.color.status_good : R.color.status_warn));
             lBtn.setClickable(true);
             lBtn.setEnabled(true);
         }
@@ -250,6 +203,40 @@ public class YaV1ScreenToolFragment extends Fragment
             txtV = (TextView) mFragmentView.findViewById(R.id.current_sweep_name);
             txtV.setText(YaV1.sSweep.getCurrentName());
             txtV.setEnabled(true);
+        }
+    }
+
+    // style one audio chip: green-tinted when sounding, neutral when off,
+    // dimmed when the feature is unavailable
+    private void applyAudioChip(int chipId, int btnId, int stateId,
+                                boolean available, boolean on, int iconOn, int iconOff)
+    {
+        View        chip = mFragmentView.findViewById(chipId);
+        ImageButton btn  = (ImageButton) mFragmentView.findViewById(btnId);
+        TextView    st   = (TextView) mFragmentView.findViewById(stateId);
+
+        if(chip == null || btn == null || st == null)
+            return;
+
+        if(available)
+        {
+            chip.setBackgroundResource(on ? R.drawable.bg_chip_on : R.drawable.bg_tool_off);
+            chip.setAlpha(1f);
+            btn.setImageResource(on ? iconOn : iconOff);
+            btn.setClickable(true);
+            btn.setEnabled(true);
+            st.setText(on ? R.string.tools_state_on : R.string.tools_state_off);
+            st.setTextColor(getResources().getColor(on ? R.color.status_good : R.color.ink2));
+        }
+        else
+        {
+            chip.setBackgroundResource(R.drawable.bg_tool_off);
+            chip.setAlpha(0.45f);
+            btn.setImageResource(iconOff);
+            btn.setClickable(false);
+            btn.setEnabled(false);
+            st.setText(R.string.tools_state_off);
+            st.setTextColor(getResources().getColor(R.color.state_locked));
         }
     }
 }
