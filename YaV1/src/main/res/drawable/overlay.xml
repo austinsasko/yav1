@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Floating overlay window background. Lightweight: a single rounded scrim with
+     a thin band-ku edge so it stays legible over other apps. -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="rectangle">
             <stroke
-                android:width="3dp"
-                android:color="#3776ff"/>
-            <solid android:color="#88000000"/>
+                android:width="2dp"
+                android:color="@color/band_ku"/>
+            <solid android:color="@color/scrim"/>
             <padding
-                android:left="5dp"
-                android:top="5dp"
-                android:right="0dp"
-                android:bottom="4dp"/>
-            <corners android:radius="20px"/>
+                android:left="6dp"
+                android:top="6dp"
+                android:right="2dp"
+                android:bottom="5dp"/>
+            <corners android:radius="@dimen/radius_card"/>
         </shape>
     </item>
 </layer-list>
