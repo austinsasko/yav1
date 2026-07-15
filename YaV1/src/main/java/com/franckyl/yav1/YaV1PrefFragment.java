@@ -44,6 +44,8 @@ public class YaV1PrefFragment extends PreferenceFragment implements SharedPrefer
             addPreferencesFromResource(R.xml.pref_gmap);
         } else if ("sound".equals(settings)) {
             addPreferencesFromResource(R.xml.pref_sound);
+        } else if ("geo".equals(settings)) { // [P3-GEO]
+            addPreferencesFromResource(R.xml.pref_geo);
         }
 
         // setHasOptionsMenu(false);

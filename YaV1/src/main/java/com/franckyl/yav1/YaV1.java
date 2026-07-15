@@ -204,6 +204,8 @@ public class YaV1 extends Application
 
         // start our memory boss if possible
         nbStart++;
+
+        com.franckyl.yav1.geo.GeoProfileManager.init(this); // [P3-GEO] location based profile switching (feature default OFF)
     }
 
     // return the event Bus

@@ -36,4 +36,10 @@
         android:summary="@string/pref_h_g_map_summary">
         <extra android:name="settings" android:value="gmap"/>
     </header>
+    <!-- [P3-GEO] location based automatic V1 profile switching -->
+    <header android:fragment="com.franckyl.yav1.YaV1PrefFragment"
+        android:title="@string/pref_h_geo"
+        android:summary="@string/pref_h_geo_summary">
+        <extra android:name="settings" android:value="geo"/>
+    </header>
 </preference-headers>
