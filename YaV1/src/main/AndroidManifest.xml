@@ -104,6 +104,21 @@
                  android:exported="false"
                  android:foregroundServiceType="location"/>
 
+        <!-- Android Auto (projected) support: template car app, NAVIGATION
+             category for the drawable surface. YaV1 never claims navigation
+             focus, so Maps/Waze keep guidance and their nav card. -->
+        <meta-data android:name="com.google.android.gms.car.application"
+                   android:resource="@xml/automotive_app_desc"/>
+        <meta-data android:name="androidx.car.app.minCarApiLevel"
+                   android:value="1"/>
+        <service android:name=".car.YaV1CarAppService"
+                 android:exported="true">
+            <intent-filter>
+                <action android:name="androidx.car.app.CarAppService"/>
+                <category android:name="androidx.car.app.category.NAVIGATION"/>
+            </intent-filter>
+        </service>
+
         <meta-data android:name="com.google.android.gms.version"
                    android:value="@integer/google_play_services_version"/>
         <meta-data android:name="com.google.android.geo.API_KEY"

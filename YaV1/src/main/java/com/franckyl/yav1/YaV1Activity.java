@@ -12,7 +12,6 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -49,7 +48,6 @@ import com.valentine.esp.ValentineESP;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Set;
 
 
 public class YaV1Activity extends Activity implements ActionBar.OnNavigationListener
@@ -81,6 +79,7 @@ public class YaV1Activity extends Activity implements ActionBar.OnNavigationList
     public  static final String NOTIFICATION_CHANNEL_ID = "yav1_status";
     private static boolean sChannelCreated = false;
     private static final int PERMISSION_REQUEST_CODE = 9911;
+    private boolean mBluetoothStartupComplete = false;
 
     /**
      * Create the notification channel required on Android 8+ before any notification
@@ -115,26 +114,113 @@ public class YaV1Activity extends Activity implements ActionBar.OnNavigationList
         if(Build.VERSION.SDK_INT < 23)
             return;
 
-        java.util.ArrayList<String> wanted = new java.util.ArrayList<String>();
+        java.util.ArrayList<String> missing = new java.util.ArrayList<String>();
 
-        wanted.add(android.Manifest.permission.ACCESS_FINE_LOCATION);
+        // Android 12 requires fine and coarse location to be requested together.
+        // Include both if either grant is missing so the request is not ignored.
+        if(checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                || checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        {
+            missing.add(android.Manifest.permission.ACCESS_COARSE_LOCATION);
+            missing.add(android.Manifest.permission.ACCESS_FINE_LOCATION);
+        }
         if(Build.VERSION.SDK_INT >= 31)
         {
-            wanted.add(android.Manifest.permission.BLUETOOTH_SCAN);
-            wanted.add(android.Manifest.permission.BLUETOOTH_CONNECT);
+            if(checkSelfPermission(android.Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED)
+                missing.add(android.Manifest.permission.BLUETOOTH_SCAN);
+            if(checkSelfPermission(android.Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED)
+                missing.add(android.Manifest.permission.BLUETOOTH_CONNECT);
         }
-        if(Build.VERSION.SDK_INT >= 33)
-            wanted.add(android.Manifest.permission.POST_NOTIFICATIONS);
-
-        java.util.ArrayList<String> missing = new java.util.ArrayList<String>();
-        for(String p: wanted)
-        {
-            if(checkSelfPermission(p) != PackageManager.PERMISSION_GRANTED)
-                missing.add(p);
-        }
+        if(Build.VERSION.SDK_INT >= 33
+                && checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED)
+            missing.add(android.Manifest.permission.POST_NOTIFICATIONS);
 
         if(!missing.isEmpty())
             requestPermissions(missing.toArray(new String[0]), PERMISSION_REQUEST_CODE);
+    }
+
+    private boolean hasBluetoothConnectPermission()
+    {
+        return Build.VERSION.SDK_INT < 31
+                || checkSelfPermission(android.Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private static String getBluetoothDeviceDisplayName(BluetoothDevice device)
+    {
+        if(device == null)
+            return "???";
+
+        try
+        {
+            String name = device.getName();
+            if(name == null || name.isEmpty())
+                name = device.getAddress();
+            return name == null || name.isEmpty() ? "???" : name;
+        }
+        catch(SecurityException e)
+        {
+            return "???";
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
+    {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == PERMISSION_REQUEST_CODE)
+            startBluetoothFeaturesIfPermitted();
+    }
+
+    /**
+     * Starts Bluetooth-dependent work only after the Android 12+ runtime grant is
+     * available. Safe to call from onCreate, the permission callback, and resume.
+     */
+    private void startBluetoothFeaturesIfPermitted()
+    {
+        if(mBluetoothStartupComplete || !hasBluetoothConnectPermission())
+            return;
+
+        mBluetoothStartupComplete = true;
+        boolean autoStart = false;
+
+        getDefaultDevice(false);
+
+        if(mIsBtEnabled)
+        {
+            if(YaV1.sDeviceName == null || YaV1.sDeviceName.isEmpty())
+            {
+                Intent newIntent = new Intent(this, ListPairedBTActivity.class);
+                startActivityForResult(newIntent, GET_DEVICE);
+            }
+            else
+            {
+                autoStart = YaV1.sPrefs.getBoolean("auto_start", false);
+            }
+        }
+        else
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(YaV1Activity.this);
+            builder.setTitle(R.string.error)
+                    .setMessage(R.string.bluetooth_not_running)
+                    .setCancelable(false)
+                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which)
+                        {
+                            dialog.cancel();
+                        }
+                    })
+                    .create()
+                    .show();
+        }
+
+        YaV1.startAlertService(true);
+
+        if(!mHasBeenStarted && autoStart)
+            startAlert(false);
+
+        mHasBeenStarted = true;
     }
 
     /** Called when the activity is first created. */
@@ -145,7 +231,6 @@ public class YaV1Activity extends Activity implements ActionBar.OnNavigationList
         // setTheme(R.style.Theme_Sherlock);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.yav1_activity);
-        boolean autoStart = false;
 
         // be sure to have preferences
         PreferenceManager.getDefaultSharedPreferences(this);
@@ -294,54 +379,12 @@ public class YaV1Activity extends Activity implements ActionBar.OnNavigationList
 
         YaV1.appEnter();
 
-        // retrieve the default device
-
-        getDefaultDevice(false);
-
-        if(mIsBtEnabled)
-        {
-            // we will launcn the BlueTooth Activity if we do not have device name
-            if(YaV1.sDeviceName == "")
-            {
-                //Log.d("Valentine", "No Device Starting Bleutooth Activity");
-                Intent newIntent = new Intent(this, ListPairedBTActivity.class);
-                startActivityForResult(newIntent, GET_DEVICE);
-            }
-            else
-            {
-                // auto start
-                autoStart = YaV1.sPrefs.getBoolean("auto_start", false);
-            }
-        }
-        else
-        {
-            // show an error message to turn on bluethooth and select "device" option
-            AlertDialog.Builder builder = new AlertDialog.Builder(YaV1Activity.this);
-            builder.setTitle(R.string.error)
-                    .setMessage(R.string.bluetooth_not_running)
-                    .setCancelable(false)
-                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener()
-                    {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which)
-                        {
-                            dialog.cancel();
-                        }
-                    })
-                    .create()
-                    .show();
-        }
-
-        // request start of service
-        YaV1.startAlertService(true);
-
         if(sOverlay == null)
             sOverlay = new YaV1Overlay(this);
 
-        if(!mHasBeenStarted && autoStart)
-            startAlert(false);
-
-        mHasBeenStarted = true;
+        // Returns without doing Bluetooth work while the permission request is in
+        // flight. The callback resumes startup after the grant is available.
+        startBluetoothFeaturesIfPermitted();
     }
 
     // get the notification builder
@@ -498,49 +541,50 @@ public class YaV1Activity extends Activity implements ActionBar.OnNavigationList
 
     private boolean getDefaultDevice(boolean onCheck)
     {
-        Context context = this;
-        SharedPreferences m_preferences = context.getSharedPreferences("com.valentine.esp.savedData", context.MODE_PRIVATE);
-
         // first we check if we have bleutooth and it's on
         BluetoothAdapter bta = BluetoothAdapter.getDefaultAdapter();
 
-        if(bta == null || !bta.isEnabled())
+        try
+        {
+            if(bta == null || !bta.isEnabled())
+            {
+                mIsBtEnabled = false;
+                return false;
+            }
+        }
+        catch(SecurityException e)
         {
             mIsBtEnabled = false;
-            // change the message for adapter
             return false;
         }
+
+        mIsBtEnabled = true;
 
         if(onCheck)
             return true;
 
-        String bluetoothAddress = m_preferences.getString("com.valentine.esp.LastBlueToothConnectedDevice", "");
+        YaV1.sDevice = null;
+        YaV1.sDeviceName = "";
+        YaV1.sDeviceAddr = "";
 
-        if(bluetoothAddress != "")
+        BluetoothDevice savedDevice = YaV1.mV1Client == null
+                ? null : YaV1.mV1Client.restorePreviousDevice();
+        if(savedDevice != null)
         {
-            Set<BluetoothDevice> pairedDevices;
-            pairedDevices = BluetoothAdapter.getDefaultAdapter().getBondedDevices();
-            if (pairedDevices.size() > 0)
+            try
             {
-                for (BluetoothDevice bd : pairedDevices)
-                {
-                    String test = bd.getAddress();
-                    if (test.equals(bluetoothAddress))
-                    {
-                        YaV1.sDevice     = bd;
-                        YaV1.sDeviceName = bd.getName();
-                        // if no name, get the Address
-                        if(YaV1.sDeviceName == "")
-                            YaV1.sDeviceName = bd.getAddress();
-                        // we always get the device address
-                        YaV1.sDeviceAddr = bd.getAddress();
-                        return true;
-                    }
-                }
+                YaV1.sDevice = savedDevice;
+                YaV1.sDeviceName = getBluetoothDeviceDisplayName(savedDevice);
+                YaV1.sDeviceAddr = savedDevice.getAddress();
+                return true;
+            }
+            catch(SecurityException e)
+            {
+                YaV1.sDevice = null;
+                YaV1.sDeviceName = "";
+                YaV1.sDeviceAddr = "";
             }
         }
-        else
-            YaV1.sDeviceName = "";
 
         return false;
     }
@@ -661,6 +705,8 @@ public class YaV1Activity extends Activity implements ActionBar.OnNavigationList
     {
         super.onPostResume();
         YaV1.superResume();
+        // Covers permissions granted by the device picker or in system Settings.
+        startBluetoothFeaturesIfPermitted();
     }
 
     // on pause
@@ -820,13 +866,26 @@ public class YaV1Activity extends Activity implements ActionBar.OnNavigationList
             {
                 if(resultCode == Activity.RESULT_OK )
                 {
+                    if(!hasBluetoothConnectPermission() || data == null)
+                    {
+                        requestNeededPermissions();
+                        break;
+                    }
+
                     // The user selected a Bluetooth device.
                     YaV1.sDevice     = data.getParcelableExtra("SelectedBluetoothDevice");
-                    YaV1.sDeviceName = YaV1.sDevice.getName();
-                    if(YaV1.sDeviceName == null || YaV1.sDeviceName.isEmpty())
-                        YaV1.sDeviceName = YaV1.sDevice.getAddress();
-                    // we always get the device address
-                    YaV1.sDeviceAddr = YaV1.sDevice.getAddress();
+                    if(YaV1.sDevice == null)
+                        break;
+                    try
+                    {
+                        YaV1.sDeviceName = getBluetoothDeviceDisplayName(YaV1.sDevice);
+                        YaV1.sDeviceAddr = YaV1.sDevice.getAddress();
+                    }
+                    catch(SecurityException e)
+                    {
+                        requestNeededPermissions();
+                        break;
+                    }
                     // SPP (classic) or BTLE transport, chosen in the device list
                     int sConnType    = data.getIntExtra("SelectedConnectionType", ValentineESP.CONNECTION_SPP);
                     //
@@ -1191,7 +1250,8 @@ public class YaV1Activity extends Activity implements ActionBar.OnNavigationList
 
             //setTitle("Profile");
             setTitle(R.string.search_valentine);
-            setMessage(context.getString(R.string.waiting_for)  + "  " + (YaV1.sDevice != null ? YaV1.sDevice.getName() : "???"));
+            setMessage(context.getString(R.string.waiting_for)  + "  "
+                    + getBluetoothDeviceDisplayName(YaV1.sDevice));
             setCanceledOnTouchOutside(false);
             setCancelable(false);
             Button cancel = new Button(getContext());

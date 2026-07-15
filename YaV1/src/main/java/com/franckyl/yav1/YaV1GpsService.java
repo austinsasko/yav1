@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.SystemClock;
 import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 import android.util.Log;
 
 import com.franckyl.yav1.events.GpsEvent;
@@ -59,6 +60,7 @@ public class YaV1GpsService extends Service
     private final IBinder mBinder         = new gpsBinder();
 
     private int           mClientCount    = 0;
+    private boolean       mEventBusRegistered = false;
 
     // notification builder
     // private NotificationCompat.Builder mBuilder = null;
@@ -112,24 +114,44 @@ public class YaV1GpsService extends Service
         // startStopExternalGps(true);
         mHandler = YaV1.sLooper.getHandler();
 
+        if(!YaV1.hasLocationPermission())
+        {
+            Log.w("Valentine GPS", "GPS service stopped because location permission is unavailable");
+            YaV1.sGpsService = null;
+            stopSelf(startId);
+            return START_NOT_STICKY;
+        }
+
         // starting location manager
+        boolean listenerReady = mCallBackInstalled;
         if(mLm == null)
         {
             mLm = (LocationManager) YaV1.sContext.getSystemService(Context.LOCATION_SERVICE);
-            installListener(true);
-            // needed for producer
-            YaV1.getEventBus().register(this);
+            listenerReady = installListener(true);
         }
         else
         {
             // Could happen if Gps has been turned on after
             if(!mCallBackInstalled)
-                installListener(true);
+                listenerReady = installListener(true);
         }
 
-        // notify and startForeground
+        // needed for the Otto producer, including a recreated Service that inherits
+        // the static LocationManager/listener state from the same process
+        if(listenerReady && !mEventBusRegistered)
+        {
+            YaV1.getEventBus().register(this);
+            mEventBusRegistered = true;
+        }
 
-        notifyGps();
+        if(!listenerReady || !notifyGps())
+        {
+            Log.e("Valentine GPS", "GPS service could not become ready; stopping");
+            YaV1.sGpsService = null;
+            stopSelf(startId);
+            return START_NOT_STICKY;
+        }
+
         Log.d("Valentine GPS", "Gps started");
         return (START_NOT_STICKY);
     }
@@ -137,7 +159,11 @@ public class YaV1GpsService extends Service
     @Override
     public void onDestroy()
     {
-        YaV1.getEventBus().unregister(this);
+        if(mEventBusRegistered)
+        {
+            YaV1.getEventBus().unregister(this);
+            mEventBusRegistered = false;
+        }
         stop();
         super.onDestroy();
     }
@@ -183,7 +209,8 @@ public class YaV1GpsService extends Service
     {
         Log.d("Valentine GPS", "Stopping Gps Service");
         // remove the timeout call back
-        mHandler.removeCallbacks(mGpsTimeoutTask);
+        if(mHandler != null)
+            mHandler.removeCallbacks(mGpsTimeoutTask);
 
         // remove the GPS update if callBackInstalled
         installListener(false);
@@ -233,10 +260,16 @@ public class YaV1GpsService extends Service
 
     // install or remove the listener
 
-    private void installListener(boolean install)
+    private boolean installListener(boolean install)
     {
         if(install)
         {
+            if(!YaV1.hasLocationPermission() || mLm == null)
+            {
+                mCallBackInstalled = false;
+                return false;
+            }
+
             String s = LocationManager.GPS_PROVIDER;
 
             if(mLm.isProviderEnabled(s))
@@ -246,10 +279,8 @@ public class YaV1GpsService extends Service
                 // register the receiver; Android 13+ requires an explicit export flag
                 // for receivers of non-system broadcasts
 
-                if(android.os.Build.VERSION.SDK_INT >= 33)
-                    registerReceiver(mLocationReceiver, new IntentFilter(mUpdateIntentFilter), Context.RECEIVER_NOT_EXPORTED);
-                else
-                    registerReceiver(mLocationReceiver, new IntentFilter(mUpdateIntentFilter));
+                ContextCompat.registerReceiver(this, mLocationReceiver,
+                        new IntentFilter(mUpdateIntentFilter), ContextCompat.RECEIVER_NOT_EXPORTED);
                 Intent intent = new Intent(mUpdateIntentFilter).setPackage(getPackageName());
                 // the location system service must be able to attach extras, so the
                 // PendingIntent has to be mutable on Android 12+
@@ -257,7 +288,25 @@ public class YaV1GpsService extends Service
                 if(android.os.Build.VERSION.SDK_INT >= 31)
                     piFlags |= PendingIntent.FLAG_MUTABLE;
                 mLocationIntent = PendingIntent.getBroadcast(this, YaV1.APP_ID, intent, piFlags);
-                mLm.requestLocationUpdates(s, 0, 0, mLocationIntent);
+                try
+                {
+                    mLm.requestLocationUpdates(s, 0, 0, mLocationIntent);
+                }
+                catch(SecurityException e)
+                {
+                    Log.w("Valentine GPS", "Location permission revoked while installing listener", e);
+                    try
+                    {
+                        unregisterReceiver(mLocationReceiver);
+                    }
+                    catch(IllegalArgumentException ignored)
+                    {
+                    }
+                    mLocationReceiver = null;
+                    mLocationIntent = null;
+                    mCallBackInstalled = false;
+                    return false;
+                }
 
                 mCallBackInstalled = true;
                 mLastLocationTime = SystemClock.elapsedRealtime();
@@ -265,23 +314,44 @@ public class YaV1GpsService extends Service
                 Log.d("Valentine", "Gps Listener installed");
                 // we post a timeout
                 mHandler.postDelayed(mGpsTimeoutTask, GPS_UPDATE_INTERVAL);
+                return true;
             }
             else
                 Log.d("Valentine TEST", "Provider unavailable");
+
+            return false;
         }
         else
         {
             // remove the timeout call back
-            mHandler.removeCallbacks(mGpsTimeoutTask);
+            if(mHandler != null)
+                mHandler.removeCallbacks(mGpsTimeoutTask);
 
             if(mLm != null)
             {
                 if(mLocationIntent != null)
-                    mLm.removeUpdates(mLocationIntent);
+                {
+                    try
+                    {
+                        mLm.removeUpdates(mLocationIntent);
+                    }
+                    catch(SecurityException e)
+                    {
+                        Log.w("Valentine GPS", "Location permission revoked while removing listener");
+                    }
+                }
             }
 
             if(mLocationReceiver != null)
-                unregisterReceiver(mLocationReceiver);
+            {
+                try
+                {
+                    unregisterReceiver(mLocationReceiver);
+                }
+                catch(IllegalArgumentException ignored)
+                {
+                }
+            }
 
             // unregister
             if(mCallBackInstalled)
@@ -292,6 +362,10 @@ public class YaV1GpsService extends Service
                 mCallBackInstalled = false;
                 Log.d("Valentine", "Gps Listener removed");
             }
+
+            mLocationReceiver = null;
+            mLocationIntent = null;
+            return true;
         }
     }
 
@@ -482,11 +556,11 @@ public class YaV1GpsService extends Service
 
     // notify
 
-    private void notifyGps()
+    private boolean notifyGps()
     {
         NotificationCompat.Builder lBuilder = YaV1Activity.getNotificationBuilder();
         if(lBuilder == null)
-            return;
+            return false;
         Notification note = lBuilder.build();
         note.flags |= Notification.FLAG_FOREGROUND_SERVICE;
         try
@@ -495,10 +569,10 @@ public class YaV1GpsService extends Service
         }
         catch(Exception e)
         {
-            // Modern Android can reject a foreground promotion (e.g. location
-            // permission not yet granted); keep running as a plain service.
-            Log.d("Valentine", "startForeground rejected: " + e);
+            Log.e("Valentine", "GPS foreground promotion rejected", e);
+            return false;
         }
+        return true;
     }
 
     // a Thread to create the shortlist of lockout

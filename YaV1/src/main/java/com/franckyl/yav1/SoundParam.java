@@ -1,6 +1,7 @@
 package com.franckyl.yav1;
 
 import android.content.SharedPreferences;
+import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.Ringtone;
 import android.media.SoundPool;
@@ -146,7 +147,19 @@ public class SoundParam
         if(phoneAlertEnabled || mExpectedLoaded > 0)
         {
             releaseSound();
-            SoundPool mSoundPool = new SoundPool(64, AudioManager.STREAM_MUSIC, 0);
+            //
+            // Guidance-usage audio attributes: when Android Auto is connected the
+            // alert tones are routed to the car speakers and duck car media, the
+            // same class as navigation voice prompts; on the phone alone this
+            // behaves like the old STREAM_MUSIC pool.
+            //
+            SoundPool mSoundPool = new SoundPool.Builder()
+                    .setMaxStreams(64)
+                    .setAudioAttributes(new AudioAttributes.Builder()
+                            .setUsage(AudioAttributes.USAGE_ASSISTANCE_NAVIGATION_GUIDANCE)
+                            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                            .build())
+                    .build();
             mSoundPool.setOnLoadCompleteListener(mListener);
 
             soundLoaded     = false;

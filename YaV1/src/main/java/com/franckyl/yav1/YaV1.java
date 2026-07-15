@@ -255,10 +255,33 @@ public class YaV1 extends Application
 
     // start/stop the alert service
 
+    public static boolean hasBluetoothConnectPermission()
+    {
+        return Build.VERSION.SDK_INT < 31
+                || sContext.checkSelfPermission(android.Manifest.permission.BLUETOOTH_CONNECT)
+                        == PackageManager.PERMISSION_GRANTED;
+    }
+
+    public static boolean hasLocationPermission()
+    {
+        if(Build.VERSION.SDK_INT < 23)
+            return true;
+
+        return sContext.checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)
+                        == PackageManager.PERMISSION_GRANTED
+                || sContext.checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION)
+                        == PackageManager.PERMISSION_GRANTED;
+    }
+
     public static void startAlertService(boolean on)
     {
         if(on)
         {
+            if(!hasBluetoothConnectPermission())
+            {
+                Log.w("Valentine", "Alert service not started without Bluetooth permission");
+                return;
+            }
             if(sAlertService == null)
                 sAlertService = sContext.startService(new Intent(sContext, YaV1AlertService.class));
         }
@@ -278,6 +301,11 @@ public class YaV1 extends Application
     {
         if(on)
         {
+            if(!hasLocationPermission())
+            {
+                Log.w("Valentine", "GPS service not started without location permission");
+                return;
+            }
             if(sGpsService == null)
                 sGpsService = sContext.startService(new Intent(sContext, YaV1GpsService.class));
         }

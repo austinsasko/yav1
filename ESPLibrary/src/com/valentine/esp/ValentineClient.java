@@ -9,11 +9,14 @@ import java.util.concurrent.ConcurrentHashMap;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.content.SharedPreferences.Editor;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
@@ -163,7 +166,7 @@ public class ValentineClient
 	        		Log.d("ESP", "ACTION_ACL_CONNECTED");
 	        	}
 	        	if(m_bluetoothDevice != null){
-		            if (device.getAddress().equalsIgnoreCase(m_bluetoothDevice.getAddress())) {
+		            if (sameBluetoothDevice(device, m_bluetoothDevice)) {
 		            	// Tell the ESP object that we are connected
 		        	    m_valentineESP.setIsConnected(true);
                         m_valentineESP.broadcastV1Event(V1_ESP_CONNECTED, true);
@@ -180,7 +183,7 @@ public class ValentineClient
 	        		Log.d("ESP", "ACTION_ACL_DISCONNECTED");
 	        	}
 	        	if(m_bluetoothDevice != null){
-		            if (device.getAddress().equalsIgnoreCase(m_bluetoothDevice.getAddress())) {
+		            if (sameBluetoothDevice(device, m_bluetoothDevice)) {
 		            	// Tell the ESP object that we have been disconnected.
 		            	m_valentineESP.setIsConnected(false);
                         m_valentineESP.broadcastV1Event(V1_ESP_CONNECTED, false);
@@ -189,6 +192,19 @@ public class ValentineClient
 	        }          
 	    }
 	};
+
+	private static boolean sameBluetoothDevice(BluetoothDevice _first, BluetoothDevice _second)
+	{
+		try
+		{
+			return _first != null && _second != null
+					&& _first.getAddress().equalsIgnoreCase(_second.getAddress());
+		}
+		catch (SecurityException e)
+		{
+			return false;
+		}
+	}
 	
 	/**
 	 * Constructor the ValentineClient class.
@@ -267,31 +283,7 @@ public class ValentineClient
 		int lastConnectionType = m_preferences.getInt("com.valentine.esp.LastConnectionType", ValentineESP.CONNECTION_SPP);
 		m_valentineESP.setConnectionType(lastConnectionType);
 
-		if (!m_bluetoothAddress.isEmpty()) {
-			BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
-			if (adapter != null) {
-				Set<BluetoothDevice> pairedDevices;
-				pairedDevices = adapter.getBondedDevices();
-				if (pairedDevices != null && pairedDevices.size() > 0) {
-					for (BluetoothDevice bd : pairedDevices) {
-						String test = bd.getAddress();
-						if (test.equals(m_bluetoothAddress)) {
-							m_bluetoothDevice = bd;
-						}
-					}
-				}
-				if (m_bluetoothDevice == null) {
-					// BTLE devices are typically not bonded, so fall back to looking the
-					// device up by address.
-					try {
-						m_bluetoothDevice = adapter.getRemoteDevice(m_bluetoothAddress);
-					}
-					catch (IllegalArgumentException e) {
-						// Saved address is invalid; leave the device unset.
-					}
-				}
-			}
-		}
+		restorePreviousDevice();
 		m_valentineType = Devices.UNKNOWN;
     	
    		IntentFilter filter1 = new IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED);
@@ -543,6 +535,70 @@ public class ValentineClient
 	 */
 	public BluetoothDevice getDevice() {
 		return m_bluetoothDevice;
+	}
+
+	/**
+	 * Restore the last device once BLUETOOTH_CONNECT is available. BTLE devices are
+	 * normally unbonded, so their saved address must not be limited to the bonded set.
+	 *
+	 * @return the restored device, or null when no usable saved device is available.
+	 */
+	@SuppressLint("MissingPermission") // checked below and guarded against runtime revocation
+	public BluetoothDevice restorePreviousDevice()
+	{
+		m_bluetoothDevice = null;
+		if (m_preferences == null || m_context == null)
+			return null;
+
+		m_bluetoothAddress = m_preferences.getString(
+				"com.valentine.esp.LastBlueToothConnectedDevice", "");
+		if (m_bluetoothAddress.isEmpty() || !hasBluetoothConnectPermission())
+			return null;
+
+		BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
+		if (adapter == null)
+			return null;
+
+		try
+		{
+			if (m_valentineESP.getConnectionType() == ValentineESP.CONNECTION_LE)
+			{
+				m_bluetoothDevice = adapter.getRemoteDevice(m_bluetoothAddress);
+				return m_bluetoothDevice;
+			}
+
+			Set<BluetoothDevice> pairedDevices = adapter.getBondedDevices();
+			if (pairedDevices != null)
+			{
+				for (BluetoothDevice device : pairedDevices)
+				{
+					if (m_bluetoothAddress.equals(device.getAddress()))
+					{
+						m_bluetoothDevice = device;
+						break;
+					}
+				}
+			}
+		}
+		catch (IllegalArgumentException e)
+		{
+			Log.w(LOG_TAG, "Ignoring invalid saved Bluetooth address", e);
+		}
+		catch (SecurityException e)
+		{
+			// Permission can be revoked or auto-reset while the process is alive.
+			Log.w(LOG_TAG, "Bluetooth permission unavailable while restoring device");
+			m_bluetoothDevice = null;
+		}
+
+		return m_bluetoothDevice;
+	}
+
+	private boolean hasBluetoothConnectPermission()
+	{
+		return Build.VERSION.SDK_INT < 31
+				|| m_context.checkSelfPermission(android.Manifest.permission.BLUETOOTH_CONNECT)
+						== PackageManager.PERMISSION_GRANTED;
 	}
 	
 	/**

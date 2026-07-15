@@ -5,7 +5,7 @@ android {
     compileSdk 35
 
     defaultConfig {
-        minSdkVersion 21
+        minSdkVersion 23
     }
 
     compileOptions {
@@ -21,11 +21,12 @@ android {
         main {
             manifest.srcFile 'AndroidManifest.xml'
             java.srcDirs = ['src']
+            java.exclude 'test/**'
             res.srcDirs = ['res']
         }
         test {
-            // 'src' is the whole main source dir, so tests live next to it
-            java.srcDirs = ['tests']
+            // suite tests live in 'tests' (next to 'src'); LE frame tests in 'src/test/java'
+            java.srcDirs = ['tests', 'src/test/java']
         }
     }
 

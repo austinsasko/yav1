@@ -9,6 +9,7 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
 import android.annotation.TargetApi;
+import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
@@ -42,6 +43,7 @@ import com.valentine.esp.constants.ESPLibraryLogController;
  * Service and characteristic UUIDs match Valentine Research's official ESP library.
  */
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+@SuppressLint("MissingPermission") // callers gate permission; every GATT boundary also handles revocation
 public class V1connectionLE
 {
 	private static final String LOG_TAG = "V1connectionLE";
@@ -76,6 +78,7 @@ public class V1connectionLE
 
 	// Released by onCharacteristicWrite so writes stay serialized.
 	private final Semaphore        m_writeComplete = new Semaphore(0);
+	private volatile int           m_lastWriteStatus = BluetoothGatt.GATT_FAILURE;
 	// Counted down once notifications are enabled and the link is usable.
 	private CountDownLatch         m_readyLatch;
 	private volatile boolean       m_ready;
@@ -109,15 +112,24 @@ public class V1connectionLE
 
 		beginConnectAttempt();
 
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+		try
 		{
-			// Force the LE transport; letting the stack pick on dual-mode devices is a
-			// well known source of spurious GATT status 133 disconnects.
-			m_gatt = _device.connectGatt(_context, false, m_gattCallback, BluetoothDevice.TRANSPORT_LE);
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+			{
+				// Force the LE transport; letting the stack pick on dual-mode devices is a
+				// well known source of spurious GATT status 133 disconnects.
+				m_gatt = _device.connectGatt(_context, false, m_gattCallback, BluetoothDevice.TRANSPORT_LE);
+			}
+			else
+			{
+				m_gatt = _device.connectGatt(_context, false, m_gattCallback);
+			}
 		}
-		else
+		catch (SecurityException e)
 		{
-			m_gatt = _device.connectGatt(_context, false, m_gattCallback);
+			Log.e(LOG_TAG, "Bluetooth permission revoked while opening GATT", e);
+			m_closed = true;
+			return false;
 		}
 
 		if (m_gatt == null)
@@ -138,6 +150,8 @@ public class V1connectionLE
 		m_closed = false;
 		m_ready = false;
 		m_readyLatch = new CountDownLatch(1);
+		m_writeComplete.drainPermits();
+		m_lastWriteStatus = BluetoothGatt.GATT_FAILURE;
 	}
 
 	/**
@@ -222,6 +236,7 @@ public class V1connectionLE
 		// which shuts the whole ESP stack down cleanly (threads, queues, callbacks).
 		m_inputStream.shutdown();
 		// Unblock any writer waiting on a GATT write completion.
+		m_lastWriteStatus = BluetoothGatt.GATT_FAILURE;
 		m_writeComplete.release();
 
 		// Unblock a connect() caller that is still waiting for the link to become ready.
@@ -244,19 +259,27 @@ public class V1connectionLE
 		@Override
 		public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState)
 		{
+			if (gatt != m_gatt || m_closed)
+			{
+				return;
+			}
+
 			if (newState == BluetoothProfile.STATE_CONNECTED && status == BluetoothGatt.GATT_SUCCESS)
 			{
 				if (ESPLibraryLogController.LOG_WRITE_DEBUG)
 				{
 					Log.d(LOG_TAG, "GATT connected, discovering services");
 				}
-				if (!gatt.discoverServices())
+				try
 				{
-					if (ESPLibraryLogController.LOG_WRITE_ERROR)
+					if (!gatt.discoverServices())
 					{
-						Log.e(LOG_TAG, "Unable to start GATT service discovery");
+						failConnection("Unable to start GATT service discovery");
 					}
-					close();
+				}
+				catch (SecurityException e)
+				{
+					failConnection("Bluetooth permission revoked during service discovery");
 				}
 			}
 			else if (newState == BluetoothProfile.STATE_DISCONNECTED || status != BluetoothGatt.GATT_SUCCESS)
@@ -275,9 +298,13 @@ public class V1connectionLE
 		@Override
 		public void onServicesDiscovered(BluetoothGatt gatt, int status)
 		{
+			if (gatt != m_gatt || m_closed)
+			{
+				return;
+			}
 			if (status != BluetoothGatt.GATT_SUCCESS)
 			{
-				close();
+				failConnection("GATT service discovery failed with status " + status);
 				return;
 			}
 
@@ -288,7 +315,7 @@ public class V1connectionLE
 				{
 					Log.e(LOG_TAG, "V1connection LE service not found on device");
 				}
-				close();
+				failConnection("V1connection LE service not found on device");
 				return;
 			}
 
@@ -298,61 +325,89 @@ public class V1connectionLE
 
 			if (m_writeCharacteristic == null || notifyCharacteristic == null)
 			{
-				close();
+				failConnection("V1connection LE characteristics not found");
 				return;
 			}
 
-			gatt.setCharacteristicNotification(notifyCharacteristic, true);
-			BluetoothGattDescriptor descriptor =
-					notifyCharacteristic.getDescriptor(CLIENT_CHARACTERISTIC_CONFIGURATION_UUID);
-			if (descriptor != null)
+			try
 			{
-				descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
-				if (!gatt.writeDescriptor(descriptor))
+				if (!gatt.setCharacteristicNotification(notifyCharacteristic, true))
 				{
-					if (ESPLibraryLogController.LOG_WRITE_ERROR)
-					{
-						Log.e(LOG_TAG, "Unable to write the notification descriptor");
-					}
-					close();
+					failConnection("Unable to enable local GATT notifications");
+					return;
 				}
 			}
-			else
+			catch (SecurityException e)
+			{
+				failConnection("Bluetooth permission revoked while enabling notifications");
+				return;
+			}
+
+			BluetoothGattDescriptor descriptor =
+					notifyCharacteristic.getDescriptor(CLIENT_CHARACTERISTIC_CONFIGURATION_UUID);
+			if (descriptor == null)
 			{
 				// No CCC descriptor; assume notifications are on and continue.
 				markReady();
+				return;
+			}
+
+			if (!descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE))
+			{
+				failConnection("Unable to configure notification descriptor");
+				return;
+			}
+
+			try
+			{
+				if (!gatt.writeDescriptor(descriptor))
+				{
+					failConnection("Unable to start notification descriptor write");
+				}
+			}
+			catch (SecurityException e)
+			{
+				failConnection("Bluetooth permission revoked while writing descriptor");
 			}
 		}
 
 		@Override
 		public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status)
 		{
-			if (CLIENT_CHARACTERISTIC_CONFIGURATION_UUID.equals(descriptor.getUuid()))
+			if (gatt != m_gatt || m_closed
+					|| !CLIENT_CHARACTERISTIC_CONFIGURATION_UUID.equals(descriptor.getUuid()))
 			{
-				if (status == BluetoothGatt.GATT_SUCCESS)
-				{
-					markReady();
-				}
-				else
-				{
-					if (ESPLibraryLogController.LOG_WRITE_ERROR)
-					{
-						Log.e(LOG_TAG, "Enabling notifications failed with status " + status);
-					}
-					close();
-				}
+				return;
+			}
+
+			if (status == BluetoothGatt.GATT_SUCCESS)
+			{
+				markReady();
+			}
+			else
+			{
+				failConnection("Notification descriptor write failed with status " + status);
 			}
 		}
 
 		@Override
 		public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status)
 		{
-			m_writeComplete.release();
+			if (gatt == m_gatt && !m_closed
+					&& CLIENT_OUT_V1_IN_SHORT_UUID.equals(characteristic.getUuid()))
+			{
+				m_lastWriteStatus = status;
+				m_writeComplete.release();
+			}
 		}
 
 		@Override
 		public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic)
 		{
+			if (gatt != m_gatt || m_closed)
+			{
+				return;
+			}
 			byte[] value = characteristic.getValue();
 			if (value != null && value.length > 0)
 			{
@@ -386,6 +441,15 @@ public class V1connectionLE
 		{
 			latch.countDown();
 		}
+	}
+
+	private void failConnection(String _message)
+	{
+		if (ESPLibraryLogController.LOG_WRITE_ERROR)
+		{
+			Log.e(LOG_TAG, _message);
+		}
+		close();
 	}
 
 	/**
@@ -739,19 +803,39 @@ public class V1connectionLE
 					throw new IOException("V1connection LE link closed");
 				}
 
-				characteristic.setValue(chunk);
-				if (!gatt.writeCharacteristic(characteristic))
+				m_writeComplete.drainPermits();
+				m_lastWriteStatus = BluetoothGatt.GATT_FAILURE;
+				if (!characteristic.setValue(chunk))
 				{
-					throw new IOException("GATT write failed");
+					close();
+					throw new IOException("Unable to set GATT write value");
+				}
+
+				try
+				{
+					if (!gatt.writeCharacteristic(characteristic))
+					{
+						close();
+						throw new IOException("Unable to start GATT write");
+					}
+				}
+				catch (SecurityException e)
+				{
+					close();
+					throw new IOException("Bluetooth permission revoked during GATT write", e);
 				}
 
 				try
 				{
 					// Wait for onCharacteristicWrite before the next write.
-					if (!m_writeComplete.tryAcquire(2, TimeUnit.SECONDS)
-							&& ESPLibraryLogController.LOG_WRITE_WARNING)
+					if (!m_writeComplete.tryAcquire(2, TimeUnit.SECONDS))
 					{
-						Log.w(LOG_TAG, "Timed out waiting for GATT write completion");
+						if (ESPLibraryLogController.LOG_WRITE_WARNING)
+						{
+							Log.w(LOG_TAG, "Timed out waiting for GATT write completion");
+						}
+						close();
+						throw new IOException("Timed out waiting for GATT write completion");
 					}
 				}
 				catch (InterruptedException e)
@@ -763,6 +847,12 @@ public class V1connectionLE
 				if (m_closed)
 				{
 					throw new IOException("V1connection LE link closed");
+				}
+				if (m_lastWriteStatus != BluetoothGatt.GATT_SUCCESS)
+				{
+					int failedStatus = m_lastWriteStatus;
+					close();
+					throw new IOException("GATT write failed with status " + failedStatus);
 				}
 			}
 		}

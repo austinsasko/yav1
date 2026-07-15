@@ -61,8 +61,8 @@ public class YaV1SweepSetActivity extends ListActivity
     @Override
     public void onResume()
     {
+        super.onResume();
         // YaV1.superResume();
-        super.onPause();
     }
 
     @Override

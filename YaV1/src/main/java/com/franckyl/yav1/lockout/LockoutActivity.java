@@ -46,8 +46,8 @@ public class LockoutActivity extends Activity
     @Override
     public void onResume()
     {
+        super.onResume();
         YaV1.superResume();
-        super.onPause();
     }
 
     @Override

@@ -141,6 +141,8 @@
     <string name="pref_gen_default_view">Default view</string>
     <string name="pref_gen_alerts">Sound preferences</string>
     <string name="pref_gen_phone_alert">Use phone for alerts</string>
+    <string name="pref_gen_aa_hun">Android Auto alert cards</string>
+    <string name="pref_gen_aa_hun_summary">Pop a heads-up alert card on the car screen when another app (Maps/Waze) is in front</string>
     <string name="pref_gen_phone_alert_summary">Alerts will sound on phone in addition to the V1 beeps</string>
     <string name="pref_gen_volume_signal">Volume vs Signal</string>
     <string name="pref_gen_volume_signal_summary">Volume for the alert will be adjusted according to the alert strength</string>
