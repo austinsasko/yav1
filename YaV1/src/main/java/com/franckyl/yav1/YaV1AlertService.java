@@ -836,6 +836,10 @@ public class YaV1AlertService extends Service
             }
         }
 
+        // [P1-PSL] posted-speed-limit muting (mute at/below limit + offset)
+        if(!rc)
+            rc = com.franckyl.yav1.psl.PslMute.shouldMute();
+
         return rc;
     }
 
