@@ -180,6 +180,16 @@ public class Lockout
         return storedFreq + step;
     }
 
+    /**
+     * Track drift once per distinct visit. Repeated packets from one encounter
+     * must not move the match window, otherwise a chain of nearby frequencies
+     * can walk a lockout away from the source that created it.
+     */
+    public static int trackFrequencyForVisit(int storedFreq, int observedFreq, boolean newVisit)
+    {
+        return newVisit ? trackFrequency(storedFreq, observedFreq) : storedFreq;
+    }
+
     // constructor from current frequency and position
 
     public Lockout(int id, YaV1PersistentAlert a)

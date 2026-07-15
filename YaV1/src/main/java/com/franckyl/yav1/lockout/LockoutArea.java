@@ -189,12 +189,15 @@ public class LockoutArea extends SparseArray<Lockout>
             // belongs to a new visit (separated from the last sighting by at
             // least LockoutParam.mVisitGapSec seconds).
             long nowSec = System.currentTimeMillis() / 1000;
-            if(Lockout.isNewVisit(l.mLastSeenTime, nowSec, LockoutParam.mVisitGapSec))
+            boolean newVisit = Lockout.isNewVisit(
+                l.mLastSeenTime, nowSec, LockoutParam.mVisitGapSec);
+            if(newVisit)
                 l.mSeen++;
             l.mLastSeenTime = nowSec;
 
-            // follow the slow frequency drift of the source
-            l.mFrequency = Lockout.trackFrequency(l.mFrequency, f);
+            // Follow oscillator drift between visits, not between packets in one
+            // encounter. This keeps the frequency window anchored to the source.
+            l.mFrequency = Lockout.trackFrequencyForVisit(l.mFrequency, f, newVisit);
 
             // check the seen number compare to mMinSeen
 

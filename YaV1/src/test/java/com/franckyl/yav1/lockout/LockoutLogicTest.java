@@ -96,6 +96,13 @@ public class LockoutLogicTest
 	}
 
 	@Test
+	public void frequencyMovesOnlyOnDistinctVisits()
+	{
+		assertEquals(24150, Lockout.trackFrequencyForVisit(24150, 24158, false));
+		assertEquals(24154, Lockout.trackFrequencyForVisit(24150, 24158, true));
+	}
+
+	@Test
 	public void trackFrequencyFollowsSlowDriftOutOfTheOriginalWindow()
 	{
 		// a source drifting 2 MHz per visit, with a 10 MHz match window: the

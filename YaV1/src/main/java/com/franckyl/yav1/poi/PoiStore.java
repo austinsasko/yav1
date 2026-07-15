@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
@@ -103,21 +104,12 @@ public class PoiStore
      */
     public synchronized PoiFile importCsv(File src)
     {
-        mLastError = "";
-
-        if(!mDir.isDirectory() && !mDir.mkdirs())
-        {
-            mLastError = "cannot create " + mDir;
-            return null;
-        }
-
-        PoiCsvParser.Result r;
-        InputStreamReader in = null;
+        FileInputStream in = null;
 
         try
         {
-            in = new InputStreamReader(new FileInputStream(src), "UTF-8");
-            r = PoiCsvParser.parse(in);
+            in = new FileInputStream(src);
+            return importCsv(in, src.getName(), src.getAbsolutePath());
         }
         catch(IOException e)
         {
@@ -131,6 +123,40 @@ public class PoiStore
                 try { in.close(); } catch(IOException ignored) {}
             }
         }
+    }
+
+    /**
+     * Import CSV data supplied by a document provider. The caller retains
+     * ownership of the stream. The display name and source URI are persisted
+     * as metadata while the parsed POIs are stored in the app's private area.
+     */
+    public synchronized PoiFile importCsv(InputStream src, String displayName, String source)
+    {
+        mLastError = "";
+
+        if(src == null)
+        {
+            mLastError = "no CSV data supplied";
+            return null;
+        }
+
+        if(!mDir.isDirectory() && !mDir.mkdirs())
+        {
+            mLastError = "cannot create " + mDir;
+            return null;
+        }
+
+        PoiCsvParser.Result r;
+
+        try
+        {
+            r = PoiCsvParser.parse(new InputStreamReader(src, "UTF-8"));
+        }
+        catch(IOException e)
+        {
+            mLastError = e.toString();
+            return null;
+        }
 
         if(r.pois.isEmpty())
         {
@@ -138,14 +164,18 @@ public class PoiStore
             return null;
         }
 
+        String name = (displayName == null ? "" : new File(displayName).getName().trim());
+        if(name.isEmpty())
+            name = "import.csv";
+
         PoiFile pf    = new PoiFile();
-        pf.name       = src.getName();
+        pf.name       = name;
         pf.importedAt = System.currentTimeMillis();
         pf.enabled    = true;
-        pf.source     = src.getAbsolutePath();
+        pf.source     = (source == null ? "" : source);
         pf.skipped    = r.skipped;
         pf.pois       = r.pois;
-        pf.jsonFile   = jsonFor(src);
+        pf.jsonFile   = jsonFor(new File(name));
 
         if(!write(pf))
             return null;

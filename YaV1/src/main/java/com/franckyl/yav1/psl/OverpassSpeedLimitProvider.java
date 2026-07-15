@@ -45,6 +45,10 @@ public class OverpassSpeedLimitProvider implements SpeedLimitProvider
     /** minimum movement between two Overpass requests */
     public static final double MIN_REQUEST_MOVE_M      = 100.0;
 
+    /** A cached limit is usable only while the vehicle still matches its road. */
+    public static final double MAX_CACHED_ROAD_DISTANCE_M = 25.0;
+    public static final double MAX_CACHED_BEARING_DIFF_DEG = 30.0;
+
     private static final int CONNECT_TIMEOUT_MS = 5000;
     private static final int READ_TIMEOUT_MS    = 10000;
     private static final int MAX_RESPONSE_BYTES = 1024 * 1024;
@@ -137,35 +141,37 @@ public class OverpassSpeedLimitProvider implements SpeedLimitProvider
     @Override
     public Integer getSpeedLimitKph(double lat, double lon, float bearing)
     {
-        mBearingHint = bearing;
-
         long now   = System.currentTimeMillis();
         String key = SpeedLimitCache.tileKey(lat, lon);
 
         SpeedLimitCache.Entry e = mCache.get(key);
+        boolean roadMismatch = e != null && e.limitKph != null
+                            && !cachedRoadMatches(e, lat, lon, bearing);
 
         // missing or stale: try to refresh in the background, but still
-        // answer with what we have (stale-while-revalidate).
+        // answer with what we have when it still belongs to the current road
+        // (stale-while-revalidate). A road mismatch fails safe (unknown => no
+        // PSL muting) while a refresh is scheduled.
         //
-        // The fetch point is projected ahead along the travel bearing
-        // (up to PREFETCH_MAX_M) so at speed the query lands where the
-        // vehicle is about to be; way seeding covers the stretch behind
-        // the projected point, including the current tile.
+        // The fetch point is projected ahead along the travel bearing (up to
+        // PREFETCH_MAX_M) so at speed the query lands where the vehicle is
+        // about to be; way seeding then covers the stretch behind the
+        // projected point, including the current tile.
 
-        if(!SpeedLimitCache.isFresh(e, now))
+        if(!SpeedLimitCache.isFresh(e, now) || roadMismatch)
         {
             double aheadM = Math.min(mSpeedHintMps * PREFETCH_AHEAD_S, PREFETCH_MAX_M);
 
             if(aheadM > 50)
             {
                 double[] p = projectM(lat, lon, bearing, aheadM);
-                maybeScheduleFetch(p[0], p[1]);
+                maybeScheduleFetch(p[0], p[1], bearing, roadMismatch);
             }
             else
-                maybeScheduleFetch(lat, lon);
+                maybeScheduleFetch(lat, lon, bearing, roadMismatch);
         }
 
-        return e != null ? e.limitKph : null;
+        return e != null && !roadMismatch ? e.limitKph : null;
     }
 
     /** destination point distM meters from lat/lon along bearing (degrees) */
@@ -180,7 +186,8 @@ public class OverpassSpeedLimitProvider implements SpeedLimitProvider
 
     // -- background fetch ------------------------------------------------
 
-    private synchronized void maybeScheduleFetch(final double lat, final double lon)
+    private synchronized void maybeScheduleFetch(final double lat, final double lon,
+                                                 final float bearing, boolean roadMismatch)
     {
         if(mInFlight)
             return;
@@ -196,7 +203,11 @@ public class OverpassSpeedLimitProvider implements SpeedLimitProvider
         {
             if(now - mLastRequestMs < MIN_REQUEST_INTERVAL_MS)
                 return;
-            if(distanceM(mLastRequestLat, mLastRequestLon, lat, lon) <= MIN_REQUEST_MOVE_M)
+            // Ordinarily movement gates requests. A cached road mismatch may happen
+            // at an intersection or on a frontage road without 100m of movement, so
+            // allow a refresh after the time limit rather than leaving the tile stuck.
+            if(!roadMismatch
+                    && distanceM(mLastRequestLat, mLastRequestLon, lat, lon) <= MIN_REQUEST_MOVE_M)
                 return;
         }
 
@@ -213,7 +224,7 @@ public class OverpassSpeedLimitProvider implements SpeedLimitProvider
             {
                 try
                 {
-                    fetch(lat, lon);
+                    fetch(lat, lon, bearing);
                 }
                 catch(Throwable t)
                 {
@@ -230,7 +241,7 @@ public class OverpassSpeedLimitProvider implements SpeedLimitProvider
         });
     }
 
-    private void fetch(double lat, double lon)
+    private void fetch(double lat, double lon, float bearing)
     {
         ensureLoaded();
 
@@ -239,8 +250,7 @@ public class OverpassSpeedLimitProvider implements SpeedLimitProvider
             return;
 
         List<Way> ways    = parseWays(body);
-        float     bearing = currentBearingHint();
-        Way       best    = selectBestWay(ways, lat, lon, bearing);
+        Way       best    = selectWay(ways, lat, lon, bearing);
         Integer   limit   = null;
         long      now     = System.currentTimeMillis();
         int       seeded  = 0;
@@ -251,7 +261,12 @@ public class OverpassSpeedLimitProvider implements SpeedLimitProvider
             limit = effectiveLimitKph(best, bearing, segBearing);
         }
 
-        mCache.put(SpeedLimitCache.tileKey(lat, lon), limit, now);
+        // store the primary tile WITH the selected road's geometry so a cached
+        // value can later be revalidated against the road that produced it
+        // (guards against reusing one road's limit on a nearby parallel road)
+        mCache.put(SpeedLimitCache.tileKey(lat, lon), limit, now,
+                   best == null ? null : best.lats,
+                   best == null ? null : best.lons);
 
         // Live finding (2026-07-14, I-45): 150m tiles + 1 fetch / 20s means
         // at highway speed only ~1 in 5 tiles ever gets a limit, so muting
@@ -375,16 +390,6 @@ public class OverpassSpeedLimitProvider implements SpeedLimitProvider
         }
 
         return segBearing;
-    }
-
-    // bearing at selection time: getSpeedLimitKph() keeps this fresh so the
-    // async response is matched against the latest direction of travel
-
-    private volatile float mBearingHint = 0;
-
-    private float currentBearingHint()
-    {
-        return mBearingHint;
     }
 
     private synchronized void ensureLoaded()
@@ -627,15 +632,18 @@ public class OverpassSpeedLimitProvider implements SpeedLimitProvider
      */
     public static Integer selectLimitKph(List<Way> ways, double lat, double lon, float bearing)
     {
-        Way best = selectBestWay(ways, lat, lon, bearing);
+        Way best = selectWay(ways, lat, lon, bearing);
         if(best == null)
             return null;
 
         return effectiveLimitKph(best, bearing, closestSegmentBearing(best, lat, lon));
     }
 
-    /** the winning way itself (for seeding); null when nothing is usable */
-    public static Way selectBestWay(List<Way> ways, double lat, double lon, float bearing)
+    /**
+     * Return the selected way itself (for seeding and geometry caching) rather
+     * than just its limit; null when nothing usable is aligned with travel.
+     */
+    public static Way selectWay(List<Way> ways, double lat, double lon, float bearing)
     {
         Way     best      = null;
         double  bestScore = Double.MAX_VALUE;
@@ -694,6 +702,37 @@ public class OverpassSpeedLimitProvider implements SpeedLimitProvider
 
         Integer directional = (d <= 90.0 ? w.forwardKph : w.backwardKph);
         return directional != null ? directional : w.limitKph;
+    }
+
+    /**
+     * Revalidate a cached known limit against the geometry of the way that
+     * produced it. This prevents one tile's value from crossing an
+     * intersection or being reused on a nearby parallel road.
+     */
+    public static boolean cachedRoadMatches(SpeedLimitCache.Entry entry,
+                                            double lat, double lon, float bearing)
+    {
+        if(entry == null || !entry.hasRoadGeometry())
+            return false;
+
+        double minDist = Double.MAX_VALUE;
+        double nearestBearing = 0;
+
+        for(int i = 0; i + 1 < entry.roadLats.length; i++)
+        {
+            double d = distanceToSegmentM(lat, lon,
+                                          entry.roadLats[i], entry.roadLons[i],
+                                          entry.roadLats[i + 1], entry.roadLons[i + 1]);
+            if(d < minDist)
+            {
+                minDist = d;
+                nearestBearing = segmentBearing(entry.roadLats[i], entry.roadLons[i],
+                                                entry.roadLats[i + 1], entry.roadLons[i + 1]);
+            }
+        }
+
+        return minDist <= MAX_CACHED_ROAD_DISTANCE_M
+            && foldedBearingDiff(bearing, nearestBearing) <= MAX_CACHED_BEARING_DIFF_DEG;
     }
 
     /**

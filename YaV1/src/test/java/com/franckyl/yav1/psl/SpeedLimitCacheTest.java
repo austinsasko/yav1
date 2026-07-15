@@ -113,7 +113,7 @@ public class SpeedLimitCacheTest
 	// -- persistence -----------------------------------------------------------
 
 	@Test
-	public void persistsKnownLimitsOnly()
+    public void persistsKnownLimitsOnly()
 	{
 		SpeedLimitCache cache = new SpeedLimitCache();
 		long now = 1700000000000L;
@@ -129,8 +129,28 @@ public class SpeedLimitCacheTest
 
 		assertNotNull(other.get("a"));
 		assertEquals(Integer.valueOf(50), other.get("a").limitKph);
-		assertNull(other.get("b"));
-	}
+        assertNull(other.get("b"));
+    }
+
+    @Test
+    public void persistsSelectedRoadGeometry()
+    {
+        SpeedLimitCache cache = new SpeedLimitCache();
+        long now = 1700000000000L;
+        double lats[] = {28.0, 28.0};
+        double lons[] = {-81.001, -80.999};
+
+        cache.put("road", 48, now, lats, lons);
+
+        SpeedLimitCache other = new SpeedLimitCache();
+        other.fromJson(cache.toJson(), now);
+
+        SpeedLimitCache.Entry entry = other.get("road");
+        assertNotNull(entry);
+        assertTrue(entry.hasRoadGeometry());
+        assertEquals(28.0, entry.roadLats[0], 0.0);
+        assertEquals(-80.999, entry.roadLons[1], 0.0);
+    }
 
 	@Test
 	public void expiredTilesAreDroppedOnLoad()

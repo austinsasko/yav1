@@ -11,6 +11,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -60,6 +61,25 @@ public class PoiStoreTest
         assertEquals(1, store2.getFiles().size());
         assertEquals(2, store2.getFiles().get(0).count());
         assertEquals("cams.csv", store2.getFiles().get(0).name);
+    }
+
+    @Test
+    public void importsDocumentProviderStreamWithDisplayMetadata() throws IOException
+    {
+        byte data[] = "28.6,-81.38,1,50,Cam A\n".getBytes("UTF-8");
+
+        PoiStore store = new PoiStore(mDir);
+        store.load();
+
+        PoiFile pf = store.importCsv(new ByteArrayInputStream(data),
+                                     "downloads-cams.csv",
+                                     "content://downloads/42");
+
+        assertNotNull(pf);
+        assertEquals("downloads-cams.csv", pf.name);
+        assertEquals("content://downloads/42", pf.source);
+        assertEquals(1, pf.count());
+        assertTrue(pf.jsonFile.exists());
     }
 
     @Test
