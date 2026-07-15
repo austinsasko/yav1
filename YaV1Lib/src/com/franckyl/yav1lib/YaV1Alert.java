@@ -61,6 +61,10 @@ public class YaV1Alert implements Parcelable
     public static final int PROP_MOVING       = 2048;
     public static final int PROP_STATIC       = 4096;
     public static final int PROP_IO           = 8192;
+    /** The V1 itself flagged the alert as junk (V1 Gen2 V4.1032+ BSM detection). */
+    public static final int PROP_JUNK         = 16384;
+    /** The app side blind-spot-monitor filter is currently holding this alert back. */
+    public static final int PROP_BSM          = 32768;
 
     // load the Images resources
 

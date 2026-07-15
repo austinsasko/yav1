@@ -92,6 +92,33 @@
             android:title="@string/pref_lockout_drift">
         </ListPreference>
         <ListPreference
+            android:defaultValue="6"
+            android:key="lockout_ka_drift"
+            android:entries="@array/lockout_ka_drift"
+            android:dependency="enable_lockout"
+            android:entryValues="@array/lockout_ka_drift_values"
+            android:summary="%s"
+            android:title="@string/pref_lockout_ka_drift">
+        </ListPreference>
+        <ListPreference
+            android:defaultValue="30"
+            android:key="lockout_visit_gap"
+            android:entries="@array/lockout_visit_gap"
+            android:dependency="enable_lockout"
+            android:entryValues="@array/lockout_visit_gap_values"
+            android:summary="%s"
+            android:title="@string/pref_lockout_visit_gap">
+        </ListPreference>
+        <ListPreference
+            android:defaultValue="90"
+            android:key="lockout_expire_days"
+            android:entries="@array/lockout_expire_days"
+            android:dependency="enable_lockout"
+            android:entryValues="@array/lockout_expire_days_values"
+            android:summary="%s"
+            android:title="@string/pref_lockout_expire">
+        </ListPreference>
+        <ListPreference
             android:defaultValue="0"
             android:key="lockout_max_signal"
             android:entries="@array/lockout_max_signal"

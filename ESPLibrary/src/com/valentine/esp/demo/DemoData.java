@@ -18,6 +18,9 @@ import com.valentine.esp.packets.response.ResponseUserBytes;
 import com.valentine.esp.packets.response.ResponseVehicleSpeed;
 import com.valentine.esp.packets.response.ResponseVersion;
 import com.valentine.esp.utilities.Utilities;
+import com.valentine.esp.utilities.V1VersionSettingLookup;
+
+import android.util.Log;
 
 /** This is the class that handles all the demo packets sent to it from the ESP Client.  It stores the response packets and then
  * puts them on the input queue as it receives request packets for the particular type of packet.
@@ -76,6 +79,20 @@ public class DemoData
 		{
 			case respVersion:
 				m_versionPackets.put(_packet.getOrigin(), (ResponseVersion) _packet);
+				// Mirror the live-connection behavior (ValentineClient.getVersionCallback):
+				// a version response from the V1 updates the version based feature lookup.
+				// Without this, demo data can never exercise the V1 Gen2 recognition.
+				if (_packet.getOrigin() == Devices.VALENTINE1_WITH_CHECKSUM
+						|| _packet.getOrigin() == Devices.VALENTINE1_WITHOUT_CHECKSUM)
+				{
+					String version = (String) _packet.getResponseData();
+					new V1VersionSettingLookup().setV1Version(version);
+					if (V1VersionSettingLookup.isGen2())
+					{
+						Log.i("ValentineESP/DemoData", "Demo V1 version " + version
+								+ " identifies a V1 Gen2 (isGen2=true)");
+					}
+				}
 				break;
 			case respSerialNumber:
 				m_V1SerialPackets.put(_packet.getOrigin(), (ResponseSerialNumber) _packet);

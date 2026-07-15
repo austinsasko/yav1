@@ -204,6 +204,11 @@ public class YaV1 extends Application
 
         // start our memory boss if possible
         nbStart++;
+
+        // [P2-POI][P2-ADSB] data services subscribe to GpsEvent on the bus
+        com.franckyl.yav1.poi.PoiAlertManager.init(sContext);
+        com.franckyl.yav1.aircraft.AircraftMonitor.init(sContext);
+        com.franckyl.yav1.geo.GeoProfileManager.init(this); // [P3-GEO] location based profile switching (feature default OFF)
     }
 
     // return the event Bus
@@ -419,6 +424,11 @@ public class YaV1 extends Application
 
     public static boolean customPossible()
     {
+        // The V1 Gen2 platform has no custom sweeps (it uses "custom frequencies"
+        // configured on the detector itself), so never offer to push sweeps to one.
+        if(mV1Client != null && mV1Client.isGen2())
+            return false;
+
         return (sModeData != null && sModeData.getEuroMode());
     }
 
@@ -481,6 +491,16 @@ public class YaV1 extends Application
 
     public boolean getSweeps()
     {
+        // The V1 Gen2 has no custom sweeps; don't query for them, just show that
+        // there is no current sweep set instead of erroring out.
+        if(mV1Client != null && mV1Client.isGen2())
+        {
+            sSweep.setNoCurrent();
+            Log.d("Valentine", "V1 Gen2 connected, custom sweeps not applicable");
+            YaV1.postEvent(new InfoEvent(InfoEvent.Type.V1_INFO));
+            return false;
+        }
+
         // we request the Custom Sweep (if any)
         if(sModeData.getEuroMode())
         {

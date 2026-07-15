@@ -43,6 +43,7 @@ import com.valentine.esp.packets.response.ResponseUnsupported;
 import com.valentine.esp.packets.response.ResponseUserBytes;
 import com.valentine.esp.packets.response.ResponseVehicleSpeed;
 import com.valentine.esp.packets.response.ResponseVersion;
+import com.valentine.esp.packets.response.ResponseVolume;
 
 public class PacketFactory 
 {
@@ -112,7 +113,12 @@ public class PacketFactory
 				case respSweepSections:
 					rc = new ResponseSweepSections(Devices.UNKNOWN);
 					break;
-					
+				case respDefaultSweepDefinition:
+					// V1 Gen2 / V3.8950+ default sweep definition, same payload layout
+					// as a regular sweep definition response.
+					rc = new ResponseSweepDefinitions(Devices.UNKNOWN);
+					break;
+
 					//informational packets
 				case infDisplayData:
 					rc = new InfDisplayData(Devices.UNKNOWN);
@@ -122,8 +128,14 @@ public class PacketFactory
 					break;
 				case reqTurnOnMainDisplay:
 					rc = new RequestTurnOnMainDisplay(Devices.UNKNOWN);
+					break;
 				case reqMuteOn:
 					rc = new RequestMuteOn(Devices.UNKNOWN);
+					break;
+					// V1 Gen2 volume responses
+				case respCurrentVolume:
+				case respAllVolume:
+					rc = new ResponseVolume(Devices.UNKNOWN);
 					break;
 				case reqMuteOff:
 					rc = new RequestMuteOff(Devices.UNKNOWN);

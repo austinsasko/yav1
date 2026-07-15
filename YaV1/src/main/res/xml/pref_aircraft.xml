@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- [P2-ADSB] ADS-B aircraft-enforcement awareness preferences -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <com.franckyl.yav1.CustomSwitch
+        android:defaultValue="false"
+        android:key="adsb_enable"
+        android:title="@string/pref_adsb_enable"
+        android:summary="@string/pref_adsb_enable_summary"/>
+
+    <ListPreference
+        android:defaultValue="10"
+        android:key="adsb_radius_nm"
+        android:dependency="adsb_enable"
+        android:entries="@array/adsb_radius_entries"
+        android:entryValues="@array/adsb_radius_values"
+        android:summary="%s"
+        android:title="@string/pref_adsb_radius"/>
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="adsb_heuristic"
+        android:dependency="adsb_enable"
+        android:title="@string/pref_adsb_heuristic"
+        android:summary="@string/pref_adsb_heuristic_summary"/>
+
+    <ListPreference
+        android:defaultValue="0"
+        android:key="adsb_alert_style"
+        android:dependency="adsb_enable"
+        android:entries="@array/adsb_style_entries"
+        android:entryValues="@array/adsb_style_values"
+        android:summary="%s"
+        android:title="@string/pref_adsb_style"/>
+
+    <com.franckyl.yav1.aircraft.AircraftStatusPreference
+        android:key="adsb_status"
+        android:title="@string/pref_adsb_status"
+        android:summary="@string/pref_adsb_status_summary"
+        android:persistent="false"/>
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="adsb_debug_fixture"
+        android:title="@string/pref_adsb_fixture"
+        android:summary="@string/pref_adsb_fixture_summary"/>
+
+</PreferenceScreen>
