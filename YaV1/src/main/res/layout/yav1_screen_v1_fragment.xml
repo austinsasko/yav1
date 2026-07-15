@@ -24,10 +24,9 @@
                 android:gravity="bottom"
                 android:layout_marginTop="3dp"
                 android:paddingBottom="3dp">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/bogey_3l"
+                <com.franckyl.yav1.ui.SegmentDisplayView
+                    android:layout_width="72dp"
+                    android:layout_height="104dp"
                     android:id="@+id/bogey"
                     android:layout_marginLeft="10dp"/>
                 <ImageView
