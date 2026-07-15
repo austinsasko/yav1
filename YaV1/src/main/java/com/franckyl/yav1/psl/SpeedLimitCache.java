@@ -1,5 +1,6 @@
 package com.franckyl.yav1.psl;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -16,9 +17,9 @@ import java.util.Map;
  * [P1-PSL] Tile cache for posted speed limits.
  *
  * The world is tiled on a ~150m grid; each tile stores the last fetched
- * limit (or "known unknown") with its fetch time. An in-memory LRU keeps
- * the working set small; tiles with a known limit are also persisted to a
- * small JSON file so limits survive app restarts.
+ * limit (or "known unknown"), its fetch time, and the geometry of the road
+ * that supplied a known limit. The provider revalidates that geometry before
+ * reusing a value at another point in the tile.
  *
  * Thread safe. No Android dependencies (unit-testable on the JVM).
  */
@@ -36,18 +37,33 @@ public class SpeedLimitCache
     /** how long a "no limit found" answer suppresses refetching */
     public static final long UNKNOWN_TTL_MS = 15L * 60 * 1000;
 
-    private static final int PERSIST_VERSION = 1;
+    private static final int PERSIST_VERSION = 2;
 
     /** one cached tile */
     public static class Entry
     {
         public final Integer limitKph;  // null = fetched, no limit found
         public final long    fetchedAt; // wall clock ms
+        public final double[] roadLats; // selected road geometry, known values only
+        public final double[] roadLons;
 
         public Entry(Integer limitKph, long fetchedAt)
         {
+            this(limitKph, fetchedAt, null, null);
+        }
+
+        public Entry(Integer limitKph, long fetchedAt, double[] roadLats, double[] roadLons)
+        {
             this.limitKph  = limitKph;
             this.fetchedAt = fetchedAt;
+            this.roadLats  = (roadLats == null ? null : roadLats.clone());
+            this.roadLons  = (roadLons == null ? null : roadLons.clone());
+        }
+
+        public boolean hasRoadGeometry()
+        {
+            return roadLats != null && roadLons != null
+                && roadLats.length == roadLons.length && roadLats.length >= 2;
         }
     }
 
@@ -86,6 +102,12 @@ public class SpeedLimitCache
         mTiles.put(key, new Entry(limitKph, nowMs));
     }
 
+    public synchronized void put(String key, Integer limitKph, long nowMs,
+                                 double[] roadLats, double[] roadLons)
+    {
+        mTiles.put(key, new Entry(limitKph, nowMs, roadLats, roadLons));
+    }
+
     public synchronized int size()
     {
         return mTiles.size();
@@ -118,6 +140,20 @@ public class SpeedLimitCache
                 JSONObject t = new JSONObject();
                 t.put("l", e.limitKph.intValue());
                 t.put("t", e.fetchedAt);
+
+                if(e.hasRoadGeometry())
+                {
+                    JSONArray geometry = new JSONArray();
+                    for(int i = 0; i < e.roadLats.length; i++)
+                    {
+                        JSONArray point = new JSONArray();
+                        point.put(e.roadLats[i]);
+                        point.put(e.roadLons[i]);
+                        geometry.put(point);
+                    }
+                    t.put("g", geometry);
+                }
+
                 tiles.put(me.getKey(), t);
             }
 
@@ -157,7 +193,41 @@ public class SpeedLimitCache
                 if(t == null || !t.has("l"))
                     continue;
 
-                Entry e = new Entry(t.optInt("l"), t.optLong("t"));
+                double lats[] = null;
+                double lons[] = null;
+                JSONArray geometry = t.optJSONArray("g");
+
+                if(geometry != null && geometry.length() >= 2)
+                {
+                    lats = new double[geometry.length()];
+                    lons = new double[geometry.length()];
+                    boolean valid = true;
+
+                    for(int i = 0; i < geometry.length(); i++)
+                    {
+                        JSONArray point = geometry.optJSONArray(i);
+                        if(point == null || point.length() < 2)
+                        {
+                            valid = false;
+                            break;
+                        }
+                        lats[i] = point.optDouble(0, Double.NaN);
+                        lons[i] = point.optDouble(1, Double.NaN);
+                        if(Double.isNaN(lats[i]) || Double.isNaN(lons[i]))
+                        {
+                            valid = false;
+                            break;
+                        }
+                    }
+
+                    if(!valid)
+                    {
+                        lats = null;
+                        lons = null;
+                    }
+                }
+
+                Entry e = new Entry(t.optInt("l"), t.optLong("t"), lats, lons);
                 if(isFresh(e, nowMs) && !mTiles.containsKey(key))
                     mTiles.put(key, e);
             }

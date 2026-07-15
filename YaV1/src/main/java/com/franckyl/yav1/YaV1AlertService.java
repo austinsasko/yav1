@@ -1118,6 +1118,18 @@ public class YaV1AlertService extends Service
             // been installed already or not
             if(!mCallInstalled)
             {
+                // StartUp() deliberately forgets the firmware version for every new
+                // connection. Keep the app-side request state in step with it so a
+                // reconnect (or a detector swap) always obtains a fresh version before
+                // applying version-dependent Gen2 behavior.
+                NbDisplay           = 0;
+                mRequestVersionSent = false;
+                mRequestSettingSent = false;
+                mRequestSweep       = 1;
+                YaV1.sV1Version     = "";
+                YaV1.sV1Serial      = "";
+                YaV1.sModeData      = null;
+
                 // install the display callback
                 YaV1.mV1Client.registerForDisplayData(this, "displayCallback");
                 // register for no data received

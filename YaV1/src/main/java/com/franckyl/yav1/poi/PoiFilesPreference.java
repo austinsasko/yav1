@@ -1,30 +1,35 @@
 package com.franckyl.yav1.poi;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.preference.Preference;
+import android.provider.OpenableColumns;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.franckyl.yav1.R;
+import com.franckyl.yav1.YaV1PreferenceActivity;
 
-import java.io.File;
+import java.io.InputStream;
+import java.lang.ref.WeakReference;
 import java.util.List;
-
-import ar.com.daidalos.afiledialog.FileChooserDialog;
-import ar.com.daidalos.afiledialog.FileChooserLabels;
 
 /**
  * [P2-POI] Preference entry that manages the imported POI databases:
  * shows the imported files with their counts, allows enabling / disabling /
- * removing each file and importing a new CSV through the existing
- * aFileDialog chooser.
+ * removing each file and importing a new CSV through Android's Storage
+ * Access Framework.
  */
 public class PoiFilesPreference extends Preference
 {
+    private static WeakReference<PoiFilesPreference> sImportTarget =
+        new WeakReference<PoiFilesPreference>(null);
+
     public PoiFilesPreference(Context context, AttributeSet attrs)
     {
         super(context, attrs);
@@ -39,6 +44,9 @@ public class PoiFilesPreference extends Preference
     protected void onAttachedToActivity()
     {
         super.onAttachedToActivity();
+        // If the activity was recreated while the system picker was open, make
+        // the newly attached preference the recipient of the result.
+        sImportTarget = new WeakReference<PoiFilesPreference>(this);
         updateSummary();
     }
 
@@ -159,38 +167,62 @@ public class PoiFilesPreference extends Preference
 
     private void showImportChooser()
     {
-        FileChooserDialog dialog = new FileChooserDialog(getContext());
-        FileChooserLabels labels = new FileChooserLabels();
-
-        labels.labelSelectButton = getContext().getString(R.string.select);
-        dialog.setLabels(labels);
-        dialog.loadFolder(com.franckyl.yav1.YaV1.getStorageRootDir().getAbsolutePath());
-        dialog.setFilter("(?i).*\\.csv");
-        dialog.setCanCreateFiles(false);
-        dialog.setShowConfirmation(true, false);
-
-        dialog.addListener(new FileChooserDialog.OnFileSelectedListener()
+        Context context = getContext();
+        if(!(context instanceof Activity))
         {
-            @Override
-            public void onFileSelected(Dialog source, File file)
-            {
-                source.dismiss();
-                importFile(file);
-            }
+            Toast.makeText(context,
+                String.format(context.getString(R.string.poi_import_failed),
+                              "document picker unavailable"),
+                Toast.LENGTH_LONG).show();
+            return;
+        }
 
-            @Override
-            public void onFileSelected(Dialog source, File folder, String name)
-            {
-            }
+        sImportTarget = new WeakReference<PoiFilesPreference>(this);
+
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("*/*");
+        intent.putExtra(Intent.EXTRA_MIME_TYPES, new String[] {
+            "text/csv", "text/comma-separated-values", "application/csv",
+            "application/vnd.ms-excel", "text/plain"
         });
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION
+                        | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
 
-        dialog.show();
-        Toast.makeText(getContext(), R.string.poi_import_hint, Toast.LENGTH_LONG).show();
+        ((Activity) context).startActivityForResult(
+            intent, YaV1PreferenceActivity.GET_POI_CSV);
     }
 
-    private void importFile(final File file)
+    /** Called by YaV1PreferenceActivity for the document picker result. */
+    public static boolean handleActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if(requestCode != YaV1PreferenceActivity.GET_POI_CSV)
+            return false;
+
+        PoiFilesPreference target = sImportTarget.get();
+        if(resultCode == Activity.RESULT_OK && data != null && data.getData() != null
+                && target != null)
+            target.importUri(data.getData(), data.getFlags());
+
+        return true;
+    }
+
+    private void importUri(final Uri uri, int resultFlags)
     {
         final PoiAlertManager m = manager();
+        final Context context = getContext().getApplicationContext();
+        final String displayName = displayName(uri);
+
+        int takeFlags = resultFlags & Intent.FLAG_GRANT_READ_URI_PERMISSION;
+        try
+        {
+            context.getContentResolver().takePersistableUriPermission(uri, takeFlags);
+        }
+        catch(Exception ignored)
+        {
+            // Some document providers grant a one-shot permission only. The import
+            // consumes the stream immediately, so that is sufficient.
+        }
 
         // parse can take a moment for big databases: do it off the UI thread
         new Thread("YaV1PoiImport")
@@ -198,8 +230,34 @@ public class PoiFilesPreference extends Preference
             @Override
             public void run()
             {
-                final PoiFile pf     = m.getStore().importCsv(file);
-                final String  error  = m.getStore().getLastError();
+                PoiFile imported = null;
+                String failure = "";
+                InputStream in = null;
+
+                try
+                {
+                    in = context.getContentResolver().openInputStream(uri);
+                    if(in == null)
+                        throw new java.io.IOException("document provider returned no data");
+                    imported = m.getStore().importCsv(in, displayName, uri.toString());
+                }
+                catch(Exception exc)
+                {
+                    failure = exc.toString();
+                }
+                finally
+                {
+                    if(in != null)
+                    {
+                        try { in.close(); } catch(Exception ignored) {}
+                    }
+                }
+
+                final PoiFile pf = imported;
+                final String storeError = m.getStore().getLastError();
+                final String error = (pf != null ? "" :
+                    (!failure.isEmpty() ? failure :
+                        (storeError.isEmpty() ? "unable to read " + displayName : storeError)));
 
                 if(pf != null)
                     m.rebuildIndexNow();
@@ -227,6 +285,37 @@ public class PoiFilesPreference extends Preference
                 });
             }
         }.start();
+    }
+
+    private String displayName(Uri uri)
+    {
+        Cursor cursor = null;
+        try
+        {
+            cursor = getContext().getContentResolver().query(
+                uri, new String[] {OpenableColumns.DISPLAY_NAME}, null, null, null);
+            if(cursor != null && cursor.moveToFirst())
+            {
+                int column = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                if(column >= 0)
+                {
+                    String name = cursor.getString(column);
+                    if(name != null && !name.trim().isEmpty())
+                        return name;
+                }
+            }
+        }
+        catch(Exception ignored)
+        {
+        }
+        finally
+        {
+            if(cursor != null)
+                cursor.close();
+        }
+
+        String name = uri.getLastPathSegment();
+        return (name == null || name.trim().isEmpty()) ? "import.csv" : name;
     }
 
     private void post(Runnable r)

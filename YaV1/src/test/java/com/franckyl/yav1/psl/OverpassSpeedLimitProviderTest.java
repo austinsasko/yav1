@@ -1,6 +1,7 @@
 package com.franckyl.yav1.psl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
@@ -159,6 +160,28 @@ public class OverpassSpeedLimitProviderTest
 		assertNull(OverpassSpeedLimitProvider.selectLimitKph(ways, 28.0, -81.0, 90f));
 		assertNull(OverpassSpeedLimitProvider.selectLimitKph(
 			new ArrayList<OverpassSpeedLimitProvider.Way>(), 28.0, -81.0, 90f));
+	}
+
+	@Test
+	public void cachedLimitIsReusedOnlyOnTheSelectedRoad()
+	{
+		SpeedLimitCache.Entry eastWest = new SpeedLimitCache.Entry(
+			48, 1000L,
+			new double[] {28.0, 28.0},
+			new double[] {-81.001, -80.999});
+
+		assertTrue(OverpassSpeedLimitProvider.cachedRoadMatches(
+			eastWest, 28.0, -81.0, 90f));
+		assertTrue(OverpassSpeedLimitProvider.cachedRoadMatches(
+			eastWest, 28.0, -81.0, 270f));
+
+		// Same intersection, but now travelling on the crossing road.
+		assertFalse(OverpassSpeedLimitProvider.cachedRoadMatches(
+			eastWest, 28.0, -81.0, 0f));
+
+		// Same heading on a parallel road about 33m away.
+		assertFalse(OverpassSpeedLimitProvider.cachedRoadMatches(
+			eastWest, 28.0003, -81.0, 90f));
 	}
 
 	@Test
