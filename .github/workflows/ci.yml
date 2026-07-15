@@ -1,0 +1,70 @@
+name: Android CI
+
+on:
+  push:
+    branches: [master, "radar-feature-suite", "data-services-live-validation"]
+  pull_request:
+  workflow_dispatch:
+
+# Cancel superseded runs on the same ref
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    name: Build & unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install SDK packages
+        run: |
+          yes | sdkmanager --licenses > /dev/null || true
+          sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
+
+      - name: Set up Gradle (with cache)
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Unit tests (ESPLibrary + YaV1)
+        run: ./gradlew :ESPLibrary:testDebugUnitTest :YaV1:testDebugUnitTest --stacktrace
+
+      - name: Assemble debug APK
+        run: ./gradlew :YaV1:assembleDebug --stacktrace
+
+      - name: Android Lint (non-blocking)
+        run: ./gradlew :YaV1:lintDebug --stacktrace || true
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-test-results
+          path: |
+            **/build/test-results/**/*.xml
+            **/build/reports/tests/**
+          if-no-files-found: warn
+
+      - name: Upload debug APK
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: YaV1-debug-apk
+          path: YaV1/build/outputs/apk/debug/YaV1-debug.apk
+          if-no-files-found: warn

@@ -1,0 +1,4283 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-07-15T03:04:15Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 4215665527,
+  "lat": 40.7159660,
+  "lon": -74.0130407,
+  "tags": {
+    "highway": "speed_camera"
+  }
+},
+{
+  "type": "node",
+  "id": 8498073590,
+  "lat": 40.7628451,
+  "lon": -73.9288537,
+  "tags": {
+    "highway": "speed_camera"
+  }
+},
+{
+  "type": "node",
+  "id": 9344068503,
+  "lat": 40.7374628,
+  "lon": -73.9796224,
+  "tags": {
+    "highway": "speed_camera"
+  }
+},
+{
+  "type": "node",
+  "id": 10911736945,
+  "lat": 40.7345795,
+  "lon": -73.9833165,
+  "tags": {
+    "brand": "Redflex",
+    "colour": "white",
+    "direction": "forward",
+    "highway": "speed_camera",
+    "maxspeed": "25 mph"
+  }
+},
+{
+  "type": "node",
+  "id": 10911890468,
+  "lat": 40.7167052,
+  "lon": -74.0131563,
+  "tags": {
+    "addr:state": "NY",
+    "addr:street": "West Street",
+    "colour": "white",
+    "direction": "forward",
+    "highway": "speed_camera",
+    "maxspeed": "25 mph"
+  }
+},
+{
+  "type": "node",
+  "id": 10911890469,
+  "lat": 40.7304219,
+  "lon": -74.0106507,
+  "tags": {
+    "addr:state": "NY",
+    "addr:street": "West Street",
+    "colour": "white",
+    "direction": "forward",
+    "highway": "speed_camera",
+    "maxspeed": "25 mph"
+  }
+},
+{
+  "type": "node",
+  "id": 10911890470,
+  "lat": 40.7492526,
+  "lon": -74.0081348,
+  "tags": {
+    "addr:state": "NY",
+    "addr:street": "12th Avenue",
+    "colour": "white",
+    "direction": "forward",
+    "highway": "speed_camera",
+    "maxspeed": "25 mph"
+  }
+},
+{
+  "type": "node",
+  "id": 10911890471,
+  "lat": 40.7491228,
+  "lon": -73.9994538,
+  "tags": {
+    "addr:state": "NY",
+    "addr:street": "9th Avenue",
+    "colour": "white",
+    "direction": "forward",
+    "highway": "speed_camera",
+    "maxspeed": "25 mph"
+  }
+},
+{
+  "type": "node",
+  "id": 10944870427,
+  "lat": 40.7455839,
+  "lon": -73.9733941,
+  "tags": {
+    "camera:type": "fixed",
+    "direction": "110",
+    "man_made": "surveillance",
+    "manufacturer": "Leonardo",
+    "manufacturer:wikidata": "Q910379",
+    "operator": "NYC M.T.A",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 10944870428,
+  "lat": 40.7456121,
+  "lon": -73.9733743,
+  "tags": {
+    "camera:type": "fixed",
+    "direction": "110",
+    "man_made": "surveillance",
+    "manufacturer": "Leonardo",
+    "manufacturer:wikidata": "Q910379",
+    "operator": "NYC M.T.A",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 10944870429,
+  "lat": 40.7456386,
+  "lon": -73.9733563,
+  "tags": {
+    "camera:type": "fixed",
+    "direction": "110",
+    "man_made": "surveillance",
+    "manufacturer": "Leonardo",
+    "manufacturer:wikidata": "Q910379",
+    "operator": "NYC M.T.A",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 10944870430,
+  "lat": 40.7456657,
+  "lon": -73.9733361,
+  "tags": {
+    "camera:type": "fixed",
+    "direction": "110",
+    "man_made": "surveillance",
+    "manufacturer": "Leonardo",
+    "manufacturer:wikidata": "Q910379",
+    "operator": "NYC M.T.A",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 10944870431,
+  "lat": 40.7456993,
+  "lon": -73.9733181,
+  "tags": {
+    "camera:type": "fixed",
+    "direction": "110",
+    "man_made": "surveillance",
+    "manufacturer": "Leonardo",
+    "manufacturer:wikidata": "Q910379",
+    "operator": "NYC M.T.A",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 10944870432,
+  "lat": 40.7457011,
+  "lon": -73.9734167,
+  "tags": {
+    "camera:type": "fixed",
+    "direction": "295",
+    "man_made": "surveillance",
+    "manufacturer": "Leonardo",
+    "manufacturer:wikidata": "Q910379",
+    "operator": "NYC M.T.A",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 10944870433,
+  "lat": 40.7457289,
+  "lon": -73.9733974,
+  "tags": {
+    "camera:type": "fixed",
+    "direction": "295",
+    "man_made": "surveillance",
+    "manufacturer": "Leonardo",
+    "manufacturer:wikidata": "Q910379",
+    "operator": "NYC M.T.A",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 10944870445,
+  "lat": 40.7568733,
+  "lon": -73.9963292,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "115",
+    "man_made": "surveillance",
+    "manufacturer": "Kapsch VRX-350x",
+    "operator": "PANYNJ",
+    "operator:type": "public",
+    "operator:wikidata": "Q908666",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 10944870446,
+  "lat": 40.7569104,
+  "lon": -73.9963019,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "115",
+    "man_made": "surveillance",
+    "manufacturer": "Kapsch VRX-350x",
+    "operator": "PANYNJ",
+    "operator:type": "public",
+    "operator:wikidata": "Q908666",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 10944870447,
+  "lat": 40.7569712,
+  "lon": -73.9962570,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "115",
+    "man_made": "surveillance",
+    "manufacturer": "Kapsch VRX-350x",
+    "operator": "PANYNJ",
+    "operator:type": "public",
+    "operator:wikidata": "Q908666",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 10944870448,
+  "lat": 40.7568424,
+  "lon": -73.9962495,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "295",
+    "man_made": "surveillance",
+    "manufacturer": "Kapsch VRX-350x",
+    "operator": "PANYNJ",
+    "operator:type": "public",
+    "operator:wikidata": "Q908666",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 10944870449,
+  "lat": 40.7568812,
+  "lon": -73.9962212,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "295",
+    "man_made": "surveillance",
+    "manufacturer": "Kapsch VRX-350x",
+    "operator": "PANYNJ",
+    "operator:type": "public",
+    "operator:wikidata": "Q908666",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 10944870450,
+  "lat": 40.7569392,
+  "lon": -73.9961789,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "295",
+    "man_made": "surveillance",
+    "manufacturer": "Kapsch VRX-350x",
+    "operator": "PANYNJ",
+    "operator:type": "public",
+    "operator:wikidata": "Q908666",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 10944870451,
+  "lat": 40.7570061,
+  "lon": -73.9961302,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "305",
+    "man_made": "surveillance",
+    "manufacturer": "Kapsch VRX-350x",
+    "operator": "PANYNJ",
+    "operator:type": "public",
+    "operator:wikidata": "Q908666",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 10944870452,
+  "lat": 40.7570499,
+  "lon": -73.9961990,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "130",
+    "man_made": "surveillance",
+    "manufacturer": "Kapsch VRX-350x",
+    "operator": "PANYNJ",
+    "operator:type": "public",
+    "operator:wikidata": "Q908666",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 10944870453,
+  "lat": 40.7571239,
+  "lon": -73.9960444,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "295",
+    "man_made": "surveillance",
+    "manufacturer": "Kapsch VRX-350x",
+    "operator": "PANYNJ",
+    "operator:type": "public",
+    "operator:wikidata": "Q908666",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 10944870454,
+  "lat": 40.7571555,
+  "lon": -73.9961210,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "115",
+    "man_made": "surveillance",
+    "manufacturer": "Kapsch VRX-350x",
+    "operator": "PANYNJ",
+    "operator:type": "public",
+    "operator:wikidata": "Q908666",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 10944870455,
+  "lat": 40.7571939,
+  "lon": -73.9959935,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "300",
+    "man_made": "surveillance",
+    "manufacturer": "Kapsch VRX-350x",
+    "operator": "PANYNJ",
+    "operator:type": "public",
+    "operator:wikidata": "Q908666",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 10944870456,
+  "lat": 40.7572253,
+  "lon": -73.9960696,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "120",
+    "man_made": "surveillance",
+    "manufacturer": "Kapsch VRX-350x",
+    "operator": "PANYNJ",
+    "operator:type": "public",
+    "operator:wikidata": "Q908666",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13302915504,
+  "lat": 40.7456645,
+  "lon": -73.9734381,
+  "tags": {
+    "camera:type": "fixed",
+    "direction": "283",
+    "man_made": "surveillance",
+    "manufacturer": "Leonardo",
+    "manufacturer:wikidata": "Q910379",
+    "operator": "NYC M.T.A",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13302928701,
+  "lat": 40.7459465,
+  "lon": -73.9732757,
+  "tags": {
+    "camera:type": "fixed",
+    "direction": "292",
+    "man_made": "surveillance",
+    "manufacturer": "Leonardo",
+    "manufacturer:wikidata": "Q910379",
+    "operator": "NYC M.T.A",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13302929501,
+  "lat": 40.7459887,
+  "lon": -73.9732654,
+  "tags": {
+    "camera:type": "fixed",
+    "direction": "301",
+    "man_made": "surveillance",
+    "manufacturer": "Leonardo",
+    "manufacturer:wikidata": "Q910379",
+    "operator": "NYC M.T.A",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13302929502,
+  "lat": 40.7459416,
+  "lon": -73.9732295,
+  "tags": {
+    "camera:type": "fixed",
+    "direction": "99",
+    "man_made": "surveillance",
+    "manufacturer": "Leonardo",
+    "manufacturer:wikidata": "Q910379",
+    "operator": "NYC M.T.A",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13302929601,
+  "lat": 40.7459812,
+  "lon": -73.9732195,
+  "tags": {
+    "camera:type": "fixed",
+    "direction": "100",
+    "man_made": "surveillance",
+    "manufacturer": "Leonardo",
+    "manufacturer:wikidata": "Q910379",
+    "operator": "NYC M.T.A",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13330333401,
+  "lat": 40.7535242,
+  "lon": -73.9466934,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "304",
+    "man_made": "surveillance",
+    "manufacturer": "Leonardo",
+    "manufacturer:wikidata": "Q910379",
+    "operator:type": "public",
+    "operator:wikidata": "Q328473",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13332811301,
+  "lat": 40.7535598,
+  "lon": -73.9466587,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "327;282",
+    "man_made": "surveillance",
+    "manufacturer": "Leonardo",
+    "manufacturer:wikidata": "Q910379",
+    "operator:type": "public",
+    "operator:wikidata": "Q328473",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13332813801,
+  "lat": 40.7534266,
+  "lon": -73.9467667,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "160;113;80",
+    "man_made": "surveillance",
+    "manufacturer": "Leonardo",
+    "manufacturer:wikidata": "Q910379",
+    "operator:type": "public",
+    "operator:wikidata": "Q328473",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13333068401,
+  "lat": 40.7169997,
+  "lon": -73.9837215,
+  "tags": {
+    "camera:type": "fixed",
+    "direction": "266;313;135;103",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transit Authority",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13333068701,
+  "lat": 40.7171745,
+  "lon": -73.9836177,
+  "tags": {
+    "camera:type": "fixed",
+    "direction": "317;282;120;87",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transit Authority",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13336690902,
+  "lat": 40.7371021,
+  "lon": -73.9747191,
+  "tags": {
+    "camera:mount": "bridge",
+    "camera:type": "fixed",
+    "direction": "30;204",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13336698601,
+  "lat": 40.7370349,
+  "lon": -73.9746092,
+  "tags": {
+    "camera:mount": "bridge",
+    "camera:type": "fixed",
+    "direction": "33;204",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13336707001,
+  "lat": 40.7429537,
+  "lon": -73.9723793,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "178",
+    "man_made": "surveillance",
+    "manufacturer": "Leonardo",
+    "manufacturer:wikidata": "Q910379",
+    "operator": "New York Police Department",
+    "operator:short": "NYPD",
+    "operator:type": "public",
+    "operator:wikidata": "Q328473",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13336711401,
+  "lat": 40.7546370,
+  "lon": -73.9622922,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "34;214",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13336712001,
+  "lat": 40.7546980,
+  "lon": -73.9624084,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "40;209",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13336722801,
+  "lat": 40.7591302,
+  "lon": -73.9583980,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "0;68;241;173",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13336742201,
+  "lat": 40.7173599,
+  "lon": -74.0127179,
+  "tags": {
+    "camera:mount": "bridge",
+    "camera:type": "fixed",
+    "direction": "17;190",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13336744501,
+  "lat": 40.7174390,
+  "lon": -74.0129826,
+  "tags": {
+    "camera:mount": "bridge",
+    "camera:type": "fixed",
+    "direction": "189;10",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13336751902,
+  "lat": 40.7398624,
+  "lon": -74.0096216,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "30;201",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13336760701,
+  "lat": 40.7399108,
+  "lon": -74.0097571,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "27;196",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13336767102,
+  "lat": 40.7719411,
+  "lon": -73.9942370,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "32;208",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13336767401,
+  "lat": 40.7718622,
+  "lon": -73.9940474,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "34;203",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13336782501,
+  "lat": 40.7249080,
+  "lon": -74.0114165,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "223;174;146",
+    "man_made": "surveillance",
+    "manufacturer": "Leonardo",
+    "manufacturer:wikidata": "Q910379",
+    "operator": "New York City Police Department",
+    "operator:type": "public",
+    "operator:wikidata": "Q328473",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13336785901,
+  "lat": 40.7245751,
+  "lon": -74.0111166,
+  "tags": {
+    "camera:type": "fixed",
+    "direction": "304;359;47",
+    "man_made": "surveillance",
+    "manufacturer": "Leonardo",
+    "manufacturer:wikidata": "Q910379",
+    "operator": "New York Police Department",
+    "operator:type": "public",
+    "operator:wikidata": "Q328473",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13336799501,
+  "lat": 40.7145990,
+  "lon": -73.9947070,
+  "tags": {
+    "camera:type": "fixed",
+    "direction": "335;154",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transit Authority",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13336800701,
+  "lat": 40.7145552,
+  "lon": -73.9948326,
+  "tags": {
+    "camera:type": "fixed",
+    "direction": "337;158",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transit Authority",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13336800702,
+  "lat": 40.7146406,
+  "lon": -73.9945771,
+  "tags": {
+    "camera:type": "fixed",
+    "direction": "340;155",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transit Authority",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13338811001,
+  "lat": 40.7828469,
+  "lon": -73.9448721,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "332;25",
+    "man_made": "surveillance",
+    "manufacturer": "Ekin Box Spotter",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13341340901,
+  "lat": 40.7243610,
+  "lon": -74.0093280,
+  "tags": {
+    "camera:type": "fixed",
+    "direction": "226",
+    "man_made": "surveillance",
+    "manufacturer": "Leonardo",
+    "manufacturer:wikidata": "Q910379",
+    "operator": "New York City Police Department",
+    "operator:type": "public",
+    "operator:wikidata": "Q328473",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13341342901,
+  "lat": 40.7221138,
+  "lon": -74.0062539,
+  "tags": {
+    "camera:type": "fixed",
+    "direction": "241;199",
+    "man_made": "surveillance",
+    "manufacturer": "Leonardo",
+    "manufacturer:wikidata": "Q910379",
+    "operator": "New York City Police Department",
+    "operator:type": "public",
+    "operator:wikidata": "Q328473",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13341346801,
+  "lat": 40.7191230,
+  "lon": -74.0021630,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "179",
+    "man_made": "surveillance",
+    "manufacturer": "Leonardo",
+    "manufacturer:wikidata": "Q910379",
+    "operator": "New York City Police Department",
+    "operator:type": "public",
+    "operator:wikidata": "Q328473",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13341348301,
+  "lat": 40.7181446,
+  "lon": -74.0007510,
+  "tags": {
+    "camera:type": "fixed",
+    "direction": "250",
+    "man_made": "surveillance",
+    "manufacturer": "Leonardo",
+    "manufacturer:wikidata": "Q910379",
+    "operator": "New York City Police Department",
+    "operator:type": "public",
+    "operator:wikidata": "Q328473",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13341353201,
+  "lat": 40.7172625,
+  "lon": -73.9994460,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "240",
+    "man_made": "surveillance",
+    "manufacturer": "Leonardo",
+    "manufacturer:wikidata": "Q910379",
+    "operator": "New York City Police Department",
+    "operator:type": "public",
+    "operator:wikidata": "Q328473",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13341359901,
+  "lat": 40.7164750,
+  "lon": -73.9979710,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "213",
+    "man_made": "surveillance",
+    "manufacturer": "Leonardo",
+    "manufacturer:wikidata": "Q910379",
+    "operator": "New York City Police Department",
+    "operator:type": "public",
+    "operator:wikidata": "Q328473",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13341367401,
+  "lat": 40.7155181,
+  "lon": -73.9966408,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "159",
+    "man_made": "surveillance",
+    "manufacturer": "Leonardo",
+    "manufacturer:wikidata": "Q910379",
+    "operator": "New York City Police Department",
+    "operator:type": "public",
+    "operator:wikidata": "Q328473",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13341370901,
+  "lat": 40.7142605,
+  "lon": -73.9950395,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "222",
+    "man_made": "surveillance",
+    "manufacturer": "Leonardo",
+    "manufacturer:wikidata": "Q910379",
+    "operator": "New York City Police Department",
+    "operator:type": "public",
+    "operator:wikidata": "Q328473",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13341377201,
+  "lat": 40.7136819,
+  "lon": -73.9951930,
+  "tags": {
+    "camera:type": "fixed",
+    "direction": "229",
+    "man_made": "surveillance",
+    "manufacturer": "Leonardo",
+    "manufacturer:wikidata": "Q910379",
+    "operator": "New York City Police Department",
+    "operator:type": "public",
+    "operator:wikidata": "Q328473",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13341381401,
+  "lat": 40.7129730,
+  "lon": -73.9953880,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "232",
+    "man_made": "surveillance",
+    "manufacturer": "Leonardo",
+    "manufacturer:wikidata": "Q910379",
+    "operator": "New York City Police Department",
+    "operator:type": "public",
+    "operator:wikidata": "Q328473",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13341383401,
+  "lat": 40.7123100,
+  "lon": -73.9949197,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "205",
+    "man_made": "surveillance",
+    "manufacturer": "Leonardo",
+    "manufacturer:wikidata": "Q910379",
+    "operator": "New York City Police Department",
+    "operator:type": "public",
+    "operator:wikidata": "Q328473",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13341402001,
+  "lat": 40.7574658,
+  "lon": -73.9902377,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "258",
+    "man_made": "surveillance",
+    "manufacturer": "Leonardo",
+    "manufacturer:wikidata": "Q910379",
+    "operator": "New York Police Department",
+    "operator:short": "NYPD",
+    "operator:type": "public",
+    "operator:wikidata": "Q328473",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13341404101,
+  "lat": 40.7544807,
+  "lon": -73.9833694,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "74",
+    "man_made": "surveillance",
+    "manufacturer": "Leonardo",
+    "manufacturer:wikidata": "Q910379",
+    "operator": "New York Police Department",
+    "operator:short": "NYPD",
+    "operator:type": "public",
+    "operator:wikidata": "Q328473",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13341414401,
+  "lat": 40.7580672,
+  "lon": -73.9918811,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "69;104",
+    "man_made": "surveillance",
+    "manufacturer": "Leonardo",
+    "manufacturer:wikidata": "Q910379",
+    "operator": "New York Police Department",
+    "operator:short": "NYPD",
+    "operator:type": "public",
+    "operator:wikidata": "Q328473",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13341561304,
+  "lat": 40.7536460,
+  "lon": -73.9474472,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "262;243",
+    "man_made": "surveillance",
+    "manufacturer": "Genetec",
+    "manufacturer:wikidata": "Q30295174",
+    "operator": "New York City Police Department",
+    "operator:type": "public",
+    "operator:wikidata": "Q328473",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13341576402,
+  "lat": 40.7511728,
+  "lon": -73.9518884,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "11;230",
+    "man_made": "surveillance",
+    "manufacturer": "Leonardo",
+    "manufacturer:wikidata": "Q910379",
+    "operator": "New York City Police Department",
+    "operator:type": "public",
+    "operator:wikidata": "Q328473",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13342904403,
+  "lat": 40.7640994,
+  "lon": -73.9470410,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "302;145",
+    "man_made": "surveillance",
+    "manufacturer": "Leonardo",
+    "manufacturer:wikidata": "Q910379",
+    "operator": "New York City Police Department",
+    "operator:type": "public",
+    "operator:wikidata": "Q328473",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13344296001,
+  "lat": 40.7617719,
+  "lon": -73.9611466,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "126;179",
+    "man_made": "surveillance",
+    "manufacturer": "Ekin Box Spotter",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13344395301,
+  "lat": 40.7391700,
+  "lon": -73.9430798,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "193;256;141",
+    "man_made": "surveillance",
+    "manufacturer": "soundvue noise camera",
+    "operator": "New York City Department of environmental protection",
+    "operator:type": "public",
+    "operator:wikidata": "Q7013162",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13344400701,
+  "lat": 40.7408774,
+  "lon": -73.9447925,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "80",
+    "man_made": "surveillance",
+    "manufacturer": "Genetec",
+    "manufacturer:wikidata": "Q30295174",
+    "operator": "New York City Police Department",
+    "operator:type": "public",
+    "operator:wikidata": "Q328473",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13344509902,
+  "lat": 40.7303430,
+  "lon": -73.9523580,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "78;30",
+    "man_made": "surveillance",
+    "manufacturer": "Genetec",
+    "manufacturer:wikidata": "Q30295174",
+    "operator": "New York City Police Department",
+    "operator:type": "public",
+    "operator:wikidata": "Q328473",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13362197901,
+  "lat": 40.7270307,
+  "lon": -73.9856499,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "32;354",
+    "man_made": "surveillance",
+    "manufacturer": "Ekin x spotter",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13362199101,
+  "lat": 40.7274050,
+  "lon": -73.9853765,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "31;0",
+    "man_made": "surveillance",
+    "manufacturer": "Ekin x spotter",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13412672301,
+  "lat": 40.7211033,
+  "lon": -73.9892241,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "27;340",
+    "man_made": "surveillance",
+    "manufacturer": "Mav (IQ:350XR)",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13412673201,
+  "lat": 40.7213727,
+  "lon": -73.9890813,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "28;341",
+    "man_made": "surveillance",
+    "manufacturer": "Mav (IQ:350XR)",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13420529701,
+  "lat": 40.7639736,
+  "lon": -73.9691933,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "33;206;95;148",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13420530301,
+  "lat": 40.7638350,
+  "lon": -73.9688711,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "33;205;339;268",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13420565801,
+  "lat": 40.7598912,
+  "lon": -73.9278455,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "123;90",
+    "man_made": "surveillance",
+    "manufacturer": "Ekin Box Spotter",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13420580301,
+  "lat": 40.7536783,
+  "lon": -73.9425688,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "44;0",
+    "man_made": "surveillance",
+    "manufacturer": "Ekin Box Spotter",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13421313501,
+  "lat": 40.7454097,
+  "lon": -73.9371283,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "259;210",
+    "man_made": "surveillance",
+    "manufacturer": "Ekin Box Spotter",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13421317601,
+  "lat": 40.7464123,
+  "lon": -73.9308937,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "96;151",
+    "man_made": "surveillance",
+    "manufacturer": "Ekin Box Spotter",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13421722801,
+  "lat": 40.7727340,
+  "lon": -73.9896365,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "169;69;336;248",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13421734201,
+  "lat": 40.7728079,
+  "lon": -73.9909426,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "71;359;178;256",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13428431101,
+  "lat": 40.7591215,
+  "lon": -73.9963027,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "332;271;99;151",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13428433301,
+  "lat": 40.7593001,
+  "lon": -73.9968508,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "92;348",
+    "man_made": "surveillance",
+    "manufacturer": "soundvue noise camera",
+    "operator": "New York City Department of environmental protection",
+    "operator:type": "public",
+    "operator:wikidata": "Q7013162",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13428439501,
+  "lat": 40.7594333,
+  "lon": -73.9969772,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "125;169;309;232",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13428441101,
+  "lat": 40.7594768,
+  "lon": -73.9972327,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "297;0;130;71",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13428443301,
+  "lat": 40.7593920,
+  "lon": -73.9988909,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "102;169;309;243",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13428448401,
+  "lat": 40.7591977,
+  "lon": -73.9957960,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "0;73;245;171",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437064501,
+  "lat": 40.7551485,
+  "lon": -73.9951272,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "214;27",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437067601,
+  "lat": 40.7541995,
+  "lon": -73.9961404,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "325;255;84;157",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437069401,
+  "lat": 40.7549990,
+  "lon": -73.9980584,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "337;265;80;155",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437072401,
+  "lat": 40.7554394,
+  "lon": -73.9971882,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "331;259;80;152",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437074501,
+  "lat": 40.7548679,
+  "lon": -73.9958117,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "341;267;87;163",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437077601,
+  "lat": 40.7521331,
+  "lon": -73.9992096,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "335;266;155;89",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437079401,
+  "lat": 40.7514838,
+  "lon": -73.9995778,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "324;253;95;162",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437140101,
+  "lat": 40.7511077,
+  "lon": -73.9982165,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "125;293",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437229401,
+  "lat": 40.7329815,
+  "lon": -73.9845463,
+  "tags": {
+    "camera:mount": "taffic_signal",
+    "camera:type": "fixed",
+    "direction": "202;144",
+    "man_made": "surveillance",
+    "manufacturer": "Ekin x spotter",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437234001,
+  "lat": 40.7325726,
+  "lon": -73.9848483,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "202;160",
+    "man_made": "surveillance",
+    "manufacturer": "Ekin x spotter",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437238601,
+  "lat": 40.7329945,
+  "lon": -73.9863130,
+  "tags": {
+    "camera:mount": "street_lamp",
+    "camera:type": "fixed",
+    "direction": "251",
+    "man_made": "surveillance",
+    "manufacturer": "Mav (IQ:350XR)",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437241201,
+  "lat": 40.7327032,
+  "lon": -73.9858931,
+  "tags": {
+    "camera:mount": "street_lamp",
+    "camera:type": "fixed",
+    "direction": "75",
+    "man_made": "surveillance",
+    "manufacturer": "Ekin x spotter",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437252401,
+  "lat": 40.7324087,
+  "lon": -73.9852076,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "81",
+    "man_made": "surveillance",
+    "manufacturer": "Ekin x spotter",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437265101,
+  "lat": 40.7331929,
+  "lon": -73.9867382,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "257",
+    "man_made": "surveillance",
+    "manufacturer": "Mav (IQ:350XR)",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437268501,
+  "lat": 40.7336566,
+  "lon": -73.9879294,
+  "tags": {
+    "camera:mount": "street_lamp",
+    "camera:type": "fixed",
+    "direction": "273",
+    "man_made": "surveillance",
+    "manufacturer": "Mav (IQ:350XR)",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437269801,
+  "lat": 40.7338295,
+  "lon": -73.9883314,
+  "tags": {
+    "camera:mount": "street_lamp",
+    "camera:type": "fixed",
+    "direction": "275",
+    "man_made": "surveillance",
+    "manufacturer": "Mav (IQ:350XR)",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437274201,
+  "lat": 40.7341835,
+  "lon": -73.9891584,
+  "tags": {
+    "camera:mount": "street_lamp",
+    "camera:type": "fixed",
+    "direction": "269",
+    "man_made": "surveillance",
+    "manufacturer": "Mav (IQ:350XR)",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437277901,
+  "lat": 40.7344025,
+  "lon": -73.9896683,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "257",
+    "man_made": "surveillance",
+    "manufacturer": "Mav (IQ:350XR)",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437281801,
+  "lat": 40.7348866,
+  "lon": -73.9910537,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "94",
+    "man_made": "surveillance",
+    "manufacturer": "Mav (IQ:350XR)",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437282101,
+  "lat": 40.7351215,
+  "lon": -73.9916096,
+  "tags": {
+    "camera:mount": "street_lamp",
+    "camera:type": "fixed",
+    "direction": "91",
+    "man_made": "surveillance",
+    "manufacturer": "Mav (IQ:350XR)",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437285501,
+  "lat": 40.7353236,
+  "lon": -73.9920746,
+  "tags": {
+    "camera:mount": "street_lamp",
+    "camera:type": "fixed",
+    "direction": "89",
+    "man_made": "surveillance",
+    "manufacturer": "Mav (IQ:350XR)",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437289501,
+  "lat": 40.7355188,
+  "lon": -73.9925400,
+  "tags": {
+    "camera:mount": "street_lamp",
+    "camera:type": "fixed",
+    "direction": "83",
+    "man_made": "surveillance",
+    "manufacturer": "Mav (IQ:350XR)",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437297601,
+  "lat": 40.7364168,
+  "lon": -73.9946758,
+  "tags": {
+    "camera:mount": "street_lamp",
+    "camera:type": "fixed",
+    "direction": "84",
+    "man_made": "surveillance",
+    "manufacturer": "Ekin x spotter",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437301601,
+  "lat": 40.7370473,
+  "lon": -73.9959941,
+  "tags": {
+    "camera:mount": "street_lamp",
+    "camera:type": "fixed",
+    "direction": "255",
+    "man_made": "surveillance",
+    "manufacturer": "Mav (IQ:350XR)",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437306101,
+  "lat": 40.7372173,
+  "lon": -73.9964063,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "259",
+    "man_made": "surveillance",
+    "manufacturer": "Mav (IQ:350XR)",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437321201,
+  "lat": 40.7361213,
+  "lon": -73.9939786,
+  "tags": {
+    "camera:mount": "street_lamp",
+    "camera:type": "fixed",
+    "direction": "97",
+    "man_made": "surveillance",
+    "manufacturer": "Ekin x spotter",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437332201,
+  "lat": 40.7388222,
+  "lon": -74.0004033,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "88",
+    "man_made": "surveillance",
+    "manufacturer": "Mav (IQ:350XR)",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437335201,
+  "lat": 40.7394736,
+  "lon": -74.0016219,
+  "tags": {
+    "camera:mount": "street_lamp",
+    "camera:type": "fixed",
+    "direction": "253",
+    "man_made": "surveillance",
+    "manufacturer": "Mav (IQ:350XR)",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437335202,
+  "lat": 40.7396190,
+  "lon": -74.0021089,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "271",
+    "man_made": "surveillance",
+    "manufacturer": "Mav (IQ:350XR)",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437346501,
+  "lat": 40.7409652,
+  "lon": -74.0055131,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "85",
+    "man_made": "surveillance",
+    "manufacturer": "Mav (IQ:350XR)",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437354701,
+  "lat": 40.7517262,
+  "lon": -74.0001503,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "335;267;73;147",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437380601,
+  "lat": 40.7515366,
+  "lon": -73.9995331,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "90;146;344;284",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437403702,
+  "lat": 40.7572891,
+  "lon": -73.9938875,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "331;258;94;165",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437405301,
+  "lat": 40.7533560,
+  "lon": -73.9982822,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "337;264;88;160",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437408001,
+  "lat": 40.7536519,
+  "lon": -73.9989700,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "325;256;88;160",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437410501,
+  "lat": 40.7574773,
+  "lon": -73.9970369,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "7;72;234;172",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437416601,
+  "lat": 40.7581646,
+  "lon": -73.9959690,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "325;256;89;155",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437418001,
+  "lat": 40.7575970,
+  "lon": -73.9946379,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "335;264;88;158",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437423801,
+  "lat": 40.7567702,
+  "lon": -73.9945609,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "296;123",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437425301,
+  "lat": 40.7569378,
+  "lon": -73.9949917,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "297;116",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437430501,
+  "lat": 40.7585227,
+  "lon": -73.9987478,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "332;264;76;148",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437441201,
+  "lat": 40.7591922,
+  "lon": -73.9948142,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "293;344;53;108",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437441202,
+  "lat": 40.7537956,
+  "lon": -73.9972456,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "332;258;87;161",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437443301,
+  "lat": 40.7585638,
+  "lon": -73.9932566,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "297;122;0;65",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437445801,
+  "lat": 40.7580471,
+  "lon": -73.9935134,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "89;161;334;262",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437458701,
+  "lat": 40.7541187,
+  "lon": -73.9979295,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "287;129;334;85",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437460401,
+  "lat": 40.7540220,
+  "lon": -73.9978358,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "268;337;161;89",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "MTA Bridges and Tunnels",
+    "operator:type": "public",
+    "operator:wikidata": "Q999168",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437465601,
+  "lat": 40.7521781,
+  "lon": -74.0007026,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "332;263;161;93",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13437467601,
+  "lat": 40.7525713,
+  "lon": -74.0002584,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "332;265;80;149",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13514015001,
+  "lat": 40.7180689,
+  "lon": -73.9884188,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "42;344",
+    "man_made": "surveillance",
+    "manufacturer": "Ekin Box Spotter",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13523363501,
+  "lat": 40.7652981,
+  "lon": -73.9723475,
+  "tags": {
+    "camera:mount": "street_lamp",
+    "camera:type": "fixed",
+    "direction": "225;151;22;82",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "manufacturer:wikidata": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13593071501,
+  "lat": 40.7367481,
+  "lon": -73.9779357,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "292;232",
+    "man_made": "surveillance",
+    "manufacturer": "Ekin Box Spotter",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13689827101,
+  "lat": 40.7255245,
+  "lon": -73.9973999,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "134;73",
+    "man_made": "surveillance",
+    "manufacturer": "Ekin Box Spotter",
+    "operator": "New York City Department of Transportation",
+    "operator:type": "public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13718842201,
+  "lat": 40.7466607,
+  "lon": -73.9304095,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "188;131",
+    "man_made": "surveillance",
+    "manufacturer": "Ekin Box Spotter",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13733841801,
+  "lat": 40.7589459,
+  "lon": -73.9939616,
+  "tags": {
+    "camera:mount": "traffic_signals",
+    "camera:type": "fixed",
+    "direction": "33",
+    "man_made": "surveillance",
+    "manufacturer": "Axis Communications",
+    "manufacturer:wikidata": "Q2347731",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13733842201,
+  "lat": 40.7589527,
+  "lon": -73.9939021,
+  "tags": {
+    "camera:mount": "traffic_signals",
+    "camera:type": "fixed",
+    "direction": "308",
+    "man_made": "surveillance",
+    "manufacturer": "Axis Communications",
+    "manufacturer:wikidata": "Q2347731",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13733842202,
+  "lat": 40.7589922,
+  "lon": -73.9939853,
+  "tags": {
+    "camera:mount": "traffic_signals",
+    "camera:type": "fixed",
+    "direction": "125",
+    "man_made": "surveillance",
+    "manufacturer": "Axis Communications",
+    "manufacturer:wikidata": "Q2347731",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13733843701,
+  "lat": 40.7591913,
+  "lon": -73.9939093,
+  "tags": {
+    "camera:type": "fixed",
+    "direction": "182",
+    "man_made": "surveillance",
+    "manufacturer": "Neology, Inc.",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13733875601,
+  "lat": 40.7596310,
+  "lon": -73.9588880,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "36;204;324;264",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13733875701,
+  "lat": 40.7596921,
+  "lon": -73.9590872,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "26;93;216;165",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13734779202,
+  "lat": 40.7831659,
+  "lon": -73.9441784,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "296;241",
+    "man_made": "surveillance",
+    "manufacturer": "Ekin Box Spotter",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13738158702,
+  "lat": 40.7113170,
+  "lon": -73.9896054,
+  "tags": {
+    "camera:type": "fixed",
+    "direction": "359",
+    "man_made": "surveillance",
+    "manufacturer": "Flock Safety",
+    "manufacturer:wikidata": "Q108485435",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13773015702,
+  "lat": 40.7633796,
+  "lon": -73.9624755,
+  "tags": {
+    "camera:mount": "Pole",
+    "camera:type": "fixed",
+    "direction": "206;153",
+    "man_made": "surveillance",
+    "manufacturer": "Ekin x spotter",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13773018601,
+  "lat": 40.7637245,
+  "lon": -73.9622271,
+  "tags": {
+    "camera:mount": "taffic_signal",
+    "camera:type": "fixed",
+    "direction": "201;149",
+    "man_made": "surveillance",
+    "manufacturer": "Ekin x spotter",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13787747601,
+  "lat": 40.7161406,
+  "lon": -73.9956215,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "297;251",
+    "man_made": "surveillance",
+    "manufacturer": "Ekin Box Spotter",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13803906301,
+  "lat": 40.7615753,
+  "lon": -73.9687880,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "209;153",
+    "man_made": "surveillance",
+    "manufacturer": "Mav (IQ:350XR)",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13803907201,
+  "lat": 40.7599714,
+  "lon": -73.9649778,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "208;166",
+    "man_made": "surveillance",
+    "manufacturer": "Mav (IQ:350XR)",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13807168901,
+  "lat": 40.7366255,
+  "lon": -73.9785815,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "29;347",
+    "man_made": "surveillance",
+    "manufacturer": "Mav (IQ:350XR)",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13816244303,
+  "lat": 40.7820063,
+  "lon": -73.9539021,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "202;155",
+    "man_made": "surveillance",
+    "manufacturer": "Mav (IQ:350XR)",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13816245803,
+  "lat": 40.7729581,
+  "lon": -73.9604877,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "207;163",
+    "man_made": "surveillance",
+    "manufacturer": "Mav (IQ:350XR)",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13816246201,
+  "lat": 40.7768366,
+  "lon": -73.9576368,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "205;166",
+    "man_made": "surveillance",
+    "manufacturer": "Mav (IQ:350XR)",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13816250501,
+  "lat": 40.7671929,
+  "lon": -73.9646877,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "202;164",
+    "man_made": "surveillance",
+    "manufacturer": "Mav (IQ:350XR)",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13816253801,
+  "lat": 40.7630406,
+  "lon": -73.9674385,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "31;337;207;268",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13816254701,
+  "lat": 40.7631386,
+  "lon": -73.9676640,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "34;75;204;139",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13818604401,
+  "lat": 40.7663405,
+  "lon": -73.9936198,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "302;284",
+    "man_made": "surveillance",
+    "manufacturer": "Ekin Box Spotter",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13830162001,
+  "lat": 40.7611230,
+  "lon": -73.9627775,
+  "tags": {
+    "camera:mount": "ceiling",
+    "camera:type": "fixed",
+    "direction": "40;76;208;148",
+    "man_made": "surveillance",
+    "manufacturer:wikidata": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13830163401,
+  "lat": 40.7612560,
+  "lon": -73.9626839,
+  "tags": {
+    "camera:mount": "post",
+    "camera:type": "fixed",
+    "direction": "34;94;211;155",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "manufacturer:wikidata": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13830164701,
+  "lat": 40.7611808,
+  "lon": -73.9624958,
+  "tags": {
+    "camera:mount": "post",
+    "camera:type": "fixed",
+    "direction": "38;326;209;272",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "manufacturer:wikidata": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13830169701,
+  "lat": 40.7614801,
+  "lon": -73.9638752,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "33;96;208;157",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13830172401,
+  "lat": 40.7614980,
+  "lon": -73.9635465,
+  "tags": {
+    "camera:mount": "street_lamp",
+    "camera:type": "fixed",
+    "direction": "32;334;211;269",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "manufacturer:wikidata": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13830177601,
+  "lat": 40.7624416,
+  "lon": -73.9660015,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "32;92;212;153",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13830178001,
+  "lat": 40.7624102,
+  "lon": -73.9657734,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "25;197;319;259",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13830187801,
+  "lat": 40.7604359,
+  "lon": -73.9611983,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "39;340;204;273",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13830188001,
+  "lat": 40.7605101,
+  "lon": -73.9614328,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "39;102;202;155",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13830196901,
+  "lat": 40.7644171,
+  "lon": -73.9706511,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "31;323;206;264",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13830198901,
+  "lat": 40.7651160,
+  "lon": -73.9722373,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "37;332;202;265",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13830201301,
+  "lat": 40.7687602,
+  "lon": -73.9812592,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "37;335;203;269",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13830202701,
+  "lat": 40.7694086,
+  "lon": -73.9823052,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "187;356;126;57",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13830203801,
+  "lat": 40.7690795,
+  "lon": -73.9819040,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "180;241;307;0",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13830209901,
+  "lat": 40.7713351,
+  "lon": -73.9871159,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "34;96;162;207",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13830216601,
+  "lat": 40.7701121,
+  "lon": -73.9839070,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "208;26;258;320",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13830218801,
+  "lat": 40.7702234,
+  "lon": -73.9841915,
+  "tags": {
+    "camera:mount": "street_lamp",
+    "camera:type": "fixed",
+    "direction": "211;29;148;93",
+    "man_made": "surveillance",
+    "manufacturer:wikidata": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13830251001,
+  "lat": 40.7602137,
+  "lon": -73.9623277,
+  "tags": {
+    "camera:mount": "ceiling",
+    "camera:type": "fixed",
+    "direction": "129;99;290;312",
+    "man_made": "surveillance",
+    "manufacturer": "Leonardo",
+    "manufacturer:wikidata": "Redspeed Redcurb",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13830268001,
+  "lat": 40.7599333,
+  "lon": -73.9617783,
+  "tags": {
+    "camera:mount": "post",
+    "camera:type": "fixed",
+    "direction": "127;189;283",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "manufacturer:wikidata": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13830274601,
+  "lat": 40.7598661,
+  "lon": -73.9618222,
+  "tags": {
+    "camera:mount": "post",
+    "camera:type": "fixed",
+    "direction": "122;63;292;357",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "manufacturer:wikidata": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13830279501,
+  "lat": 40.7602918,
+  "lon": -73.9622664,
+  "tags": {
+    "camera:mount": "ceiling",
+    "camera:type": "fixed",
+    "direction": "89;158;262;330",
+    "man_made": "surveillance",
+    "manufacturer:wikidata": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13837758401,
+  "lat": 40.7388217,
+  "lon": -73.9833601,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "122;85",
+    "man_made": "surveillance",
+    "manufacturer": "Mav (IQ:350XR)",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13839583302,
+  "lat": 40.7611749,
+  "lon": -73.9606498,
+  "tags": {
+    "camera:mount": "Pole",
+    "camera:type": "fixed",
+    "direction": "20;353",
+    "man_made": "surveillance",
+    "manufacturer": "Ekin x spotter",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13846767101,
+  "lat": 40.7244581,
+  "lon": -74.0069666,
+  "tags": {
+    "camera:mount": "street_lamp",
+    "camera:type": "fixed",
+    "direction": "160;350",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "manufacturer:wikidata": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13846767102,
+  "lat": 40.7244614,
+  "lon": -74.0069986,
+  "tags": {
+    "camera:mount": "street_lamp",
+    "camera:type": "fixed",
+    "direction": "165;350",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "manufacturer:wikidata": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13846767103,
+  "lat": 40.7244649,
+  "lon": -74.0070327,
+  "tags": {
+    "camera:mount": "street_lamp",
+    "camera:type": "fixed",
+    "direction": "175;360",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "manufacturer:wikidata": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13846767104,
+  "lat": 40.7244676,
+  "lon": -74.0070580,
+  "tags": {
+    "camera:mount": "street_lamp",
+    "camera:type": "fixed",
+    "direction": "200;20",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "manufacturer:wikidata": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13846767105,
+  "lat": 40.7244706,
+  "lon": -74.0070876,
+  "tags": {
+    "camera:mount": "street_lamp",
+    "camera:type": "fixed",
+    "direction": "200;20",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "manufacturer:wikidata": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13846767359,
+  "lat": 40.7244634,
+  "lon": -74.0064216,
+  "tags": {
+    "camera:mount": "street_lamp",
+    "camera:type": "fixed",
+    "direction": "90;270",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "manufacturer:wikidata": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13846767360,
+  "lat": 40.7244449,
+  "lon": -74.0064244,
+  "tags": {
+    "camera:mount": "street_lamp",
+    "camera:type": "fixed",
+    "direction": "90;270",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "manufacturer:wikidata": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13846767361,
+  "lat": 40.7244288,
+  "lon": -74.0064267,
+  "tags": {
+    "camera:mount": "street_lamp",
+    "camera:type": "fixed",
+    "direction": "90;270",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "manufacturer:wikidata": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13846767365,
+  "lat": 40.7245228,
+  "lon": -74.0073669,
+  "tags": {
+    "camera:mount": "street_lamp",
+    "camera:type": "fixed",
+    "direction": "90;270",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "manufacturer:wikidata": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13846767366,
+  "lat": 40.7245389,
+  "lon": -74.0073645,
+  "tags": {
+    "camera:mount": "street_lamp",
+    "camera:type": "fixed",
+    "direction": "90;270",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "manufacturer:wikidata": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13846767367,
+  "lat": 40.7245574,
+  "lon": -74.0073617,
+  "tags": {
+    "camera:mount": "street_lamp",
+    "camera:type": "fixed",
+    "direction": "90;270",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "manufacturer:wikidata": "Redspeed Redcurb",
+    "operator": "Metropolitan Transportation Authority",
+    "operator:type": "public",
+    "operator:wikidata": "Q1146109",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13851072101,
+  "lat": 40.7571444,
+  "lon": -73.9892861,
+  "tags": {
+    "camera:mount": "Pole",
+    "camera:type": "fixed",
+    "direction": "290;253",
+    "man_made": "surveillance",
+    "manufacturer": "Ekin x spotter",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13851073901,
+  "lat": 40.7588470,
+  "lon": -73.9933258,
+  "tags": {
+    "camera:mount": "street_lamp",
+    "camera:type": "fixed",
+    "direction": "298;257;123;195",
+    "man_made": "surveillance",
+    "manufacturer:wikidata": "Redspeed Redcurb",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13851074401,
+  "lat": 40.7593991,
+  "lon": -73.9946665,
+  "tags": {
+    "camera:mount": "gantry",
+    "camera:type": "fixed",
+    "direction": "295;127;243;185",
+    "man_made": "surveillance",
+    "manufacturer": "Redspeed Redcurb",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13858233001,
+  "lat": 40.7509076,
+  "lon": -73.9829122,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "211;162",
+    "man_made": "surveillance",
+    "manufacturer": "Mav (IQ:350XR)",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13858233002,
+  "lat": 40.7363769,
+  "lon": -73.9788658,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "0",
+    "man_made": "surveillance",
+    "manufacturer": "Mav (IQ:350XR)",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13858243601,
+  "lat": 40.7379647,
+  "lon": -73.9813203,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "136;100",
+    "man_made": "surveillance",
+    "manufacturer": "Mav (IQ:350XR)",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13858261002,
+  "lat": 40.7452427,
+  "lon": -73.9981377,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "298;271",
+    "man_made": "surveillance",
+    "manufacturer": "Mav (IQ:350XR)",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13858269501,
+  "lat": 40.7441577,
+  "lon": -73.9959867,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "120;78",
+    "man_made": "surveillance",
+    "manufacturer": "Mav (IQ:350XR)",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13858283101,
+  "lat": 40.7443157,
+  "lon": -73.9963724,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "117;66",
+    "man_made": "surveillance",
+    "manufacturer": "Mav (IQ:350XR)",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13858285001,
+  "lat": 40.7450652,
+  "lon": -73.9977076,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "297;260",
+    "man_made": "surveillance",
+    "manufacturer": "Mav (IQ:350XR)",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13897904301,
+  "lat": 40.7624678,
+  "lon": -73.9631336,
+  "tags": {
+    "camera:mount": "taffic_signal",
+    "camera:type": "fixed",
+    "direction": "215",
+    "man_made": "surveillance",
+    "manufacturer": "Ekin x spotter",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13897904302,
+  "lat": 40.7621025,
+  "lon": -73.9634000,
+  "tags": {
+    "camera:mount": "Pole",
+    "camera:type": "fixed",
+    "direction": "213",
+    "man_made": "surveillance",
+    "manufacturer": "Ekin x spotter",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13918359201,
+  "lat": 40.7744388,
+  "lon": -73.9577047,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "118;95",
+    "man_made": "surveillance",
+    "manufacturer": "Ekin Box Spotter",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13960869601,
+  "lat": 40.7467505,
+  "lon": -74.0020733,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "116;85",
+    "man_made": "surveillance",
+    "manufacturer": "Mav (IQ:350XR)",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13963464701,
+  "lat": 40.7849061,
+  "lon": -73.9467621,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "204;171",
+    "man_made": "surveillance",
+    "manufacturer": "Mav (IQ:350XR)",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13963468401,
+  "lat": 40.7845377,
+  "lon": -73.9470303,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "205;177",
+    "man_made": "surveillance",
+    "manufacturer": "Mav (IQ:350XR)",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13968100501,
+  "lat": 40.7146473,
+  "lon": -74.0060284,
+  "tags": {
+    "camera:mount": "taffic_signal",
+    "camera:type": "fixed",
+    "direction": "209;178",
+    "man_made": "surveillance",
+    "manufacturer": "Ekin x spotter",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13968103701,
+  "lat": 40.7144937,
+  "lon": -74.0061728,
+  "tags": {
+    "camera:mount": "Pole",
+    "camera:type": "fixed",
+    "direction": "207;171",
+    "man_made": "surveillance",
+    "manufacturer": "Ekin x spotter",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13970764102,
+  "lat": 40.7565868,
+  "lon": -74.0042456,
+  "tags": {
+    "camera:type": "fixed",
+    "direction": "36;206",
+    "man_made": "surveillance",
+    "manufacturer": "Flock Safety",
+    "manufacturer:wikidata": "Q108485435",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13991265103,
+  "lat": 40.7669431,
+  "lon": -73.9940262,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "202;161",
+    "man_made": "surveillance",
+    "manufacturer": "Ekin Box Spotter",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13991287401,
+  "lat": 40.7239232,
+  "lon": -74.0084150,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "131;90",
+    "man_made": "surveillance",
+    "manufacturer": "Ekin Box Spotter",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13992676803,
+  "lat": 40.7520234,
+  "lon": -73.9707779,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "205;154",
+    "man_made": "surveillance",
+    "manufacturer": "Mav (IQ:350XR)",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 13998192501,
+  "lat": 40.7200598,
+  "lon": -74.0014451,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "206;167",
+    "man_made": "surveillance",
+    "manufacturer": "Mav (IQ:350XR)",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "node",
+  "id": 14011122101,
+  "lat": 40.7615114,
+  "lon": -73.9860418,
+  "tags": {
+    "camera:mount": "pole",
+    "camera:type": "fixed",
+    "direction": "300;260",
+    "man_made": "surveillance",
+    "manufacturer": "Ekin Box Spotter",
+    "operator": "NYC Department of Transportation",
+    "operator:type": "Public",
+    "operator:wikidata": "Q1058767",
+    "surveillance": "public",
+    "surveillance:type": "ALPR",
+    "surveillance:zone": "traffic"
+  }
+},
+{
+  "type": "relation",
+  "id": 6620207,
+  "center": {
+    "lat": 40.7470130,
+    "lon": -73.9771862
+  },
+  "tags": {
+    "enforcement": "traffic_signals",
+    "type": "enforcement"
+  }
+},
+{
+  "type": "relation",
+  "id": 18233029,
+  "center": {
+    "lat": 40.7158288,
+    "lon": -74.0130711
+  },
+  "tags": {
+    "enforcement": "maxspeed",
+    "maxspeed": "30 mph",
+    "type": "enforcement"
+  }
+},
+{
+  "type": "relation",
+  "id": 18233111,
+  "center": {
+    "lat": 40.7167749,
+    "lon": -74.0131386
+  },
+  "tags": {
+    "enforcement": "maxspeed",
+    "maxspeed": "30 mph",
+    "type": "enforcement"
+  }
+}
+
+  ]
+}

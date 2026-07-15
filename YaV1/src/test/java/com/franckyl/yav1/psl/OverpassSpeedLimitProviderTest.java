@@ -7,6 +7,10 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -248,5 +252,256 @@ public class OverpassSpeedLimitProviderTest
 		assertTrue(q.contains("[\"highway\"]"));
 		assertTrue(q.contains("[\"maxspeed\"]"));
 		assertTrue(q.contains("out tags geom"));
+
+		// union covers directional-only tagging (live find: US 290 Express
+		// Lane has maxspeed:forward/backward but no plain maxspeed)
+		assertTrue(q.contains("[\"maxspeed:forward\"]"));
+		assertTrue(q.contains("[\"maxspeed:backward\"]"));
+	}
+
+	// -- live-recorded Overpass fixtures (captured 2026-07-14) ---------------
+
+	private String fixture(String name) throws IOException
+	{
+		InputStream in = getClass().getResourceAsStream(name);
+		assertTrue("fixture " + name + " missing", in != null);
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+		StringBuilder sb = new StringBuilder();
+		String line;
+		while((line = br.readLine()) != null)
+			sb.append(line).append('\n');
+		br.close();
+		return sb.toString();
+	}
+
+	@Test
+	public void directionalOnlyTagsAreParsed() throws IOException
+	{
+		// recorded live at 29.79659,-95.45174 (US 290 Express Lane, Houston):
+		// reversible lane tagged maxspeed:forward=55 mph / backward=60 mph,
+		// no plain maxspeed
+		List<OverpassSpeedLimitProvider.Way> ways =
+			OverpassSpeedLimitProvider.parseWays(fixture("/psl/overpass_us290_directional.json"));
+
+		assertEquals(2, ways.size());
+
+		OverpassSpeedLimitProvider.Way express = null;
+		OverpassSpeedLimitProvider.Way plain   = null;
+		for(OverpassSpeedLimitProvider.Way w : ways)
+		{
+			if(w.forwardKph != null)
+				express = w;
+			else
+				plain = w;
+		}
+
+		assertTrue(express != null && plain != null);
+
+		assertNull(express.limitKph);
+		assertEquals(Integer.valueOf(89), express.forwardKph);   // 55 mph
+		assertEquals(Integer.valueOf(97), express.backwardKph);  // 60 mph
+		assertFalse(express.unusable());
+
+		assertEquals(Integer.valueOf(97), plain.limitKph);       // 60 mph
+		assertNull(plain.forwardKph);
+	}
+
+	@Test
+	public void reversibleExpressLaneLimitFollowsDirectionOfTravel() throws IOException
+	{
+		List<OverpassSpeedLimitProvider.Way> ways =
+			OverpassSpeedLimitProvider.parseWays(fixture("/psl/overpass_us290_directional.json"));
+
+		// on the express lane (digitized bearing ~14 deg): traveling with
+		// the digitized direction gets forward (55 mph), against it backward
+		assertEquals(Integer.valueOf(89),
+			OverpassSpeedLimitProvider.selectLimitKph(ways, 29.79659, -95.45174, 14f));
+		assertEquals(Integer.valueOf(97),
+			OverpassSpeedLimitProvider.selectLimitKph(ways, 29.79659, -95.45174, 194f));
+	}
+
+	@Test
+	public void liveInterstateFixtureGives65Mph() throws IOException
+	{
+		// recorded live at 30.11018,-95.43652 (I-45 north of Houston):
+		// five motorway ways, all maxspeed=65 mph
+		List<OverpassSpeedLimitProvider.Way> ways =
+			OverpassSpeedLimitProvider.parseWays(fixture("/psl/overpass_i45_live.json"));
+
+		assertEquals(5, ways.size());
+		assertEquals(Integer.valueOf(105),
+			OverpassSpeedLimitProvider.selectLimitKph(ways, 30.11018, -95.43652, 200f));
+	}
+
+	@Test
+	public void emptyLiveResponseGivesNoLimit() throws IOException
+	{
+		// recorded live at 30.05,-95.45 (residential subdivision, no
+		// maxspeed tags anywhere within the radius): a valid 200 response
+		// with an empty elements array
+		List<OverpassSpeedLimitProvider.Way> ways =
+			OverpassSpeedLimitProvider.parseWays(fixture("/psl/overpass_empty_residential.json"));
+
+		assertTrue(ways.isEmpty());
+		assertNull(OverpassSpeedLimitProvider.selectLimitKph(ways, 30.05, -95.45, 0f));
+	}
+
+	// -- direction-aware effective limit --------------------------------------
+
+	@Test
+	public void effectiveLimitPrefersDirectionalOverPlain()
+	{
+		OverpassSpeedLimitProvider.Way w = new OverpassSpeedLimitProvider.Way(
+			80, 89, 97, new double[] {0, 1}, new double[] {0, 0});
+
+		// segment digitized northbound (0 deg)
+		assertEquals(Integer.valueOf(89),
+			OverpassSpeedLimitProvider.effectiveLimitKph(w, 10, 0));   // along
+		assertEquals(Integer.valueOf(97),
+			OverpassSpeedLimitProvider.effectiveLimitKph(w, 170, 0));  // against
+	}
+
+	@Test
+	public void effectiveLimitFallsBackToPlainWhenDirectionalMissing()
+	{
+		OverpassSpeedLimitProvider.Way w = new OverpassSpeedLimitProvider.Way(
+			80, null, 97, new double[] {0, 1}, new double[] {0, 0});
+
+		assertEquals(Integer.valueOf(80),
+			OverpassSpeedLimitProvider.effectiveLimitKph(w, 0, 0));    // no forward -> plain
+		assertEquals(Integer.valueOf(97),
+			OverpassSpeedLimitProvider.effectiveLimitKph(w, 180, 0));
+	}
+
+	// -- tile seeding along the selected way ---------------------------------
+	// (live finding 2026-07-14: at highway speed only ~1 in 5 tiles was ever
+	// populated by point fetches, so PSL muting flapped known/unknown)
+
+	@Test
+	public void seedingFillsEveryTileAlongTheWay()
+	{
+		OverpassSpeedLimitProvider p = new OverpassSpeedLimitProvider(null);
+
+		// straight north-south way, ~2.2km long through the fetch point
+		OverpassSpeedLimitProvider.Way w = new OverpassSpeedLimitProvider.Way(
+			105, new double[] {30.10, 30.12}, new double[] {-95.44, -95.44});
+
+		int seeded = p.seedAlongWay(w, 105, 30.11, -95.44, 1000L);
+
+		// 0.02 deg lat = ~2225m = ~15 tiles of 150m
+		assertTrue("seeded " + seeded, seeded >= 14 && seeded <= 17);
+
+		// every tile along the way now answers without a fetch
+		for(double lat = 30.100; lat <= 30.120; lat += 0.0005)
+		{
+			SpeedLimitCache.Entry e = p.getCache().get(SpeedLimitCache.tileKey(lat, -95.44));
+			assertTrue("tile at " + lat + " missing", e != null);
+			assertEquals(Integer.valueOf(105), e.limitKph);
+		}
+	}
+
+	@Test
+	public void alignedSameLimitWaysAreSeededTogether()
+	{
+		OverpassSpeedLimitProvider p = new OverpassSpeedLimitProvider(null);
+
+		// live finding: OSM chops motorways into short ways, so a single
+		// fetch returns the vehicle's segment plus continuations
+		OverpassSpeedLimitProvider.Way segment = new OverpassSpeedLimitProvider.Way(
+			105, new double[] {30.100, 30.105}, new double[] {-95.44, -95.44});
+		OverpassSpeedLimitProvider.Way continuation = new OverpassSpeedLimitProvider.Way(
+			105, new double[] {30.105, 30.115}, new double[] {-95.44, -95.44});
+		// aligned frontage road with a DIFFERENT limit: never seeded
+		OverpassSpeedLimitProvider.Way frontage = new OverpassSpeedLimitProvider.Way(
+			72, new double[] {30.100, 30.115}, new double[] {-95.4425, -95.4425});
+		// perpendicular crossing road with the same limit: not aligned
+		OverpassSpeedLimitProvider.Way crossing = new OverpassSpeedLimitProvider.Way(
+			105, new double[] {30.102, 30.102}, new double[] {-95.45, -95.43});
+
+		List<OverpassSpeedLimitProvider.Way> ways = new ArrayList<OverpassSpeedLimitProvider.Way>();
+		ways.add(segment);
+		ways.add(continuation);
+		ways.add(frontage);
+		ways.add(crossing);
+
+		p.seedMatchingWays(ways, segment, 105, 30.1005, -95.44, 0f, 1000L);
+
+		// the whole 30.100-30.115 corridor on the mainline is now known
+		for(double lat = 30.100; lat <= 30.115; lat += 0.001)
+		{
+			SpeedLimitCache.Entry e = p.getCache().get(SpeedLimitCache.tileKey(lat, -95.44));
+			assertTrue("mainline tile at " + lat + " missing", e != null);
+			assertEquals(Integer.valueOf(105), e.limitKph);
+		}
+
+		// frontage tiles were NOT seeded with the mainline limit
+		assertNull(p.getCache().get(SpeedLimitCache.tileKey(30.110, -95.4425)));
+		// the crossing road's distant tiles were not seeded either
+		assertNull(p.getCache().get(SpeedLimitCache.tileKey(30.102, -95.448)));
+	}
+
+	@Test
+	public void projectionMovesThePointAlongTheBearing()
+	{
+		// 500m due north from the equator: ~0.0045 deg lat
+		double[] p = OverpassSpeedLimitProvider.projectM(0, 0, 0, 500);
+		assertEquals(0.00449, p[0], 0.0001);
+		assertEquals(0.0, p[1], 1e-9);
+
+		// due east
+		p = OverpassSpeedLimitProvider.projectM(0, 0, 90, 500);
+		assertEquals(0.0, p[0], 1e-9);
+		assertEquals(0.00449, p[1], 0.0001);
+
+		// round trip distance check at a real latitude
+		p = OverpassSpeedLimitProvider.projectM(30.11, -95.44, 350, 400);
+		assertEquals(400.0, OverpassSpeedLimitProvider.distanceM(30.11, -95.44, p[0], p[1]), 5.0);
+	}
+
+	@Test
+	public void rateLimitAnswersPauseFetching()
+	{
+		OverpassSpeedLimitProvider p = new OverpassSpeedLimitProvider(null);
+
+		assertTrue(!p.isBackedOff(1000L));
+
+		p.noteHttpStatus(200, 1000L);
+		assertTrue(!p.isBackedOff(1001L));
+
+		p.noteHttpStatus(429, 1000L);
+		assertTrue(p.isBackedOff(1000L + OverpassSpeedLimitProvider.HTTP_BACKOFF_MS - 1));
+		assertTrue(!p.isBackedOff(1000L + OverpassSpeedLimitProvider.HTTP_BACKOFF_MS + 1));
+	}
+
+	@Test
+	public void seedingStopsAtTheDistanceCap()
+	{
+		OverpassSpeedLimitProvider p = new OverpassSpeedLimitProvider(null);
+
+		// ~11km way; fetch point at the south end
+		OverpassSpeedLimitProvider.Way w = new OverpassSpeedLimitProvider.Way(
+			105, new double[] {30.10, 30.20}, new double[] {-95.44, -95.44});
+
+		p.seedAlongWay(w, 105, 30.10, -95.44, 1000L);
+
+		// within the cap: seeded
+		assertTrue(p.getCache().get(SpeedLimitCache.tileKey(30.125, -95.44)) != null);
+		// beyond SEED_MAX_DIST_M (3km = ~0.027 deg): not seeded
+		assertTrue(p.getCache().get(SpeedLimitCache.tileKey(30.16, -95.44)) == null);
+	}
+
+	@Test
+	public void directionalOnlyWayIsSkippedWhenTraveledTheUntaggedWay()
+	{
+		List<OverpassSpeedLimitProvider.Way> ways = new ArrayList<OverpassSpeedLimitProvider.Way>();
+
+		// forward-only tagging, digitized eastbound
+		ways.add(new OverpassSpeedLimitProvider.Way(null, 89, null,
+			new double[] {28.0, 28.0}, new double[] {-81.001, -80.999}));
+
+		assertEquals(Integer.valueOf(89),
+			OverpassSpeedLimitProvider.selectLimitKph(ways, 28.0, -81.0, 90f));
+		assertNull(OverpassSpeedLimitProvider.selectLimitKph(ways, 28.0, -81.0, 270f));
 	}
 }

@@ -15,6 +15,28 @@
         android:summary="@string/poi_files_summary_loading"
         android:persistent="false"/>
 
+    <!-- [P2-POI] network-driven camera data (Overpass / OSM, incl. DeFlock ALPR) -->
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="poi_online_enable"
+        android:dependency="poi_enable"
+        android:title="@string/pref_poi_online"
+        android:summary="@string/pref_poi_online_summary"/>
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="poi_online_cams"
+        android:dependency="poi_online_enable"
+        android:title="@string/pref_poi_online_cams"
+        android:summary="@string/pref_poi_online_cams_summary"/>
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="poi_online_alpr"
+        android:dependency="poi_online_enable"
+        android:title="@string/pref_poi_online_alpr"
+        android:summary="@string/pref_poi_online_alpr_summary"/>
+
     <ListPreference
         android:defaultValue="500"
         android:key="poi_radius"

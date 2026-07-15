@@ -17,7 +17,9 @@ public class EnforcementWatchlistTest
             "a11791,N17HP,State Of Ohio Dept Of Public Safety\n" +   // lower case + no model
             "ZZZZZZ,N1BAD,Bad Hex Agency\n" +                        // invalid hex: skipped
             "short,line\n" +                                          // malformed: skipped
-            "A19758,N201SP,Colorado State Patrol,Pilatus PC-12\n";
+            "A19758,N201SP,Colorado State Patrol,Pilatus PC-12\n" +
+            "A00137,N1NJ,New Jersey State Police,AW.139,pol,low\n" + // 6-column format
+            "A1DCB0,N219TX,Texas Department of Public Safety,Pilatus PC-12,faa+pol,high\n";
 
     private EnforcementWatchlist load() throws IOException
     {
@@ -30,7 +32,31 @@ public class EnforcementWatchlistTest
     public void loadsValidEntriesSkipsBadOnes() throws IOException
     {
         EnforcementWatchlist wl = load();
-        assertEquals(3, wl.size());
+        assertEquals(5, wl.size());
+    }
+
+    @Test
+    public void sourceAndConfidenceColumnsAreOptional() throws IOException
+    {
+        EnforcementWatchlist wl = load();
+
+        Aircraft ac = new Aircraft();
+        ac.hex = "A255E2";                       // 4-column entry
+        EnforcementWatchlist.Entry e = wl.match(ac);
+        assertEquals("", e.source);
+        assertEquals("", e.confidence);
+        assertEquals(false, e.lowConfidence());
+
+        ac.hex = "A00137";                       // 6-column, low confidence
+        e = wl.match(ac);
+        assertEquals("pol", e.source);
+        assertEquals("low", e.confidence);
+        assertEquals(true, e.lowConfidence());
+
+        ac.hex = "A1DCB0";                       // 6-column, high confidence
+        e = wl.match(ac);
+        assertEquals("faa+pol", e.source);
+        assertEquals(false, e.lowConfidence());
     }
 
     @Test
@@ -88,7 +114,7 @@ public class EnforcementWatchlistTest
         EnforcementWatchlist wl = load();
         wl.load(new StringReader("A255E2,N25HP,Overridden Agency\nAB0001,N842XY,My County Sheriff\n"));
 
-        assertEquals(4, wl.size());
+        assertEquals(6, wl.size());
 
         Aircraft ac = new Aircraft();
         ac.hex = "A255E2";
@@ -116,10 +142,26 @@ public class EnforcementWatchlistTest
         int n = wl.load(new java.io.InputStreamReader(in, "UTF-8"));
         in.close();
 
-        org.junit.Assert.assertTrue("asset should have >200 entries, got " + n, n > 200);
+        org.junit.Assert.assertTrue("asset should have >300 entries, got " + n, n > 300);
 
         Aircraft fhp = new Aircraft();
         fhp.hex = "A255E2";
         assertNotNull(wl.match(fhp));
+
+        // enrichment spot checks (2026-07 FAA + plane-alert-db snapshot)
+
+        // TX DPS "Spectre" PC-12, tagged Speed Enforced by Aircraft
+        Aircraft spectre = new Aircraft();
+        spectre.hex = "A1DCB0";
+        EnforcementWatchlist.Entry e = wl.match(spectre);
+        assertNotNull(e);
+        org.junit.Assert.assertFalse(e.lowConfidence());
+
+        // NJSP AW139 rotorcraft must be low confidence
+        Aircraft njsp = new Aircraft();
+        njsp.hex = "A00137";
+        e = wl.match(njsp);
+        assertNotNull(e);
+        org.junit.Assert.assertTrue(e.lowConfidence());
     }
 }

@@ -10,12 +10,17 @@ import java.util.Map;
 /**
  * [P2-ADSB] Watchlist of known law-enforcement aircraft.
  *
- * CSV format: icao_hex,registration,agency[,model] with '#' comments.
- * The curated starter list ships as an asset (assets/aircraft/
- * enforcement_hex.csv, sourced from the FAA registry, see its header) and is
- * merged with an optional user file (&lt;app storage&gt;/aircraft/
- * enforcement_user.csv). Matching is case-insensitive by ICAO hex first,
- * then by registration / callsign. Pure java.io, unit tested.
+ * CSV format: icao_hex,registration,agency[,model[,source[,confidence]]]
+ * with '#' comments. The curated starter list ships as an asset
+ * (assets/aircraft/enforcement_hex.csv, sourced from the FAA registry and
+ * plane-alert-db, see its header) and is merged with an optional user file
+ * (&lt;app storage&gt;/aircraft/enforcement_user.csv). Matching is
+ * case-insensitive by ICAO hex first, then by registration / callsign.
+ * Pure java.io, unit tested.
+ *
+ * confidence is "high" / "medium" / "low"; rotorcraft are shipped as
+ * "low" (mostly patrol / medevac, rarely speed timing) and callers
+ * should phrase such matches as tentative.
  */
 public class EnforcementWatchlist
 {
@@ -25,13 +30,24 @@ public class EnforcementWatchlist
         public final String reg;
         public final String agency;
         public final String model;
+        public final String source;
+        public final String confidence;
 
-        Entry(String hex, String reg, String agency, String model)
+        Entry(String hex, String reg, String agency, String model,
+              String source, String confidence)
         {
-            this.hex    = hex;
-            this.reg    = reg;
-            this.agency = agency;
-            this.model  = model;
+            this.hex        = hex;
+            this.reg        = reg;
+            this.agency     = agency;
+            this.model      = model;
+            this.source     = source;
+            this.confidence = confidence;
+        }
+
+        /** true when the entry is a tentative match (e.g. patrol rotorcraft) */
+        public boolean lowConfidence()
+        {
+            return "low".equalsIgnoreCase(confidence);
         }
     }
 
@@ -72,7 +88,9 @@ public class EnforcementWatchlist
                 continue;
 
             Entry e = new Entry(hex, reg, f[2].trim(),
-                                f.length > 3 ? f[3].trim() : "");
+                                f.length > 3 ? f[3].trim() : "",
+                                f.length > 4 ? f[4].trim() : "",
+                                f.length > 5 ? f[5].trim() : "");
 
             mByHex.put(hex, e);
             if(!reg.isEmpty())
