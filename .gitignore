@@ -1,1 +1,11 @@
-YaV1/build.gradle
+# Gradle
+.gradle/
+build/
+*/build/
+
+# Local machine configuration (SDK path)
+local.properties
+
+# IDE
+.idea/
+*.iml

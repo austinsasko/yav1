@@ -139,7 +139,7 @@ public class YaV1PreferenceActivity extends PreferenceActivity
         FileChooserDialog dialog = new FileChooserDialog(this);
         FileChooserLabels labels = new FileChooserLabels();
         // we need a file dialog to choose a file with predefined name
-        dialog.loadFolder(Environment.getExternalStorageDirectory() + "/" + YaV1.PACKAGE_NAME + "/" + "backup" + "/");
+        dialog.loadFolder(YaV1.getStorageRootDir() + "/backup/");
         dialog.setCanCreateFiles(true);
         dialog.setShowConfirmation(true, false);
         labels.labelConfirmYesButton        = getString(R.string.yes);
@@ -204,7 +204,7 @@ public class YaV1PreferenceActivity extends PreferenceActivity
         FileChooserLabels labels = new FileChooserLabels();
 
         // we need a file dialog to choose a file with prefefined name
-        dialog.loadFolder(Environment.getExternalStorageDirectory() + "/" + YaV1.PACKAGE_NAME + "/" + "backup" + "/");
+        dialog.loadFolder(YaV1.getStorageRootDir() + "/backup/");
         dialog.setCanCreateFiles(false);
         dialog.setShowConfirmation(true, false);
         labels.messageConfirmSelection = getString(R.string.pref_restore_confirm);

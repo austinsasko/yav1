@@ -8,7 +8,7 @@ import android.content.IntentFilter;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.os.SystemClock;
-import android.support.v4.content.LocalBroadcastManager;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -150,9 +150,15 @@ public class YaV1Overlay
 
     private void init()
     {
+        // TYPE_PHONE is not allowed for app overlays since Android 8; use
+        // TYPE_APPLICATION_OVERLAY there (requires the draw-over-apps grant)
+        int windowType = (android.os.Build.VERSION.SDK_INT >= 26)
+                ? WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+                : WindowManager.LayoutParams.TYPE_PHONE;
+
         mParams = new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT,
                 WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.TYPE_PHONE,
+                windowType,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
                 PixelFormat.TRANSLUCENT);
 
@@ -174,7 +180,17 @@ public class YaV1Overlay
         //myButton.getHitRect(outRectHit);
 
         mWm = (WindowManager) YaV1.sContext.getSystemService(Context.WINDOW_SERVICE);
-        mWm.addView(mOverlay, mParams);
+        try
+        {
+            // Throws if the user has not granted the draw-over-apps permission
+            // (Settings.canDrawOverlays) on Android 6+.
+            mWm.addView(mOverlay, mParams);
+        }
+        catch(Exception e)
+        {
+            // The view stays detached; visibility calls on it are harmless no-ops.
+            Log.d("Valentine", "Overlay rejected (grant 'display over other apps' in system settings): " + e);
+        }
 
         hideView();
 
@@ -312,7 +328,16 @@ public class YaV1Overlay
         // LocalBroadcastManager.getInstance(YaV1.sContext).unregisterReceiver(mAlertReceiver);
 
         if(mOverlay != null)
-            mWm.removeView(mOverlay);
+        {
+            try
+            {
+                mWm.removeView(mOverlay);
+            }
+            catch(Exception e)
+            {
+                // The view was never attached (overlay permission denied)
+            }
+        }
 
         mOverlay = null;
     }

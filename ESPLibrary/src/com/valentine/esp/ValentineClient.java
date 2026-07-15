@@ -15,7 +15,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.support.v4.content.LocalBroadcastManager;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.valentine.esp.constants.Devices;
@@ -263,14 +263,31 @@ public class ValentineClient
 
 		m_bluetoothAddress = m_preferences.getString("com.valentine.esp.LastBlueToothConnectedDevice", "");
 
-		if (m_bluetoothAddress != "") {
-			Set<BluetoothDevice> pairedDevices;
-			pairedDevices = BluetoothAdapter.getDefaultAdapter().getBondedDevices();
-			if (pairedDevices.size() > 0) {
-				for (BluetoothDevice bd : pairedDevices) {
-					String test = bd.getAddress();
-					if (test.equals(m_bluetoothAddress)) {
-						m_bluetoothDevice = bd;
+		// Restore the transport (SPP or BTLE) used for the last connection.
+		int lastConnectionType = m_preferences.getInt("com.valentine.esp.LastConnectionType", ValentineESP.CONNECTION_SPP);
+		m_valentineESP.setConnectionType(lastConnectionType);
+
+		if (!m_bluetoothAddress.isEmpty()) {
+			BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
+			if (adapter != null) {
+				Set<BluetoothDevice> pairedDevices;
+				pairedDevices = adapter.getBondedDevices();
+				if (pairedDevices != null && pairedDevices.size() > 0) {
+					for (BluetoothDevice bd : pairedDevices) {
+						String test = bd.getAddress();
+						if (test.equals(m_bluetoothAddress)) {
+							m_bluetoothDevice = bd;
+						}
+					}
+				}
+				if (m_bluetoothDevice == null) {
+					// BTLE devices are typically not bonded, so fall back to looking the
+					// device up by address.
+					try {
+						m_bluetoothDevice = adapter.getRemoteDevice(m_bluetoothAddress);
+					}
+					catch (IllegalArgumentException e) {
+						// Saved address is invalid; leave the device unset.
 					}
 				}
 			}
@@ -519,7 +536,36 @@ public class ValentineClient
 	public boolean StartUp() {
 		return StartUp(null);
 	}
-	
+
+	/**
+	 * Starts up the client using the requested Bluetooth transport.
+	 *
+	 * @param _device The Bluetooth device to connect to.
+	 * @param _connectionType Either ValentineESP.CONNECTION_SPP for classic Bluetooth or
+	 *                        ValentineESP.CONNECTION_LE for BTLE (V1connection LE).
+	 * @return true if it started up correctly.
+	 */
+	public boolean StartUp(BluetoothDevice _device, int _connectionType)
+	{
+		m_valentineESP.setConnectionType(_connectionType);
+
+		// Persist the transport so automatic reconnects use the right one.
+		Editor edit = m_preferences.edit();
+		edit.putInt("com.valentine.esp.LastConnectionType", m_valentineESP.getConnectionType());
+		edit.commit();
+
+		return StartUp(_device);
+	}
+
+	/**
+	 * Returns the Bluetooth transport currently in use (ValentineESP.CONNECTION_SPP or
+	 * ValentineESP.CONNECTION_LE).
+	 */
+	public int getConnectionType()
+	{
+		return m_valentineESP.getConnectionType();
+	}
+
 	/** 
 	 * Starts up the client and connection to the Valentine One with the given BlueTooth device.
 	 * 

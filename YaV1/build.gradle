@@ -1,0 +1,39 @@
+apply plugin: 'com.android.application'
+
+android {
+    namespace 'com.franckyl.yav1'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId "com.franckyl.yav1"
+        minSdkVersion 21
+        targetSdkVersion 35
+        versionCode 53
+        versionName "2.1.0"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lint {
+        abortOnError false
+    }
+}
+
+dependencies {
+    // Align the transitive kotlin-stdlib-jdk7/jdk8 artifacts with the main stdlib
+    implementation platform('org.jetbrains.kotlin:kotlin-bom:1.8.22')
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.core:core:1.13.1'
+    implementation 'androidx.fragment:fragment:1.6.2'
+    implementation 'androidx.viewpager:viewpager:1.0.0'
+    implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.1.0'
+    implementation 'com.google.android.gms:play-services-maps:19.0.0'
+    implementation 'com.squareup:otto:1.3.5'
+    implementation project(':YaV1Lib')
+    implementation project(':ESPLibrary')
+    implementation project(':AmbilWarna')
+    implementation project(':aFileDialog')
+}

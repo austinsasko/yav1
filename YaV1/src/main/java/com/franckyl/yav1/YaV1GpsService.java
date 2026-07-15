@@ -13,7 +13,7 @@ import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.SystemClock;
-import android.support.v4.app.NotificationCompat;
+import androidx.core.app.NotificationCompat;
 import android.util.Log;
 
 import com.franckyl.yav1.events.GpsEvent;
@@ -243,11 +243,20 @@ public class YaV1GpsService extends Service
             {
                 mLocationReceiver = new LocationReceiver();
 
-                // register the receiver
+                // register the receiver; Android 13+ requires an explicit export flag
+                // for receivers of non-system broadcasts
 
-                registerReceiver(mLocationReceiver, new IntentFilter(mUpdateIntentFilter));
-                Intent intent = new Intent(mUpdateIntentFilter);
-                mLocationIntent = PendingIntent.getBroadcast(this, YaV1.APP_ID, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                if(android.os.Build.VERSION.SDK_INT >= 33)
+                    registerReceiver(mLocationReceiver, new IntentFilter(mUpdateIntentFilter), Context.RECEIVER_NOT_EXPORTED);
+                else
+                    registerReceiver(mLocationReceiver, new IntentFilter(mUpdateIntentFilter));
+                Intent intent = new Intent(mUpdateIntentFilter).setPackage(getPackageName());
+                // the location system service must be able to attach extras, so the
+                // PendingIntent has to be mutable on Android 12+
+                int piFlags = PendingIntent.FLAG_CANCEL_CURRENT;
+                if(android.os.Build.VERSION.SDK_INT >= 31)
+                    piFlags |= PendingIntent.FLAG_MUTABLE;
+                mLocationIntent = PendingIntent.getBroadcast(this, YaV1.APP_ID, intent, piFlags);
                 mLm.requestLocationUpdates(s, 0, 0, mLocationIntent);
 
                 mCallBackInstalled = true;
@@ -476,9 +485,20 @@ public class YaV1GpsService extends Service
     private void notifyGps()
     {
         NotificationCompat.Builder lBuilder = YaV1Activity.getNotificationBuilder();
+        if(lBuilder == null)
+            return;
         Notification note = lBuilder.build();
         note.flags |= Notification.FLAG_FOREGROUND_SERVICE;
-        startForeground(YaV1.APP_ID, note);
+        try
+        {
+            startForeground(YaV1.APP_ID, note);
+        }
+        catch(Exception e)
+        {
+            // Modern Android can reject a foreground promotion (e.g. location
+            // permission not yet granted); keep running as a plain service.
+            Log.d("Valentine", "startForeground rejected: " + e);
+        }
     }
 
     // a Thread to create the shortlist of lockout

@@ -18,8 +18,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.SystemClock;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.LocalBroadcastManager;
+import androidx.core.app.NotificationCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.franckyl.yav1.events.GpsEvent;
@@ -668,7 +668,7 @@ public class YaV1AlertService extends Service
         return mMuteByUser.get();
     }
 
-    public boolean getDisplay()
+    public boolean getV1DisplayOn()
     {
         return mDisplayOn.get();
     }
@@ -1052,6 +1052,8 @@ public class YaV1AlertService extends Service
     private void v1Notify(boolean start)
     {
         NotificationCompat.Builder lBuilder = YaV1Activity.getNotificationBuilder();
+        if(lBuilder == null)
+            return;
         lBuilder.setContentText(getText( (mActive ? R.string.alert_run_v1_active : R.string.alert_run_v1_inactive)));
         lBuilder.setSound(Uri.parse(mServiceSound));
         lBuilder.setSmallIcon( (mActive ? R.drawable.ic_notify :R.drawable.ic_notify_off));
@@ -1059,7 +1061,18 @@ public class YaV1AlertService extends Service
         note.flags |= Notification.FLAG_FOREGROUND_SERVICE;
 
         if(start)
-            startForeground(YaV1.APP_ID, note);
+        {
+            try
+            {
+                startForeground(YaV1.APP_ID, note);
+            }
+            catch(Exception e)
+            {
+                // Keep running as a plain service if the foreground promotion is
+                // rejected by modern Android.
+                Log.d("Valentine", "startForeground rejected: " + e);
+            }
+        }
         else
         {
             NotificationManager nm = (NotificationManager) getSystemService(YaV1.sContext.NOTIFICATION_SERVICE);

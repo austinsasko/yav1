@@ -1,36 +1,33 @@
-buildscript {
-    repositories {
-        mavenCentral()
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
-    }
-}
-
-apply plugin: 'android-library'
-
-dependencies {
-    compile 'com.android.support:support-v4:19.0.0'
-    compile project(':YaV1Lib')
-}
+apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "25.0.0"
+    namespace 'com.valentine.esp'
+    compileSdk 35
 
     defaultConfig {
-        minSdkVersion 13
-        targetSdkVersion 19
+        minSdkVersion 21
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lint {
+        abortOnError false
     }
 
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
             java.srcDirs = ['src']
-            resources.srcDirs = ['res']
             res.srcDirs = ['res']
         }
     }
+}
 
+dependencies {
+    api 'androidx.core:core:1.13.1'
+    api 'androidx.localbroadcastmanager:localbroadcastmanager:1.1.0'
+    api project(':YaV1Lib')
 }

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Opt out of forced edge-to-edge on Android 15 so the classic layouts keep
+         their expected insets -->
+    <style name="YaV1AppTheme" parent="android:Theme.Holo">
+        <item name="android:windowOptOutEdgeToEdgeEnforcement">true</item>
+    </style>
+</resources>

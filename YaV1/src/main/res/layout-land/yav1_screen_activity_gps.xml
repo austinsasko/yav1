@@ -7,13 +7,13 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="fill_parent">
-        <android.support.v4.view.ViewPager
+        <androidx.viewpager.widget.ViewPager
             android:id="@+id/pager"
             android:layout_width="fill_parent"
             android:layout_alignParentLeft="true"
             android:layout_toLeftOf="@+id/none"
             android:layout_height="wrap_content">
-        </android.support.v4.view.ViewPager>
+        </androidx.viewpager.widget.ViewPager>
         <TextView
             android:id="@+id/none"
             android:layout_width="2dp"

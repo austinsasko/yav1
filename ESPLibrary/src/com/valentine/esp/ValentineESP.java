@@ -19,9 +19,10 @@ import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.Intent;
 import android.os.SystemClock;
-import android.support.v4.content.LocalBroadcastManager;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
 
+import com.valentine.esp.bluetooth.V1connectionLE;
 import com.valentine.esp.constants.ESPLibraryLogController;
 import com.valentine.esp.constants.PacketId;
 import com.valentine.esp.demo.DemoData;
@@ -72,6 +73,16 @@ public class ValentineESP
 	private boolean			m_retryOnConnectFailure;
     private boolean         m_bt_workaround = false;
 
+	/** Connect to the V1connection over classic Bluetooth SPP (RFCOMM). */
+	public static final int CONNECTION_SPP = 0;
+	/** Connect to the V1connection LE over Bluetooth Low Energy (BTLE). */
+	public static final int CONNECTION_LE  = 1;
+
+	private int             m_connectionType = CONNECTION_SPP;
+	private V1connectionLE  m_leConnection = null;
+	// Timeout for establishing the BTLE GATT link and enabling notifications.
+	private static final long LE_CONNECT_TIMEOUT_MS = 15000;
+
 	/**
 	 * Time out to be passed into the DataReaderThread that will be used to notify the library of the no data.
 	 * Passed in using seconds.
@@ -105,6 +116,31 @@ public class ValentineESP
     {
         this.mBroadCastContext = context;
     }
+
+	/**
+	 * Selects the Bluetooth transport used for the next startUp call.
+	 *
+	 * @param _type Either CONNECTION_SPP (classic Bluetooth) or CONNECTION_LE (BTLE).
+	 */
+	public void setConnectionType(int _type)
+	{
+		if (_type == CONNECTION_LE && android.os.Build.VERSION.SDK_INT < 18)
+		{
+			// BTLE requires API 18 (Android 4.3); fall back to classic Bluetooth.
+			if (ESPLibraryLogController.LOG_WRITE_WARNING)
+			{
+				Log.w("ValentineESP", "BTLE requires Android 4.3 or later, falling back to SPP");
+			}
+			m_connectionType = CONNECTION_SPP;
+			return;
+		}
+		m_connectionType = _type;
+	}
+
+	public int getConnectionType()
+	{
+		return m_connectionType;
+	}
 
     public void setBroadcastEvents(int events)
     {
@@ -334,6 +370,11 @@ public class ValentineESP
 	 */
 	public boolean connect()
     {
+		if (m_connectionType == CONNECTION_LE)
+		{
+			return m_connectLE();
+		}
+
 		m_bta.cancelDiscovery();
 		try
 		{
@@ -407,6 +448,67 @@ public class ValentineESP
 		return false;
     }
 	
+	/**
+	 * This method establishes a BTLE (Bluetooth Low Energy) connection to a
+	 * V1connection LE and sets up the reader/writer threads on its bridged streams.
+	 *
+	 * @return - true if the connection was established, else false.
+	 */
+	private boolean m_connectLE()
+	{
+		if (m_bta != null)
+		{
+			m_bta.cancelDiscovery();
+		}
+
+		// Make sure any previous connection is closed before proceeding
+		m_closeSocket(true);
+		m_closeLeConnection();
+
+		try
+		{
+			m_leConnection = new V1connectionLE(this);
+
+			if (!m_leConnection.connect(mBroadCastContext, m_pairedBluetoothDevice, LE_CONNECT_TIMEOUT_MS))
+			{
+				ValentineClient.getInstance().reportError("Unable to connect to " + m_pairedBluetoothDevice.getName() + " over BTLE");
+				m_closeLeConnection();
+				return false;
+			}
+
+			m_inputStream = m_leConnection.getInputStream();
+			m_outputStream = m_leConnection.getOutputStream();
+
+			m_readerThread = new DataReaderThread(this, m_inputStream, m_secondsToWait);
+			m_writerThread = new DataWriterThread(this, m_outputStream);
+
+			return true;
+		}
+		catch (Exception e)
+		{
+			ValentineClient.getInstance().reportError("Unable to connect to " + m_pairedBluetoothDevice.getName() + " over BTLE");
+			if (ESPLibraryLogController.LOG_WRITE_DEBUG)
+			{
+				Log.d("Valentine", e.toString());
+			}
+			m_closeLeConnection();
+		}
+
+		return false;
+	}
+
+	/**
+	 * Close the BTLE connection if one exists.
+	 */
+	private void m_closeLeConnection()
+	{
+		if (m_leConnection != null)
+		{
+			m_leConnection.close();
+			m_leConnection = null;
+		}
+	}
+
 	/**
 	 * Set method to determine if the ESP library should protect legacy mode. If this value is true when the
 	 * V1 is running in Legacy mode, the write thread will not send any commands that are not compatible with
@@ -586,7 +688,7 @@ public class ValentineESP
 				    for (Iterator<CallbackData> it2 = pairs.getValue().iterator(); it2.hasNext();)
 				    {
 				    	CallbackData data = it2.next();
-				    	if (data.callBackOwner == _object && (_method == "" || _method == data.method) )				    		
+				    	if (data.callBackOwner == _object && (_method.isEmpty() || _method.equals(data.method)) )
 				    	{
 				    		if ( ESPLibraryLogController.LOG_WRITE_VERBOSE ){
 				    			Log.v("ValentineESP", "Deregistering " + data.callBackOwner.toString() + "." + data.method + " for packet id " + _type.toString());
@@ -669,11 +771,12 @@ public class ValentineESP
 	{
 		if (!m_inDemoMode)
 		{
-			try 
+			try
 			{
 				// Close the socket, but don't wait for a disconnect.
 				m_closeSocket (false);
-				
+				m_closeLeConnection();
+
 				if (m_processingThread != null)
 				{
 					m_processingThread.setRun(false);
@@ -839,9 +942,10 @@ public class ValentineESP
 		try
 		{
 			m_inDemoMode = true;
-			
+
 			// Close the socket, but don't wait for the disconnect
 			m_closeSocket (false);
+			m_closeLeConnection();
 			
 			if (m_readerThread.isAlive())
 			{

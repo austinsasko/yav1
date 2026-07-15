@@ -525,7 +525,7 @@ public class YaV1SweepSets extends ArrayList<YaV1Sweep>
         // Log.d("Valentine", "Saving sweeps");
 
         // create the directory if needed
-        File sDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + YaV1.PACKAGE_NAME);
+        File sDir = YaV1.getStorageRootDir();
 
         if(sDir.isDirectory() || sDir.mkdirs())
         {
@@ -669,7 +669,7 @@ public class YaV1SweepSets extends ArrayList<YaV1Sweep>
 
     public void read()
     {
-        File sDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + YaV1.PACKAGE_NAME);
+        File sDir = YaV1.getStorageRootDir();
         File file = new File(sDir, mFileName);
         int  nb   = 0;
 

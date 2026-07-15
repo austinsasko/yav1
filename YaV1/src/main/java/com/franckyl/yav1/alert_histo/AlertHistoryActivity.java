@@ -4,12 +4,12 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.FragmentManager;
+import androidx.fragment.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
+import androidx.viewpager.widget.ViewPager;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
@@ -29,7 +29,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 /**
  * Created by franck on 2/3/14.
  */
-public class AlertHistoryActivity extends Activity
+public class AlertHistoryActivity extends androidx.fragment.app.FragmentActivity
 {
     private ActionBar                mActionBar;
     private ViewPager                mPager;
@@ -101,7 +101,7 @@ public class AlertHistoryActivity extends Activity
         mPager = (ViewPager) findViewById(R.id.pager);
 
         // Activate Fragment Manager
-        FragmentManager fm = getFragmentManager();
+        FragmentManager fm = getSupportFragmentManager();
 
         // Capture ViewPager page swipes
         ViewPager.SimpleOnPageChangeListener ViewPagerListener = new ViewPager.SimpleOnPageChangeListener()
@@ -269,11 +269,11 @@ public class AlertHistoryActivity extends Activity
         mCurrentMode = MODE_STANDARD;
 
         // update the adapter
-        AlertHistoryAlertFragment fa = (AlertHistoryAlertFragment) getFragmentManager().findFragmentByTag(mFragmentTag[1]);
+        AlertHistoryAlertFragment fa = (AlertHistoryAlertFragment) getSupportFragmentManager().findFragmentByTag(mFragmentTag[1]);
         fa.updateList();
 
         // clear the map if there
-        AlertHistoryMapFragment fm = (AlertHistoryMapFragment) getFragmentManager().findFragmentByTag(mFragmentTag[2]);
+        AlertHistoryMapFragment fm = (AlertHistoryMapFragment) getSupportFragmentManager().findFragmentByTag(mFragmentTag[2]);
         if(fm != null)
             fm.clearMap();
     }
