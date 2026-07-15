@@ -40,6 +40,8 @@ public class YaV1PrefFragment extends PreferenceFragment implements SharedPrefer
             addPreferencesFromResource(R.xml.pref_record);
         } else if ("lockout".equals(settings)) {
             addPreferencesFromResource(R.xml.pref_lockout);
+            // [P1-PSL] append the speed-limit muting category to the muting/lockout screen
+            addPreferencesFromResource(R.xml.pref_psl);
         } else if ("gmap".equals(settings)) {
             addPreferencesFromResource(R.xml.pref_gmap);
         } else if ("sound".equals(settings)) {
