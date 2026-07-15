@@ -638,4 +638,17 @@
     <string name="pref_lockout_ka_drift">Allowed drift on Ka Band (freq. precision)</string>
     <string name="pref_lockout_visit_gap">Minimum time between visits (learning)</string>
     <string name="pref_lockout_expire">Auto unlock when not seen for</string>
+
+    <!-- Redesign accessibility / drive surfaces -->
+    <string name="cd_threat_direction">Threat direction</string>
+    <string name="cd_signal_strength">Signal strength</string>
+    <string name="cd_connection_status">Connection status</string>
+    <string name="cd_mute">Mute alerts</string>
+    <string name="cause_locked">locked</string>
+    <string name="cause_muted">muted</string>
+    <string name="cause_junk">junk (BSM)</string>
+    <string name="cause_filtered">filtered</string>
+    <string name="mute_available">MUTE</string>
+    <string name="mute_active">MUTED</string>
+    <string name="mute_auto_psl">Muted — under speed limit</string>
 </resources>

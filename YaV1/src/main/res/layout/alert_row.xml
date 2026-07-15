@@ -1,54 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
-              android:layout_height="wrap_content"
-              android:focusable="false"
-              android:focusableInTouchMode="false"
-              android:longClickable="false"
-              android:baselineAligned="false"
-              android:clickable="false">
-    <TextView
-        android:id="@+id/BAND"
-        android:layout_width="50dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_height="wrap_content"
-        android:gravity="center|center_horizontal"
-        android:layout_gravity="left"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:text="Ka" />
-
-    <TextView
-        android:id="@+id/FREQUENCY"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:gravity="center_vertical|center_horizontal"
-        android:layout_gravity="left"
-        android:layout_toRightOf="@+id/BAND"
-        android:layout_alignParentStart="false"
-        android:layout_alignParentLeft="false"
-        android:layout_alignWithParentIfMissing="true"
-        android:text="24.150"
-        android:paddingLeft="5dp"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/none" />
+<!-- Alert card. Outer frame provides inter-card spacing (ListView divider is
+     off); inner LinearLayout is the card surface. The adapter restyles this in
+     place for hero / standard / locked view types. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/alert_card_margin_h"
+    android:paddingRight="@dimen/alert_card_margin_h"
+    android:paddingTop="@dimen/alert_card_margin_v"
+    android:paddingBottom="@dimen/alert_card_margin_v"
+    android:focusable="false"
+    android:clickable="false">
 
     <LinearLayout
-        android:id="@+id/none"
-        android:orientation="horizontal"
-        android:layout_width="180dp"
+        android:id="@+id/alert_card"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true">
-        <ImageView
-            android:id="@+id/SIGNAL"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:src="@drawable/fr_8"
-            android:background="@android:color/transparent" />
-    </LinearLayout>
+        android:minHeight="@dimen/alert_standard_min_height"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/bg_alert_card"
+        android:paddingLeft="@dimen/alert_card_pad"
+        android:paddingRight="@dimen/alert_card_pad"
+        android:paddingTop="@dimen/space_s"
+        android:paddingBottom="@dimen/space_s">
 
-</RelativeLayout>
+        <!-- Left band-colour accent -->
+        <View
+            android:id="@+id/BAND_ACCENT"
+            android:layout_width="4dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="@dimen/space_m"
+            android:background="@color/state_locked" />
+
+        <!-- Band letter + frequency + cause -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/BAND"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/band_letter_standard"
+                android:textStyle="bold"
+                android:textColor="@color/ink"
+                android:includeFontPadding="false"
+                android:text="Ka" />
+
+            <TextView
+                android:id="@+id/FREQUENCY"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/freq_standard"
+                android:fontFamily="monospace"
+                android:textColor="@color/ink"
+                android:includeFontPadding="false"
+                android:text="24.150" />
+
+            <TextView
+                android:id="@+id/CAUSE"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="@color/ink2"
+                android:visibility="gone"
+                android:text="locked" />
+        </LinearLayout>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <com.franckyl.yav1.ui.DirectionArrowView
+            android:id="@+id/DIR_ARROW"
+            android:layout_width="@dimen/arrow_size"
+            android:layout_height="@dimen/arrow_size"
+            android:layout_marginRight="@dimen/space_m"
+            android:contentDescription="@string/cd_threat_direction" />
+
+        <com.franckyl.yav1.ui.SignalBarView
+            android:id="@+id/SIGNAL_BARS"
+            android:layout_width="@dimen/signal_bar_width"
+            android:layout_height="@dimen/signal_bar_height"
+            android:contentDescription="@string/cd_signal_strength" />
+    </LinearLayout>
+</FrameLayout>
