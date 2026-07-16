@@ -194,6 +194,7 @@ public class YaV1ScreenActivity extends FragmentActivity
                 else
                     mHandler.post(mShowSetting);
 
+                setStripVisible(!sInTools);
                 updateNavSelection(mLastView);
             }
         };
@@ -561,6 +562,10 @@ public class YaV1ScreenActivity extends FragmentActivity
         }
         // keep the bottom nav in sync even when the pager is already there
         updateNavSelection(mLastView);
+        // drive status strip: refresh loop + hide on TOOLS
+        setStripVisible(!sInTools);
+        mHandler.removeCallbacks(mStripRunnable);
+        mHandler.post(mStripRunnable);
 
         LocalBroadcastManager.getInstance(this).registerReceiver(mDisplayReceiver, new IntentFilter("V1Display"));
 
@@ -584,6 +589,9 @@ public class YaV1ScreenActivity extends FragmentActivity
     {
         YaV1.superPause();
         super.onPause();
+
+        // stop the status-strip refresh loop
+        mHandler.removeCallbacks(mStripRunnable);
 
         // unregister
         YaV1.getEventBus().unregister(this);
@@ -798,6 +806,72 @@ public class YaV1ScreenActivity extends FragmentActivity
             }
         }
     };
+
+    // periodic refresh of the drive status strip (bogey / connection / mode / speed)
+    private final Runnable mStripRunnable = new Runnable()
+    {
+        @Override
+        public void run()
+        {
+            if(!sInTools)
+                updateStatusStrip();
+            mHandler.postDelayed(this, 350);
+        }
+    };
+
+    private void updateStatusStrip()
+    {
+        View strip = findViewById(R.id.status_strip);
+        if(strip == null)
+            return;
+
+        com.franckyl.yav1.ui.SegmentDisplayView bogey =
+                (com.franckyl.yav1.ui.SegmentDisplayView) strip.findViewById(R.id.strip_bogey);
+        if(bogey != null)
+            bogey.setSegments(YaV1CurrentView.sBogey0);
+
+        View     dot  = strip.findViewById(R.id.strip_conn_dot);
+        TextView conn = (TextView) strip.findViewById(R.id.strip_conn_text);
+        int      colorRes;
+        if(mDemo)
+        {
+            conn.setText(R.string.strip_demo);
+            colorRes = R.color.status_good;
+        }
+        else if(YaV1.mV1Client != null && YaV1.mV1Client.isConnected())
+        {
+            conn.setText(YaV1.mV1Client.isGen2() ? R.string.strip_gen2
+                        : (YaV1.sLegacy ? R.string.strip_spp : R.string.strip_le));
+            colorRes = R.color.status_good;
+        }
+        else
+        {
+            conn.setText(R.string.strip_nolink);
+            colorRes = R.color.band_ka;
+        }
+        int c = getResources().getColor(colorRes);
+        conn.setTextColor(c);
+        if(dot != null)
+            dot.setBackgroundTintList(android.content.res.ColorStateList.valueOf(c));
+
+        ((TextView) strip.findViewById(R.id.strip_mode)).setText(YaV1.getModeText());
+
+        TextView spd = (TextView) strip.findViewById(R.id.strip_speed);
+        if(YaV1CurrentPosition.enabled && YaV1CurrentPosition.speed >= 0)
+        {
+            spd.setText(((int) YaV1CurrentPosition.cSpeed) + " " + YaV1.sUnitLabel[YaV1.sCurrUnit]);
+            spd.setVisibility(View.VISIBLE);
+        }
+        else
+            spd.setVisibility(View.GONE);
+    }
+
+    private void setStripVisible(boolean visible)
+    {
+        View strip = findViewById(R.id.status_strip);
+        if(strip != null)
+            strip.setVisibility(visible ? View.VISIBLE : View.GONE);
+    }
 
     // wire the custom bottom navigation to the pager
     private void wireBottomNav()

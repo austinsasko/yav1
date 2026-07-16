@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- V1 replica display (landscape), framed as one instrument panel. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ground"
+    android:padding="@dimen/space_m">
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="false"
     android:focusable="false"
-    android:background="@android:color/black">
+    android:padding="@dimen/space_l"
+    android:background="@drawable/bg_alert_card">
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -186,3 +193,4 @@
         </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>
+</FrameLayout>

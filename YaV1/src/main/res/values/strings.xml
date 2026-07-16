@@ -659,6 +659,33 @@
     <string name="picker_scanning">Scanning for BTLE devices…</string>
     <string name="badge_le">LE</string>
     <string name="badge_spp">SPP</string>
+    <string name="badge_gen2">GEN2</string>
+    <string name="device_sub_le">No pairing needed</string>
+    <string name="device_sub_gen2">Gen2 BLE detector</string>
+    <string name="device_sub_spp">Paired · classic Bluetooth</string>
+
+    <!-- Set-list cards -->
+    <string name="set_tag_active">Active</string>
+    <string name="set_tag_last">Last used</string>
+    <string name="set_act_edit">Edit</string>
+    <string name="set_act_copy">Copy</string>
+    <string name="set_act_push">Push</string>
+    <string name="set_act_delete">Delete</string>
+
+    <!-- Home screen -->
+    <string name="home_disconnected">Not connected · tap the arrows to connect</string>
+    <string name="home_connecting">Connecting…</string>
+    <string name="home_link_demo">Demo</string>
+    <string name="home_link_devices">Devices</string>
+    <string name="home_link_settings">Settings</string>
+
+    <!-- Drive status strip -->
+    <string name="strip_demo">Demo</string>
+    <string name="strip_gen2">Gen2</string>
+    <string name="strip_le">LE</string>
+    <string name="strip_spp">SPP</string>
+    <string name="strip_nolink">No link</string>
+    <string name="cd_bogey">Bogey count</string>
 
     <!-- TOOLS control panel redesign -->
     <string name="tools_savvy_label">Savvy speed</string>

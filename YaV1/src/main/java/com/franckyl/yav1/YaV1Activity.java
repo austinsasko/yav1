@@ -267,6 +267,33 @@ public class YaV1Activity extends Activity implements ActionBar.OnNavigationList
         back = (ImageButton) findViewById(R.id.yav1_alert);
         back.setOnClickListener(mListener);
 
+        // home quick links (same targets as the overflow menu)
+        findViewById(R.id.link_demo).setOnClickListener(new View.OnClickListener()
+        {
+            @Override public void onClick(View v)
+            {
+                if(YaV1.mV1Client != null && YaV1.mV1Client.isConnected())
+                    new AlertDialog.Builder(YaV1Activity.this).setTitle(R.string.warning)
+                        .setMessage(R.string.alert_no_demo).setPositiveButton(R.string.ok, null).show();
+                else
+                    chooseDemoFile();
+            }
+        });
+        findViewById(R.id.link_devices).setOnClickListener(new View.OnClickListener()
+        {
+            @Override public void onClick(View v)
+            {
+                startActivityForResult(new Intent(YaV1Activity.this, ListPairedBTActivity.class), GET_DEVICE);
+            }
+        });
+        findViewById(R.id.link_settings).setOnClickListener(new View.OnClickListener()
+        {
+            @Override public void onClick(View v)
+            {
+                startActivityForResult(new Intent(YaV1Activity.this, YaV1PreferenceActivity.class), GET_SETTINGS);
+            }
+        });
+
         // ask for the runtime permissions the app needs on modern Android
         requestNeededPermissions();
 
@@ -762,6 +789,8 @@ public class YaV1Activity extends Activity implements ActionBar.OnNavigationList
         if(YaV1.sModeData != null)
         {
             findViewById(R.id.v1_info).setVisibility(View.VISIBLE);
+            // connected: the V1 info below carries the state, hide the prompt
+            findViewById(R.id.home_status).setVisibility(View.GONE);
 
             TextView  txt;
             TextView  txt1;
@@ -807,6 +836,7 @@ public class YaV1Activity extends Activity implements ActionBar.OnNavigationList
             findViewById(R.id.sys_version).setVisibility(View.INVISIBLE);
             findViewById(R.id.curr_sweep).setVisibility(View.INVISIBLE);
             findViewById(R.id.curr_setting).setVisibility(View.INVISIBLE);
+            findViewById(R.id.home_status).setVisibility(View.VISIBLE);
         }
     }
 

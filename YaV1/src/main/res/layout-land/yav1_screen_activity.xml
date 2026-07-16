@@ -4,6 +4,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/ground">
+    <include android:id="@+id/status_strip"
+        layout="@layout/status_strip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
 
     <FrameLayout
         android:layout_width="match_parent"

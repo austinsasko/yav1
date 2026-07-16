@@ -1,70 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:descendantFocusability="blocksDescendants"
-              android:orientation="vertical">
-
-    <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
-            android:id="@+id/sweep_name"
-            android:focusableInTouchMode="false"
-            android:layout_gravity="left"
-        android:textColor="#ffde12"
-        android:textStyle="bold" />
+<!-- Sweep-set card. Adapter tints row_card (current/last/empty) and toggles
+     row_tag; the yellow sweep name is kept. Action ids + onClick handlers unchanged. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants"
+    android:paddingLeft="@dimen/space_m"
+    android:paddingRight="@dimen/space_m"
+    android:paddingBottom="@dimen/space_s">
 
     <LinearLayout
-            android:layout_width="fill_parent"
+        android:id="@+id/row_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/bg_alert_card"
+        android:padding="@dimen/alert_card_pad">
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center_vertical|fill_horizontal|center_horizontal"
-            android:weightSum="100">
-
-        <ImageButton
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <TextView
+                android:id="@+id/sweep_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Medium Text"
+                android:textColor="#FFDE12"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/row_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:fontFamily="monospace"
+                android:textAllCaps="true"
+                android:textSize="10sp"
+                android:letterSpacing="0.08"
+                android:textColor="@color/band_ku"
+                android:text="@string/set_tag_active" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_s"
+            android:orientation="horizontal"
+            android:weightSum="4">
+            <Button
                 android:id="@+id/edit"
-                android:layout_gravity="center"
-                android:layout_weight="25"
-                android:clickable="true"
+                android:layout_width="0dp"
+                android:layout_height="44dp"
+                android:layout_weight="1"
+                android:minHeight="0dp"
+                android:background="@drawable/bg_tool_button"
+                android:textColor="@color/ink"
+                android:textAllCaps="false"
+                android:textSize="13sp"
                 android:onClick="onEdit"
-                android:src="@drawable/edit"
-                android:contentDescription="@string/sweep_desc_edit"/>
-
-        <ImageButton
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:text="@string/set_act_edit"
+                android:contentDescription="@string/sweep_desc_edit" />
+            <Button
                 android:id="@+id/duplicate"
-                android:layout_gravity="center"
-                android:src="@drawable/duplicate"
+                android:layout_width="0dp"
+                android:layout_height="44dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/space_xs"
+                android:minHeight="0dp"
+                android:background="@drawable/bg_tool_button"
+                android:textColor="@color/ink"
+                android:textAllCaps="false"
+                android:textSize="13sp"
                 android:onClick="onDuplicate"
-                android:layout_weight="25"
-                android:contentDescription="@string/sweep_desc_duplicate"/>
-
-        <ImageButton
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:text="@string/set_act_copy"
+                android:contentDescription="@string/sweep_desc_duplicate" />
+            <Button
                 android:id="@+id/push"
-                android:layout_gravity="center"
-                android:layout_weight="25"
-                android:src="@drawable/push"
-                android:onClick="onPush"
-                android:clickable="true"
-                android:contentDescription="@string/sweep_desc_push"/>
-
-        <ImageButton
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="44dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/space_xs"
+                android:minHeight="0dp"
+                android:background="@drawable/bg_tool_button"
+                android:textColor="@color/ink"
+                android:textAllCaps="false"
+                android:textSize="13sp"
+                android:onClick="onPush"
+                android:text="@string/set_act_push"
+                android:contentDescription="@string/sweep_desc_push" />
+            <Button
                 android:id="@+id/delete"
-                android:layout_weight="25"
-                android:layout_gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="44dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/space_xs"
+                android:minHeight="0dp"
+                android:background="@drawable/bg_tool_button"
+                android:textColor="@color/band_ka"
+                android:textAllCaps="false"
+                android:textSize="13sp"
                 android:onClick="onDelete"
-                android:src="@drawable/delete"
-                android:contentDescription="@string/sweep_desc_delete"/>
-
+                android:text="@string/set_act_delete"
+                android:contentDescription="@string/sweep_desc_delete" />
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</FrameLayout>
