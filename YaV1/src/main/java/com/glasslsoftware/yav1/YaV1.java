@@ -209,6 +209,7 @@ public class YaV1 extends Application
         com.glasslsoftware.yav1.poi.PoiAlertManager.init(sContext);
         com.glasslsoftware.yav1.poi.PoiOnlineManager.init();
         com.glasslsoftware.yav1.aircraft.AircraftMonitor.init(sContext);
+        com.glasslsoftware.yav1.crowd.CrowdMonitor.init(sContext); // [CSA] crowd reports (feature default OFF)
         com.glasslsoftware.yav1.geo.GeoProfileManager.init(this); // [P3-GEO] location based profile switching (feature default OFF)
     }
 

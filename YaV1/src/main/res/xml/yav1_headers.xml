@@ -48,6 +48,12 @@
         android:summary="@string/pref_h_aircraft_summary">
         <extra android:name="settings" android:value="aircraft"/>
     </header>
+    <!-- [CSA] crowdsourced alert network -->
+    <header android:fragment="com.glasslsoftware.yav1.YaV1PrefFragment"
+        android:title="@string/pref_h_crowd"
+        android:summary="@string/pref_h_crowd_summary">
+        <extra android:name="settings" android:value="crowd"/>
+    </header>
     <!-- [P3-GEO] location based automatic V1 profile switching -->
     <header android:fragment="com.glasslsoftware.yav1.YaV1PrefFragment"
         android:title="@string/pref_h_geo"
