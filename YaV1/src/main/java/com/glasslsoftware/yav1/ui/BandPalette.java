@@ -1,4 +1,4 @@
-package com.franckyl.yav1.ui;
+package com.glasslsoftware.yav1.ui;
 
 /**
  * The radar-band palette IS the semantic system: COLOR encodes band.

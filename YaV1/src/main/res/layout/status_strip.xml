@@ -10,7 +10,7 @@
     android:paddingLeft="@dimen/space_m"
     android:paddingRight="@dimen/space_m">
 
-    <com.franckyl.yav1.ui.SegmentDisplayView
+    <com.glasslsoftware.yav1.ui.SegmentDisplayView
         android:id="@+id/strip_bogey"
         android:layout_width="26dp"
         android:layout_height="32dp"

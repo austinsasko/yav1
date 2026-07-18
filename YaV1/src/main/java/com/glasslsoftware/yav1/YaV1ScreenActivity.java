@@ -825,8 +825,8 @@ public class YaV1ScreenActivity extends FragmentActivity
         if(strip == null)
             return;
 
-        com.franckyl.yav1.ui.SegmentDisplayView bogey =
-                (com.franckyl.yav1.ui.SegmentDisplayView) strip.findViewById(R.id.strip_bogey);
+        com.glasslsoftware.yav1.ui.SegmentDisplayView bogey =
+                (com.glasslsoftware.yav1.ui.SegmentDisplayView) strip.findViewById(R.id.strip_bogey);
         if(bogey != null)
             bogey.setSegments(YaV1CurrentView.sBogey0);
 

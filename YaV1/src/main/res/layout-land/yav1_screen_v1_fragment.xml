@@ -26,7 +26,7 @@
             android:gravity="bottom"
             android:layout_marginTop="3dp"
             android:paddingBottom="3dp">
-            <com.franckyl.yav1.ui.SegmentDisplayView
+            <com.glasslsoftware.yav1.ui.SegmentDisplayView
                 android:layout_width="64dp"
                 android:layout_height="92dp"
                 android:id="@+id/bogey"
@@ -41,7 +41,7 @@
                 android:layout_toRightOf="@+id/bogey"
                 android:layout_alignParentBottom="false" />
         </RelativeLayout>
-        <com.franckyl.yav1.ui.DotMeterView
+        <com.glasslsoftware.yav1.ui.DotMeterView
             android:layout_width="128dp"
             android:layout_height="20dp"
             android:id="@+id/signal"
@@ -69,17 +69,17 @@
         android:layout_marginTop="5dp"
         android:layout_toLeftOf="@+id/cont_band"
         android:layout_centerHorizontal="true">
-        <com.franckyl.yav1.ui.DirectionArrowView
+        <com.glasslsoftware.yav1.ui.DirectionArrowView
             android:layout_width="84dp"
             android:layout_height="64dp"
             android:id="@+id/front"
             android:contentDescription="@string/cd_threat_direction" />
-        <com.franckyl.yav1.ui.DirectionArrowView
+        <com.glasslsoftware.yav1.ui.DirectionArrowView
             android:layout_width="84dp"
             android:layout_height="44dp"
             android:id="@+id/side"
             android:layout_below="@+id/front" />
-        <com.franckyl.yav1.ui.DirectionArrowView
+        <com.glasslsoftware.yav1.ui.DirectionArrowView
             android:layout_width="84dp"
             android:layout_height="60dp"
             android:id="@+id/rear"

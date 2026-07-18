@@ -133,7 +133,7 @@ public class YaV1V1ViewAdapter extends BaseAdapter
             if(!alert.isLaser())
             {
                 viewHolder.tvBand.setText(alert.getBandStr());
-                viewHolder.tvBand.setTextColor(com.franckyl.yav1.ui.BandPalette.colorForBand(alert.getBand()));
+                viewHolder.tvBand.setTextColor(com.glasslsoftware.yav1.ui.BandPalette.colorForBand(alert.getBand()));
                 viewHolder.tvFreq.setText(String.format("%.3f",  (alert.getFrequency() / 1000.0)));
                 int color = alert.getColor();
 

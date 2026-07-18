@@ -1,4 +1,4 @@
-package com.franckyl.yav1.ui;
+package com.glasslsoftware.yav1.ui;
 
 import android.content.Context;
 import android.graphics.Typeface;

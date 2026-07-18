@@ -1,4 +1,4 @@
-package com.franckyl.yav1.ui;
+package com.glasslsoftware.yav1.ui;
 
 /**
  * Pure signal-strength helpers shared by the custom drive views.

@@ -74,14 +74,14 @@
             android:layout_height="1dp"
             android:layout_weight="1" />
 
-        <com.franckyl.yav1.ui.DirectionArrowView
+        <com.glasslsoftware.yav1.ui.DirectionArrowView
             android:id="@+id/DIR_ARROW"
             android:layout_width="@dimen/arrow_size"
             android:layout_height="@dimen/arrow_size"
             android:layout_marginRight="@dimen/space_m"
             android:contentDescription="@string/cd_threat_direction" />
 
-        <com.franckyl.yav1.ui.SignalBarView
+        <com.glasslsoftware.yav1.ui.SignalBarView
             android:id="@+id/SIGNAL_BARS"
             android:layout_width="@dimen/signal_bar_width"
             android:layout_height="@dimen/signal_bar_height"
