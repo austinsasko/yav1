@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace 'com.franckyl.yav1'
+    namespace 'com.glasslsoftware.yav1'
     compileSdk 35
 
     defaultConfig {
-        applicationId "com.franckyl.yav1"
-        minSdkVersion 21
+        applicationId "com.glasslsoftware.yav1"
+        minSdkVersion 23
         targetSdkVersion 35
         versionCode 53
         versionName "2.1.0"
@@ -36,6 +36,9 @@ dependencies {
     implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.1.0'
     implementation 'com.google.android.gms:play-services-maps:19.0.0'
     implementation 'com.squareup:otto:1.3.5'
+    // Android Auto (projected) car app library
+    implementation 'androidx.car.app:app:1.7.0'
+    implementation 'androidx.car.app:app-projected:1.7.0'
     implementation project(':YaV1Lib')
     implementation project(':ESPLibrary')
     implementation project(':AmbilWarna')

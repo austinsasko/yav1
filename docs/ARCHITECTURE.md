@@ -47,7 +47,7 @@ library wraps that so the app deals in typed packets, not bytes.
 Device type (Gen1 vs Gen2) is recognized from the ESP version/identifier data; Gen1-only
 features (e.g. custom sweeps) degrade gracefully when a Gen2 is connected.
 
-## App feature packages (`com.franckyl.yav1`)
+## App feature packages (`com.glasslsoftware.yav1`)
 
 | Package | Feature | Key data source |
 |---|---|---|

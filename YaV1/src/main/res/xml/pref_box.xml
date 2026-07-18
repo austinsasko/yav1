@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
                   xmlns:app="http://schemas.android.com/apk/res-auto">
-    <com.franckyl.yav1.CustomSwitch
+    <com.glasslsoftware.yav1.CustomSwitch
             android:defaultValue="false"
             android:key="v1box"
             android:title="@string/pref_box"
@@ -30,7 +30,7 @@
         android:ringtoneType="notification">
     </RingtonePreference>
     <PreferenceCategory android:title="@string/pref_box_ka">
-        <com.franckyl.yav1.DialogBandRange
+        <com.glasslsoftware.yav1.DialogBandRange
                 android:key="band_ka1"
                 android:defaultValue=""
                 android:title="@string/pref_box_1"
@@ -40,7 +40,7 @@
                 app:bandname="ka"
                 app:bandnumber="1"
                 android:negativeButtonText="@string/cancel"/>
-        <com.franckyl.yav1.DialogBandRange
+        <com.glasslsoftware.yav1.DialogBandRange
                 android:key="band_ka2"
                 android:defaultValue=""
                 android:title="@string/pref_box_2"
@@ -50,7 +50,7 @@
                 app:bandname="ka"
                 app:bandnumber="2"
                 android:negativeButtonText="@string/cancel"/>
-        <com.franckyl.yav1.DialogBandRange
+        <com.glasslsoftware.yav1.DialogBandRange
                 android:key="band_ka3"
                 android:defaultValue=""
                 android:title="@string/pref_box_3"
@@ -60,7 +60,7 @@
                 app:bandname="ka"
                 app:bandnumber="3"
                 android:negativeButtonText="@string/cancel"/>
-        <com.franckyl.yav1.DialogBandRange
+        <com.glasslsoftware.yav1.DialogBandRange
             android:key="band_ka4"
             android:defaultValue=""
             android:title="@string/pref_box_4"
@@ -80,7 +80,7 @@
         </ListPreference>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_box_k">
-        <com.franckyl.yav1.DialogBandRange
+        <com.glasslsoftware.yav1.DialogBandRange
             android:key="band_k1"
             android:defaultValue=""
             android:title="@string/pref_box_1"
@@ -90,7 +90,7 @@
             app:bandname="k"
             app:bandnumber="1"
             android:negativeButtonText="@string/cancel"/>
-        <com.franckyl.yav1.DialogBandRange
+        <com.glasslsoftware.yav1.DialogBandRange
             android:key="band_k2"
             android:defaultValue=""
             android:title="@string/pref_box_2"
@@ -100,7 +100,7 @@
             app:bandname="k"
             app:bandnumber="2"
             android:negativeButtonText="@string/cancel"/>
-        <com.franckyl.yav1.DialogBandRange
+        <com.glasslsoftware.yav1.DialogBandRange
             android:key="band_k3"
             android:defaultValue=""
             android:title="@string/pref_box_3"
@@ -110,7 +110,7 @@
             app:bandname="k"
             app:bandnumber="3"
             android:negativeButtonText="@string/cancel"/>
-        <com.franckyl.yav1.DialogBandRange
+        <com.glasslsoftware.yav1.DialogBandRange
             android:key="band_k4"
             android:defaultValue=""
             android:title="@string/pref_box_4"
@@ -130,7 +130,7 @@
         </ListPreference>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_box_x">
-        <com.franckyl.yav1.DialogBandRange
+        <com.glasslsoftware.yav1.DialogBandRange
                 android:key="band_x1"
                 android:defaultValue=""
                 android:title="@string/pref_box_1"
@@ -140,7 +140,7 @@
                 app:bandname="x"
                 app:bandnumber="1"
                 android:negativeButtonText="@string/cancel"/>
-        <com.franckyl.yav1.DialogBandRange
+        <com.glasslsoftware.yav1.DialogBandRange
                 android:key="band_x2"
                 android:defaultValue=""
                 android:title="@string/pref_box_2"
@@ -160,7 +160,7 @@
         </ListPreference>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_box_ku">
-        <com.franckyl.yav1.DialogBandRange
+        <com.glasslsoftware.yav1.DialogBandRange
             android:key="band_ku1"
             android:defaultValue=""
             android:title="@string/pref_box_1"

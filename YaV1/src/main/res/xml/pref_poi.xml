@@ -2,13 +2,13 @@
 <!-- [P2-POI] Camera / POI database alert preferences -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <com.franckyl.yav1.CustomSwitch
+    <com.glasslsoftware.yav1.CustomSwitch
         android:defaultValue="false"
         android:key="poi_enable"
         android:title="@string/pref_poi_enable"
         android:summary="@string/pref_poi_enable_summary"/>
 
-    <com.franckyl.yav1.poi.PoiFilesPreference
+    <com.glasslsoftware.yav1.poi.PoiFilesPreference
         android:key="poi_files"
         android:dependency="poi_enable"
         android:title="@string/poi_files_title"

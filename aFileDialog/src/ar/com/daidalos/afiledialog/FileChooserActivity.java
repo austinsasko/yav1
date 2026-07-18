@@ -149,7 +149,7 @@ public class FileChooserActivity extends Activity implements FileChooser {
         String folderPath = null;
         Bundle extras = this.getIntent().getExtras();
         if(extras != null) {
-    		if(extras.containsKey(INPUT_START_FOLDER)) folderPath = extras.getString(INPUT_START_FOLDER);
+            if(extras.containsKey(INPUT_START_FOLDER)) folderPath = extras.getString(INPUT_START_FOLDER);
             if(extras.containsKey(INPUT_REGEX_FILTER)) core.setFilter(extras.getString(INPUT_REGEX_FILTER));
             if(extras.containsKey(INPUT_SHOW_ONLY_SELECTABLE)) core.setShowOnlySelectable(extras.getBoolean(INPUT_SHOW_ONLY_SELECTABLE));
             if(extras.containsKey(INPUT_FOLDER_MODE)) core.setFolderMode(extras.getBoolean(INPUT_FOLDER_MODE));

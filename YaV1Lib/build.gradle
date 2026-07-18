@@ -1,11 +1,11 @@
 apply plugin: 'com.android.library'
 
 android {
-    namespace 'com.franckyl.yav1lib'
+    namespace 'com.glasslsoftware.yav1lib'
     compileSdk 35
 
     defaultConfig {
-        minSdkVersion 21
+        minSdkVersion 23
     }
 
     compileOptions {

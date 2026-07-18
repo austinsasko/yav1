@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <com.franckyl.yav1.CustomSwitch
+    <com.glasslsoftware.yav1.CustomSwitch
         android:defaultValue="false"
         android:key="log"
         android:title="@string/pref_logging"/>

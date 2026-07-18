@@ -14,6 +14,7 @@ import java.util.UUID;
 import java.util.concurrent.locks.ReentrantLock;
 
 import android.bluetooth.BluetoothAdapter;
+import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
@@ -368,6 +369,7 @@ public class ValentineESP
 	 * 
 	 * @return - true if the connection was established, else false.
 	 */
+	@SuppressLint("MissingPermission") // Bluetooth calls are inside revocation-safe try/catch blocks
 	public boolean connect()
     {
 		if (m_connectionType == CONNECTION_LE)
@@ -375,9 +377,11 @@ public class ValentineESP
 			return m_connectLE();
 		}
 
-		m_bta.cancelDiscovery();
 		try
 		{
+			if (m_bta != null)
+				m_bta.cancelDiscovery();
+
 			// Make sure the previous connection is closed before proceeding
 			m_closeSocket (true);
 			
@@ -418,28 +422,28 @@ public class ValentineESP
 		
 		catch (SecurityException e) 
 		{
-			ValentineClient.getInstance().reportError("Unable to connect to " + m_pairedBluetoothDevice.getName());
+			ValentineClient.getInstance().reportError("Unable to connect to " + getPairedDeviceName());
 			if(ESPLibraryLogController.LOG_WRITE_DEBUG){
 				Log.d("Valentine", e.toString());
 			}
 		} 
 		catch (IllegalArgumentException e) 
 		{
-			ValentineClient.getInstance().reportError("Unable to connect to " + m_pairedBluetoothDevice.getName());
+			ValentineClient.getInstance().reportError("Unable to connect to " + getPairedDeviceName());
 			if(ESPLibraryLogController.LOG_WRITE_DEBUG){
 				Log.d("Valentine", e.toString());
 			}
 		} 
 		catch (java.lang.NoSuchMethodError e)
 		{
-			ValentineClient.getInstance().reportError("Unable to connect to " + m_pairedBluetoothDevice.getName());
+			ValentineClient.getInstance().reportError("Unable to connect to " + getPairedDeviceName());
 			if(ESPLibraryLogController.LOG_WRITE_DEBUG){
 				Log.d("Valentine", e.toString());
 			}
 		}
 		catch (Exception e)
 		{
-			ValentineClient.getInstance().reportError("Unable to connect to " + m_pairedBluetoothDevice.getName());
+			ValentineClient.getInstance().reportError("Unable to connect to " + getPairedDeviceName());
 			if(ESPLibraryLogController.LOG_WRITE_DEBUG){
 				Log.d("Valentine", e.toString());
 			}
@@ -454,24 +458,23 @@ public class ValentineESP
 	 *
 	 * @return - true if the connection was established, else false.
 	 */
+	@SuppressLint("MissingPermission") // Bluetooth calls are inside revocation-safe try/catch blocks
 	private boolean m_connectLE()
 	{
-		if (m_bta != null)
-		{
-			m_bta.cancelDiscovery();
-		}
-
-		// Make sure any previous connection is closed before proceeding
-		m_closeSocket(true);
-		m_closeLeConnection();
-
 		try
 		{
+			if (m_bta != null)
+				m_bta.cancelDiscovery();
+
+			// Make sure any previous connection is closed before proceeding
+			m_closeSocket(true);
+			m_closeLeConnection();
+
 			m_leConnection = new V1connectionLE(this);
 
 			if (!m_leConnection.connect(mBroadCastContext, m_pairedBluetoothDevice, LE_CONNECT_TIMEOUT_MS))
 			{
-				ValentineClient.getInstance().reportError("Unable to connect to " + m_pairedBluetoothDevice.getName() + " over BTLE");
+				ValentineClient.getInstance().reportError("Unable to connect to " + getPairedDeviceName() + " over BTLE");
 				m_closeLeConnection();
 				return false;
 			}
@@ -486,7 +489,7 @@ public class ValentineESP
 		}
 		catch (Exception e)
 		{
-			ValentineClient.getInstance().reportError("Unable to connect to " + m_pairedBluetoothDevice.getName() + " over BTLE");
+			ValentineClient.getInstance().reportError("Unable to connect to " + getPairedDeviceName() + " over BTLE");
 			if (ESPLibraryLogController.LOG_WRITE_DEBUG)
 			{
 				Log.d("Valentine", e.toString());
@@ -495,6 +498,25 @@ public class ValentineESP
 		}
 
 		return false;
+	}
+
+	@SuppressLint("MissingPermission") // returns a safe fallback if the runtime grant disappears
+	private String getPairedDeviceName()
+	{
+		if (m_pairedBluetoothDevice == null)
+			return "Bluetooth device";
+
+		try
+		{
+			String name = m_pairedBluetoothDevice.getName();
+			if (name == null || name.isEmpty())
+				name = m_pairedBluetoothDevice.getAddress();
+			return name == null || name.isEmpty() ? "Bluetooth device" : name;
+		}
+		catch (SecurityException e)
+		{
+			return "Bluetooth device";
+		}
 	}
 
 	/**
