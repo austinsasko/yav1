@@ -13,6 +13,9 @@ import android.widget.ListView;
 
 import com.glasslsoftware.yav1.events.AlertEvent;
 import com.glasslsoftware.yav1.events.InfoEvent;
+import com.glasslsoftware.yav1.ui.DirectionArrowView;
+import com.glasslsoftware.yav1.ui.DotMeterView;
+import com.glasslsoftware.yav1.ui.SegmentDisplayView;
 import com.glasslsoftware.yav1lib.YaV1Alert;
 import com.glasslsoftware.yav1lib.YaV1AlertList;
 import com.squareup.otto.Subscribe;
@@ -27,11 +30,11 @@ public class YaV1ScreenV1Fragment extends YaV1ScreenBaseAlertFragment
     private ImageView          mK;
     private ImageView          mX;
     private ImageView          mDot;
-    private ImageView          mBogey;
-    private ImageView          mSignal;
-    private ImageView          mFront;
-    private ImageView          mSide;
-    private ImageView          mRear;
+    private SegmentDisplayView mBogey;
+    private DotMeterView       mSignal;
+    private DirectionArrowView mFront;
+    private DirectionArrowView mSide;
+    private DirectionArrowView mRear;
 
     private YaV1V1ViewAdapter  mAlertAdapter;
     private AtomicBoolean      mStop = new AtomicBoolean(false);
@@ -199,13 +202,10 @@ public class YaV1ScreenV1Fragment extends YaV1ScreenBaseAlertFragment
             //mSignalDir[1] = YaV1CurrentView.sSignalDir[1];
             //mSignalDir[2] = YaV1CurrentView.sSignalDir[2];
 
-            // update the view and set the runSecond
-            mBogey.setImageResource(mBogeySrc[0].getImageNotDot());
-
-            // dot
-            mDot.setImageResource(mBogeySrc[0].getDot());
+            // update the view and set the runSecond (crisp 7-seg from the raw byte)
+            mBogey.setSegments(YaV1CurrentView.sBogey0);
             // strength
-            mSignal.setImageResource(mImageS[mStrength]);
+            mSignal.setCount(mStrength);
 
             adjustBand(0);
 
@@ -229,10 +229,8 @@ public class YaV1ScreenV1Fragment extends YaV1ScreenBaseAlertFragment
         public void run()
         {
             // update the view and set the runSecond
-            // update bogey
-            mBogey.setImageResource(mBogeySrc[1].getImageNotDot());
-            // dots
-            mDot.setImageResource(mBogeySrc[1].getDot());
+            // update bogey (blink state 1)
+            mBogey.setSegments(YaV1CurrentView.sBogey1);
             // update bands
             adjustBand(1);
             // update arrows
@@ -299,14 +297,24 @@ public class YaV1ScreenV1Fragment extends YaV1ScreenBaseAlertFragment
         mK      = (ImageView) mFragmentView.findViewById(R.id.band_k);
         mX      = (ImageView) mFragmentView.findViewById(R.id.band_x);
 
-        mBogey  = (ImageView) mFragmentView.findViewById(R.id.bogey);
+        mBogey  = (SegmentDisplayView) mFragmentView.findViewById(R.id.bogey);
         mDot    = (ImageView) mFragmentView.findViewById(R.id.bogey_dot);
-        mSignal = (ImageView) mFragmentView.findViewById(R.id.signal);
+        // the decimal dot is rendered inside SegmentDisplayView (segment bit 7)
+        if(mDot != null)
+            mDot.setVisibility(View.GONE);
+        mSignal = (DotMeterView) mFragmentView.findViewById(R.id.signal);
 
-        // arrows
-        mFront  = (ImageView) mFragmentView.findViewById(R.id.front);
-        mSide   = (ImageView) mFragmentView.findViewById(R.id.side);
-        mRear   = (ImageView) mFragmentView.findViewById(R.id.rear);
+        // arrows: fixed direction + colour matching the classic V1 display
+        // (front red, side green, rear yellow); strength drives the size.
+        mFront  = (DirectionArrowView) mFragmentView.findViewById(R.id.front);
+        mSide   = (DirectionArrowView) mFragmentView.findViewById(R.id.side);
+        mRear   = (DirectionArrowView) mFragmentView.findViewById(R.id.rear);
+        mFront.setDirection(DirectionArrowView.FRONT);
+        mFront.setColor(0xFFCC1200);
+        mSide.setDirection(DirectionArrowView.SIDE);
+        mSide.setColor(0xFF067012);
+        mRear.setDirection(DirectionArrowView.REAR);
+        mRear.setColor(0xFFFFE800);
     }
 
     // update the arrows
@@ -317,28 +325,28 @@ public class YaV1ScreenV1Fragment extends YaV1ScreenBaseAlertFragment
 
         if(mBandArrowIndicator[i].getFront())
             z = (mSignalDir[0] > 0 ? mSignalDir[0] : mStrength);
-        mFront.setImageResource(mFrontImg[z]);
+        mFront.setLevel(z);
 
         z = 0;
         if(mBandArrowIndicator[i].getSide())
             z = (mSignalDir[2] > 0 ? mSignalDir[2] : mStrength);
 
-        mSide.setImageResource(mSideImg[z]);
+        mSide.setLevel(z);
 
         z = 0;
         if(mBandArrowIndicator[i].getRear())
             z = (mSignalDir[1] > 0 ? mSignalDir[1] : mStrength);
 
-        mRear.setImageResource(mRearImg[z]);
+        mRear.setLevel(z);
     }
 
     // update the bands
 
     private void adjustBand(int i)
     {
-        mLaser.setImageResource(mBandArrowIndicator[i].getLaser() ? R.drawable.red_dot : R.drawable.no_dot);
-        mX.setImageResource(mBandArrowIndicator[i].getXBand() ? R.drawable.red_dot : R.drawable.no_dot);
-        mK.setImageResource(mBandArrowIndicator[i].getKBand() ? R.drawable.red_dot : R.drawable.no_dot);
-        mKa.setImageResource(mBandArrowIndicator[i].getKaBand() ? R.drawable.red_dot : R.drawable.no_dot);
+        mLaser.setImageResource(mBandArrowIndicator[i].getLaser() ? R.drawable.ic_band_dot_on : R.drawable.ic_band_dot_off);
+        mX.setImageResource(mBandArrowIndicator[i].getXBand() ? R.drawable.ic_band_dot_on : R.drawable.ic_band_dot_off);
+        mK.setImageResource(mBandArrowIndicator[i].getKBand() ? R.drawable.ic_band_dot_on : R.drawable.ic_band_dot_off);
+        mKa.setImageResource(mBandArrowIndicator[i].getKaBand() ? R.drawable.ic_band_dot_on : R.drawable.ic_band_dot_off);
     }
 }

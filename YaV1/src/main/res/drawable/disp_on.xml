@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- V1 display ON: lit screen (band-ku) with a stand. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="28dp" android:height="28dp"
+    android:viewportWidth="24" android:viewportHeight="24">
+    <path android:fillColor="#5AC8FA"
+        android:pathData="M3,4h18v13H3z" />
+    <path android:fillColor="#5AC8FA"
+        android:pathData="M9,18h6v2H9z" />
+</vector>

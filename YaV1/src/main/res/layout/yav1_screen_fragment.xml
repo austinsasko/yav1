@@ -8,7 +8,7 @@
     android:gravity="top"
     android:id="@+id/alert_container"
     android:longClickable="true"
-    android:background="@android:color/black">
+    android:background="@color/ground">
     <ListView
         android:id="@+id/alertList"
         android:layout_width="match_parent"
@@ -26,6 +26,11 @@
         android:focusableInTouchMode="false"
         android:longClickable="false"
         android:background="@android:color/transparent"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:paddingTop="@dimen/space_s"
+        android:paddingBottom="@dimen/space_s"
+        android:clipToPadding="false"
         android:layout_alignParentEnd="false"
         android:choiceMode="none">
     </ListView>

@@ -3,24 +3,85 @@
    - License, v. 2.0. If a copy of the MPL was not distributed with this
    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:background="@color/ground">
 
-    <ListView
-        android:id="@android:id/list"
+    <!-- Inline guidance card (replaces the old blocking Warning dialog) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/bg_alert_card"
+        android:layout_margin="@dimen/space_l"
+        android:padding="@dimen/space_l">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/picker_title"
+            android:textColor="@color/ink"
+            android:textStyle="bold"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_s"
+            android:text="@string/picker_guidance"
+            android:textColor="@color/ink2"
+            android:textSize="14sp"
+            android:lineSpacingMultiplier="1.15" />
+    </LinearLayout>
+
+    <!-- Device list + empty state -->
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:choiceMode="singleChoice"
-        android:clickable="false"
-        android:divider="#4939ff"
-        android:dividerHeight="2dp"/>
+        android:layout_weight="1">
+
+        <ListView
+            android:id="@android:id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:choiceMode="singleChoice"
+            android:clickable="false"
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            android:paddingLeft="@dimen/space_l"
+            android:paddingRight="@dimen/space_l"
+            android:clipToPadding="false" />
+
+        <TextView
+            android:id="@android:id/empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:padding="@dimen/space_xl"
+            android:text="@string/picker_empty"
+            android:textColor="@color/ink2"
+            android:textSize="15sp"
+            android:lineSpacingMultiplier="1.2" />
+    </FrameLayout>
+
+    <!-- Scan progress (visible only while scanning) -->
+    <TextView
+        android:id="@+id/scan_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:gravity="center"
+        android:padding="@dimen/space_s"
+        android:text="@string/picker_scanning"
+        android:textColor="@color/band_ku"
+        android:textSize="13sp" />
 
     <Button
         android:id="@+id/scan_le_button"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/tap_min"
+        android:layout_margin="@dimen/space_l"
+        android:textColor="@color/ink"
         android:text="@string/bt_scan_le"/>
 </LinearLayout>

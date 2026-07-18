@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.ParcelUuid;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -62,6 +63,8 @@ public class ListPairedBTActivity extends ListActivity
         super.onCreate(savedInstanceState);
         // we show our view
         setContentView(R.layout.listpairbt_activity);
+
+        m_searchingBar = (TextView) findViewById(R.id.scan_status);
 
         m_scanLeButton = (Button) findViewById(R.id.scan_le_button);
         m_scanLeButton.setOnClickListener(new View.OnClickListener()
@@ -208,13 +211,12 @@ public class ListPairedBTActivity extends ListActivity
             }
         }
 
-        m_pairedAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, m_deviceNameList);
+        m_pairedAdapter = new DeviceAdapter();
 
         // set the list
         setListAdapter(m_pairedAdapter);
-        // always warn user that the list show only the paired devices
-        if(warn)
-            mShowMessage(getString(R.string.device_must_be_paired), getString(R.string.warning));
+        // The pairing guidance now lives inline in the layout (guidance card +
+        // empty state), so we no longer show a blocking dialog on entry.
         return true;
     }
 
@@ -288,6 +290,8 @@ public class ListPairedBTActivity extends ListActivity
 
         m_leScanning = true;
         m_scanLeButton.setText(R.string.bt_scanning_le);
+        if (m_searchingBar != null)
+            m_searchingBar.setVisibility(View.VISIBLE);
 
         m_handler.postDelayed(new Runnable()
         {
@@ -317,6 +321,8 @@ public class ListPairedBTActivity extends ListActivity
         m_leScanning = false;
         if (m_scanLeButton != null)
             m_scanLeButton.setText(R.string.bt_scan_le);
+        if (m_searchingBar != null)
+            m_searchingBar.setVisibility(View.GONE);
     }
 
     private void addLeDevice(BluetoothDevice device)
@@ -373,5 +379,48 @@ public class ListPairedBTActivity extends ListActivity
                         .show();
             }
         });
+    }
+
+    /** Device rows with a transport badge (LE / GEN2 / SPP), colour-coded. */
+    private class DeviceAdapter extends ArrayAdapter<String>
+    {
+        DeviceAdapter()
+        {
+            super(ListPairedBTActivity.this, R.layout.device_row, R.id.device_name, m_deviceNameList);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent)
+        {
+            View row = super.getView(position, convertView, parent);
+
+            TextView name  = (TextView) row.findViewById(R.id.device_name);
+            TextView sub   = (TextView) row.findViewById(R.id.device_sub);
+            TextView badge = (TextView) row.findViewById(R.id.device_badge);
+            View     accent = row.findViewById(R.id.device_accent);
+
+            String label = m_deviceNameList.get(position);
+            int    type  = m_connectionTypeList.get(position).intValue();
+            boolean le   = (type == ValentineESP.CONNECTION_LE);
+            boolean gen2 = label.toLowerCase().contains("gen2");
+
+            // the badge carries the transport; strip the " LE" suffix from the name
+            String suffix = " " + getString(R.string.bt_le_suffix);
+            if(label.endsWith(suffix))
+                name.setText(label.substring(0, label.length() - suffix.length()));
+
+            int badgeStr, colorRes, subStr;
+            if(gen2)     { badgeStr = R.string.badge_gen2; colorRes = R.color.status_good;  subStr = R.string.device_sub_gen2; }
+            else if(le)  { badgeStr = R.string.badge_le;   colorRes = R.color.band_ku;      subStr = R.string.device_sub_le; }
+            else         { badgeStr = R.string.badge_spp;  colorRes = R.color.state_locked; subStr = R.string.device_sub_spp; }
+
+            int c = getResources().getColor(colorRes);
+            badge.setText(badgeStr);
+            badge.setTextColor(c);
+            accent.setBackgroundColor(c);
+            sub.setText(subStr);
+            sub.setVisibility(View.VISIBLE);
+            return row;
+        }
     }
 }

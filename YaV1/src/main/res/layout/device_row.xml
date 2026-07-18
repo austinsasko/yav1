@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Paired / scanned device card. The picker's adapter sets the transport badge
+     (LE / GEN2 / SPP), the accent colour and an optional sub-line per device. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/space_s">
+
+    <LinearLayout
+        android:id="@+id/device_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="64dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/bg_alert_card"
+        android:paddingTop="@dimen/space_s"
+        android:paddingBottom="@dimen/space_s"
+        android:paddingLeft="@dimen/alert_card_pad"
+        android:paddingRight="@dimen/alert_card_pad">
+
+        <View
+            android:id="@+id/device_accent"
+            android:layout_width="4dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="@dimen/space_m"
+            android:background="@color/band_ku" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/device_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/ink"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/device_sub"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:textColor="@color/ink2"
+                android:visibility="gone"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/device_badge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/space_s"
+            android:minWidth="44dp"
+            android:gravity="center"
+            android:background="@drawable/bg_state_pill"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:fontFamily="monospace"
+            android:textAllCaps="true"
+            android:textSize="11sp"
+            android:letterSpacing="0.08"
+            android:textColor="@color/band_ku"
+            android:text="@string/badge_le" />
+    </LinearLayout>
+</FrameLayout>
