@@ -224,7 +224,10 @@ public class CrowdMonitor
                           + (ageMin >= 0 ? " · " + ageMin + " min ago" : "")
                           + (alert.thumbsUp > 0 ? " · +" + alert.thumbsUp : "");
 
-            Announcer.announce(mContext, "Police reported ahead", banner, styleFromPref());
+            String spoken = "hidden".equals(alert.detail)
+                          ? "Hidden police reported ahead" : "Police reported ahead";
+
+            Announcer.announce(mContext, spoken, banner, styleFromPref());
         }
 
         // a report that expired can announce again if it returns

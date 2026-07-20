@@ -21,9 +21,17 @@ public class CrowdAlert
     public final int    thumbsUp;
     /** "waze" or "yav1" */
     public final String source;
+    /** short qualifier from the source subtype ("visible"/"hidden"); null if none */
+    public final String detail;
 
     public CrowdAlert(String id, int kind, double lat, double lon,
                       long reportedAtMs, int thumbsUp, String source)
+    {
+        this(id, kind, lat, lon, reportedAtMs, thumbsUp, source, null);
+    }
+
+    public CrowdAlert(String id, int kind, double lat, double lon,
+                      long reportedAtMs, int thumbsUp, String source, String detail)
     {
         this.id           = id;
         this.kind         = kind;
@@ -32,15 +40,31 @@ public class CrowdAlert
         this.reportedAtMs = reportedAtMs;
         this.thumbsUp     = thumbsUp;
         this.source       = source;
+        this.detail       = detail;
     }
 
     public String kindText()
     {
+        String base;
         switch(kind)
         {
-            case KIND_POLICE:   return "Police reported";
-            case KIND_ACCIDENT: return "Crash reported";
-            default:            return "Hazard reported";
+            case KIND_POLICE:   base = "Police reported"; break;
+            case KIND_ACCIDENT: base = "Crash reported";  break;
+            default:            base = "Hazard reported";  break;
         }
+        return detail != null ? base + " (" + detail + ")" : base;
+    }
+
+    /** Map a Waze subtype to a short qualifier; only police carry a useful one. */
+    public static String detailFor(int kind, String subtype)
+    {
+        if(kind != KIND_POLICE || subtype == null)
+            return null;
+        String s = subtype.toUpperCase();
+        if(s.contains("HIDING") || s.contains("HIDDEN"))
+            return "hidden";
+        if(s.contains("VISIBLE"))
+            return "visible";
+        return null;
     }
 }

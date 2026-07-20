@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.car.app.AppManager;
 import androidx.car.app.CarContext;
+import androidx.car.app.CarToast;
 import androidx.car.app.Screen;
 import androidx.car.app.model.Action;
 import androidx.car.app.model.ActionStrip;
@@ -18,6 +19,8 @@ import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.glasslsoftware.yav1.R;
+import com.glasslsoftware.yav1.YaV1;
+import com.glasslsoftware.yav1.crowd.CrowdMonitor;
 
 /**
  * The single car screen: a NavigationTemplate whose background surface is
@@ -114,9 +117,46 @@ public final class V1AlertScreen extends Screen implements DefaultLifecycleObser
                 })
                 .build();
 
+        ActionStrip.Builder strip = new ActionStrip.Builder().addAction(muteAction);
+
+        // "Report police here" — only offered when a crowd relay is configured,
+        // since the report is posted to the user's self-hosted relay. Tapping
+        // is a one-shot anonymous {police, rounded location} report, mirroring
+        // the phone board's report button and the iOS relay button.
+        if(isCrowdReportingAvailable())
+            strip.addAction(reportPoliceAction());
+
         return new NavigationTemplate.Builder()
-                .setActionStrip(new ActionStrip.Builder().addAction(muteAction).build())
+                .setActionStrip(strip.build())
                 .setBackgroundColor(CarColor.SECONDARY)
+                .build();
+    }
+
+    private boolean isCrowdReportingAvailable()
+    {
+        return CrowdMonitor.getInstance() != null
+                && YaV1.sPrefs != null
+                && !YaV1.sPrefs.getString("csa_relay_url", "").trim().isEmpty();
+    }
+
+    private Action reportPoliceAction()
+    {
+        return new Action.Builder()
+                .setIcon(new CarIcon.Builder(IconCompat.createWithResource(
+                        getCarContext(), R.drawable.ic_hdr_pin)).build())
+                .setTitle("Report")
+                .setOnClickListener(new OnClickListener()
+                {
+                    @Override
+                    public void onClick()
+                    {
+                        CrowdMonitor monitor = CrowdMonitor.getInstance();
+                        if(monitor != null)
+                            monitor.reportPoliceHere();
+                        CarToast.makeText(getCarContext(), "Police report sent",
+                                          CarToast.LENGTH_SHORT).show();
+                    }
+                })
                 .build();
     }
 }

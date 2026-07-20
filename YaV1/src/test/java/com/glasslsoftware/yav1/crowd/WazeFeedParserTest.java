@@ -48,6 +48,29 @@ public class WazeFeedParserTest
     }
 
     @Test
+    public void parsesPoliceSubtypeDetail()
+    {
+        String json = "{\"alerts\":["
+            + "{\"uuid\":\"vis\",\"type\":\"POLICE\",\"subtype\":\"POLICE_VISIBLE\","
+            + "\"location\":{\"x\":-1,\"y\":1}},"
+            + "{\"uuid\":\"hid\",\"type\":\"POLICE\",\"subtype\":\"POLICE_HIDING\","
+            + "\"location\":{\"x\":-1,\"y\":1}},"
+            + "{\"uuid\":\"bare\",\"type\":\"POLICE\",\"location\":{\"x\":-1,\"y\":1}},"
+            + "{\"uuid\":\"crash\",\"type\":\"ACCIDENT\",\"subtype\":\"ACCIDENT_MAJOR\","
+            + "\"location\":{\"x\":-1,\"y\":1}}"
+            + "]}";
+
+        List<CrowdAlert> alerts = WazeFeedParser.parse(json);
+
+        assertEquals(4, alerts.size());
+        assertEquals("visible", alerts.get(0).detail);
+        assertEquals("hidden", alerts.get(1).detail);
+        assertEquals(null, alerts.get(2).detail);
+        assertEquals(null, alerts.get(3).detail); // non-police subtype not surfaced
+        assertEquals("Police reported (hidden)", alerts.get(1).kindText());
+    }
+
+    @Test
     public void pruneDropsStaleAndDuplicateReports()
     {
         long now = System.currentTimeMillis();

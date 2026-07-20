@@ -57,12 +57,15 @@ public class WazeFeedParser
                 else
                     continue;
 
+                String subtype = item.has("subtype") ? item.optString("subtype", null) : null;
+
                 result.add(new CrowdAlert(uuid, kind,
                                           location.optDouble("y", 0),
                                           location.optDouble("x", 0),
                                           item.optLong("pubMillis", 0),
                                           item.optInt("nThumbsUp", 0),
-                                          "waze"));
+                                          "waze",
+                                          CrowdAlert.detailFor(kind, subtype)));
             }
         }
         catch(Exception e)
