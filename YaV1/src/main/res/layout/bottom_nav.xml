@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Bottom navigation for the drive surfaces (V1 / ALERT / TOOLS). Replaces the
+     deprecated ActionBar NAVIGATION_MODE_TABS. Selection is a 3dp top indicator
+     + band-ku label; wired to the ViewPager in YaV1ScreenActivity. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bottom_nav"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/bottom_nav_height"
+    android:orientation="horizontal"
+    android:background="@drawable/bg_mute_bar">
+
+    <LinearLayout
+        android:id="@+id/nav_v1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?android:attr/selectableItemBackground">
+        <View
+            android:id="@+id/nav_v1_ind"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@color/band_ku"
+            android:visibility="invisible" />
+        <TextView
+            android:id="@+id/nav_v1_label"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/alert_run_v1_view"
+            android:textColor="@color/ink2"
+            android:textStyle="bold"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/nav_alert"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?android:attr/selectableItemBackground">
+        <View
+            android:id="@+id/nav_alert_ind"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@color/band_ku"
+            android:visibility="invisible" />
+        <TextView
+            android:id="@+id/nav_alert_label"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/alert_run_v1_alert_view"
+            android:textColor="@color/ink2"
+            android:textStyle="bold"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/nav_tools"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?android:attr/selectableItemBackground">
+        <View
+            android:id="@+id/nav_tools_ind"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@color/band_ku"
+            android:visibility="invisible" />
+        <TextView
+            android:id="@+id/nav_tools_label"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/alert_run_tool_view"
+            android:textColor="@color/ink2"
+            android:textStyle="bold"
+            android:textSize="14sp" />
+    </LinearLayout>
+</LinearLayout>

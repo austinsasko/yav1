@@ -66,9 +66,9 @@ public class YaV1SweepSetAdapter extends BaseAdapter
 
         TextView  tvName = (TextView) convertView.findViewById(R.id.sweep_name);
         // get the button
-        ImageButton    btnEdit = (ImageButton) convertView.findViewById(R.id.edit);
-        ImageButton    btnDel  = (ImageButton) convertView.findViewById(R.id.delete);
-        ImageButton    btnPush = (ImageButton) convertView.findViewById(R.id.push);
+        Button    btnEdit = (Button) convertView.findViewById(R.id.edit);
+        Button    btnDel  = (Button) convertView.findViewById(R.id.delete);
+        Button    btnPush = (Button) convertView.findViewById(R.id.push);
 
         try
         {
@@ -104,15 +104,28 @@ public class YaV1SweepSetAdapter extends BaseAdapter
                     isLast = true;
             }
 
-            // we can set the color if empty / current / lastKnown
+            // tint the card + tag by state (current / last / empty)
+            View     card = convertView.findViewById(R.id.row_card);
+            TextView tag  = (TextView) convertView.findViewById(R.id.row_tag);
+            tag.setVisibility(View.GONE);
             if(isCurrent)
-                convertView.setBackgroundColor(Color.parseColor("#3776ff"));
-            else if (isLast)
-                convertView.setBackgroundColor(Color.parseColor("#40570d"));
+            {
+                card.setBackgroundResource(R.drawable.bg_set_current);
+                tag.setText(R.string.set_tag_active);
+                tag.setTextColor(context.getResources().getColor(R.color.band_ku));
+                tag.setVisibility(View.VISIBLE);
+            }
+            else if(isLast)
+            {
+                card.setBackgroundResource(R.drawable.bg_set_last);
+                tag.setText(R.string.set_tag_last);
+                tag.setTextColor(context.getResources().getColor(R.color.status_good));
+                tag.setVisibility(View.VISIBLE);
+            }
             else if(isEmpty)
-                convertView.setBackgroundColor(Color.parseColor("#ff9b32"));
+                card.setBackgroundResource(R.drawable.bg_set_empty);
             else
-                convertView.setBackgroundColor(YaV1SweepSetActivity.DEFAULT_COLOR);
+                card.setBackgroundResource(R.drawable.bg_alert_card);
 
             Log.d("Valentine", "Sweep Id:" + sweep.getId() + " Empty " + isEmpty + " Last " + isLast + " Current" + isCurrent + " Default: " + isDefault);
 

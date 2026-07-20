@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Application theme; the app was designed against the dark Holo look -->
+    <!-- ============================================================
+         Refined dark theme.
+
+         DECISION (AppCompat/Material3 vs. Holo): keep android:Theme.Holo.
+         Every activity extends the framework Activity/PreferenceActivity (not
+         AppCompatActivity), and the bundled AmbilWarna colour picker and
+         aFileDialog chooser are themed against Holo. Migrating to
+         AppCompat+Material3 would mean re-basing every activity and re-theming
+         those third-party dialogs - out of proportion and risky. The redesign's
+         crispness comes from vector custom views + the band-colour palette +
+         spacing discipline, not from Material widgets. So we refine Holo-dark
+         from the design tokens instead.
+         ============================================================ -->
     <style name="YaV1AppTheme" parent="android:Theme.Holo">
+        <item name="android:windowBackground">@color/ground</item>
+        <item name="android:colorBackground">@color/ground</item>
     </style>
 </resources>

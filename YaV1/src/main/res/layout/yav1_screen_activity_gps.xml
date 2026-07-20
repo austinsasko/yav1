@@ -1,69 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/black">
-    <RelativeLayout
+    android:orientation="vertical"
+    android:background="@color/ground">
+    <include android:id="@+id/status_strip"
+        layout="@layout/status_strip"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content" />
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/ground">
+
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/pager"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_above="@+id/none">
-        </androidx.viewpager.widget.ViewPager>
-        <TextView
-            android:id="@+id/none"
-            android:layout_width="fill_parent"
-            android:layout_height="2dp"
-            android:height="2dp"
-            android:background="#31c5ff"
-            android:layout_above="@+id/gps_fragment" />
-        <fragment
-            android:id="@+id/gps_fragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            class="com.glasslsoftware.yav1.YaV1GpsFragment"
-            tools:layout="@layout/yav1_gps_fragment"
-            android:layout_alignParentBottom="true">
-        </fragment>
-    </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="fill_parent"
+            android:layout_height="match_parent">
+        </androidx.viewpager.widget.ViewPager>
+
+        <!-- Full-width mute bar (floats at the bottom of the content area) -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/mute_bar_height"
+            android:id="@+id/v1_name"
+            android:visibility="gone"
+            android:background="@drawable/bg_mute_bar"
+            android:layout_gravity="bottom">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/setting_name"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/space_l"
+                android:layout_toLeftOf="@+id/mute_label"
+                android:background="@android:color/transparent"
+                android:textColor="@color/ink2"
+                android:textSize="13sp"
+                android:maxLines="2"
+                android:ellipsize="end" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/mute_label"
+                android:layout_toLeftOf="@+id/mute_button"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/space_m"
+                android:textColor="@color/status_good"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:text="@string/mute_available" />
+            <ImageButton
+                android:layout_width="64dp"
+                android:layout_height="56dp"
+                android:id="@+id/mute_button"
+                android:src="@drawable/mute_off"
+                android:scaleType="center"
+                android:background="@drawable/bg_mute_button"
+                android:onClick="clickCtrl"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/space_l"
+                android:contentDescription="@string/cd_mute" />
+        </RelativeLayout>
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/none"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/band_ku" />
+
+    <fragment
+        android:id="@+id/gps_fragment"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/v1_name"
-        android:visibility="gone"
-        android:gravity="center_vertical|center_horizontal|bottom"
-        android:orientation="horizontal"
-        android:background="@android:color/black"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="60dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/setting_name"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_gravity="center"
-            android:background="@android:color/transparent"
-            android:textColor="#f0ff0d"
-            android:gravity="right"
-            android:visibility="visible"
-            android:layout_alignParentTop="false"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true" />
-        <ImageButton
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/mute_button"
-            android:src="@drawable/mute_off"
-            android:visibility="visible"
-            android:layout_gravity="center"
-            android:background="@drawable/round_corner"
-            android:onClick="clickCtrl"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/setting_name"
-            android:layout_centerVertical="true" />
-    </RelativeLayout>
-</FrameLayout>
+        class="com.glasslsoftware.yav1.YaV1GpsFragment"
+        tools:layout="@layout/yav1_gps_fragment" />
+
+    <include layout="@layout/bottom_nav" />
+</LinearLayout>

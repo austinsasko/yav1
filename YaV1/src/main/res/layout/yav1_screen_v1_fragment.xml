@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- V1 replica display, framed as one instrument panel. Composition + blink
+     handler + custom views are unchanged; only the panel framing is added. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/ground"
+    android:padding="@dimen/space_m">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_alert_card"
+    android:padding="@dimen/space_l"
     android:clickable="false"
     android:focusable="false">
     <RelativeLayout
@@ -24,10 +33,9 @@
                 android:gravity="bottom"
                 android:layout_marginTop="3dp"
                 android:paddingBottom="3dp">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/bogey_3l"
+                <com.glasslsoftware.yav1.ui.SegmentDisplayView
+                    android:layout_width="72dp"
+                    android:layout_height="104dp"
                     android:id="@+id/bogey"
                     android:layout_marginLeft="10dp"/>
                 <ImageView
@@ -40,10 +48,9 @@
                     android:layout_toRightOf="@+id/bogey"
                     android:layout_alignParentBottom="false" />
             </RelativeLayout>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ss_8"
+            <com.glasslsoftware.yav1.ui.DotMeterView
+                android:layout_width="128dp"
+                android:layout_height="20dp"
                 android:id="@+id/signal"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="15dp"
@@ -188,27 +195,22 @@
             android:layout_toRightOf="@+id/freq_cont"
             android:layout_marginRight="30dp"
             android:layout_marginTop="30dp">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/front_4"
-                android:scaleType="fitXY"
+            <com.glasslsoftware.yav1.ui.DirectionArrowView
+                android:layout_width="84dp"
+                android:layout_height="64dp"
                 android:id="@+id/front"
-                />
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:scaleType="fitXY"
-                android:src="@drawable/side_4"
+                android:contentDescription="@string/cd_threat_direction" />
+            <com.glasslsoftware.yav1.ui.DirectionArrowView
+                android:layout_width="84dp"
+                android:layout_height="44dp"
                 android:id="@+id/side"
                 android:layout_below="@+id/front" />
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:scaleType="fitXY"
-                android:src="@drawable/rear_4"
+            <com.glasslsoftware.yav1.ui.DirectionArrowView
+                android:layout_width="84dp"
+                android:layout_height="60dp"
                 android:id="@+id/rear"
                 android:layout_below="@+id/side" />
         </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>
+</FrameLayout>

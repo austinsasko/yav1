@@ -35,9 +35,9 @@
             android:text="FALSE"
             android:id="@+id/alert_false"
             android:layout_weight="40"
-            android:textColor="#294eff"
+            android:textColor="@color/ink"
             android:textStyle="bold"
-            android:background="@drawable/btn_default_normal_lblue" />
+            android:background="@drawable/bg_tool_button" />
 
         <Button
             android:layout_width="0dp"
@@ -45,11 +45,11 @@
             android:text="TRUE"
             android:id="@+id/alert_true"
             android:layout_weight="40"
-            android:textColor="#294eff"
+            android:textColor="@color/ink"
             android:textStyle="bold"
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp"
-            android:background="@drawable/btn_default_normal_yellow" />
+            android:background="@drawable/bg_tool_button" />
 
         <Button
             android:layout_width="0dp"
@@ -57,9 +57,9 @@
             android:text="IO"
             android:id="@+id/alert_io"
             android:layout_weight="20"
-            android:textColor="#294eff"
+            android:textColor="@color/ink"
             android:textStyle="bold"
-            android:background="@drawable/btn_default_normal_yellow" />
+            android:background="@drawable/bg_tool_button" />
 
     </LinearLayout>
 
@@ -79,9 +79,9 @@
             android:text="MOVING"
             android:id="@+id/alert_moving"
             android:layout_weight="50"
-            android:textColor="#294eff"
+            android:textColor="@color/ink"
             android:textStyle="bold"
-            android:background="@drawable/btn_default_normal_lblue" />
+            android:background="@drawable/bg_tool_button" />
 
         <Button
             android:layout_width="0dp"
@@ -89,9 +89,9 @@
             android:text="STATIC"
             android:id="@+id/alert_static"
             android:layout_weight="50"
-            android:textColor="#294eff"
+            android:textColor="@color/ink"
             android:textStyle="bold"
-            android:background="@drawable/btn_default_normal_yellow" />
+            android:background="@drawable/bg_tool_button" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"

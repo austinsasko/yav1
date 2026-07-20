@@ -1,5 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Legacy colors kept for backwards references -->
     <color name="red">#ffff0000</color>
     <color name="black">#000</color>
+
+    <!-- ============================================================
+         YaV1 redesign design tokens (dark-first).
+         The radar-band palette IS the semantic system: COLOR = band.
+         NEVER apply Material dynamic color to these - they carry meaning.
+         ============================================================ -->
+
+    <!-- Radar band colors -->
+    <color name="band_ka">#FF453A</color>
+    <color name="band_k">#FF9F0A</color>
+    <color name="band_x">#FFD60A</color>
+    <color name="band_ku">#5AC8FA</color>
+    <color name="band_laser">#FF2D55</color>
+
+    <!-- Locked / muted (grey - recedes) -->
+    <color name="state_locked">#6B6560</color>
+    <color name="state_muted">#6B6560</color>
+
+    <!-- Semantic status (kept separate from band colors) -->
+    <color name="status_good">#30D158</color>
+    <color name="status_warn">#FF9F0A</color>
+    <color name="status_critical">#FF453A</color>
+
+    <!-- Surfaces -->
+    <color name="ground">#141210</color>
+    <color name="panel">#1E1B17</color>
+    <color name="panel_high">#2A2620</color>
+    <color name="line">#342F28</color>
+
+    <!-- Ink -->
+    <color name="ink">#ECE7DF</color>
+    <color name="ink2">#9D958A</color>
+    <color name="ink_on_band">#141210</color>
+
+    <!-- Translucent scrims for overlays -->
+    <color name="scrim">#B3000000</color>
 </resources>

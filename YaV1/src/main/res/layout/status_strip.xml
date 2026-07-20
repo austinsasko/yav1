@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Persistent drive status strip: bogey · connection · mode · speed.
+     Populated + shown/hidden by YaV1ScreenActivity (hidden on TOOLS). -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/status_strip_height"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:background="@drawable/bg_status_strip"
+    android:paddingLeft="@dimen/space_m"
+    android:paddingRight="@dimen/space_m">
+
+    <com.glasslsoftware.yav1.ui.SegmentDisplayView
+        android:id="@+id/strip_bogey"
+        android:layout_width="26dp"
+        android:layout_height="32dp"
+        android:contentDescription="@string/cd_bogey" />
+
+    <View
+        android:id="@+id/strip_conn_dot"
+        android:layout_width="@dimen/chip_dot"
+        android:layout_height="@dimen/chip_dot"
+        android:layout_marginLeft="@dimen/space_m"
+        android:background="@drawable/bg_dot"
+        android:backgroundTint="@color/status_good" />
+
+    <TextView
+        android:id="@+id/strip_conn_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="6dp"
+        android:fontFamily="monospace"
+        android:textSize="12sp"
+        android:textColor="@color/ink"
+        android:text="@string/strip_nolink" />
+
+    <TextView
+        android:id="@+id/strip_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/space_m"
+        android:fontFamily="monospace"
+        android:textAllCaps="true"
+        android:textSize="12sp"
+        android:letterSpacing="0.04"
+        android:textColor="@color/ink2"
+        android:text="" />
+
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/strip_speed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="monospace"
+        android:textSize="13sp"
+        android:textColor="@color/ink"
+        android:visibility="gone"
+        android:text="" />
+</LinearLayout>

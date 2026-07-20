@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ============================================================
+         YaV1 redesign spacing / sizing tokens.
+         Screens reference these, not literals.
+         ============================================================ -->
+
+    <!-- Spacing scale (4dp base) -->
+    <dimen name="space_xs">4dp</dimen>
+    <dimen name="space_s">8dp</dimen>
+    <dimen name="space_m">12dp</dimen>
+    <dimen name="space_l">16dp</dimen>
+    <dimen name="space_xl">24dp</dimen>
+
+    <!-- Corner radii -->
+    <dimen name="radius_card">10dp</dimen>
+    <dimen name="radius_chip">14dp</dimen>
+
+    <!-- Minimum tap target -->
+    <dimen name="tap_min">48dp</dimen>
+
+    <!-- Drive surface -->
+    <dimen name="status_strip_height">44dp</dimen>
+    <dimen name="mute_bar_height">72dp</dimen>
+    <dimen name="bottom_nav_height">56dp</dimen>
+
+    <!-- Alert cards -->
+    <dimen name="alert_card_margin_h">12dp</dimen>
+    <dimen name="alert_card_margin_v">4dp</dimen>
+    <dimen name="alert_card_pad">12dp</dimen>
+    <dimen name="alert_hero_min_height">96dp</dimen>
+    <dimen name="alert_standard_min_height">64dp</dimen>
+    <dimen name="alert_locked_min_height">48dp</dimen>
+
+    <!-- Band letter type -->
+    <dimen name="band_letter_hero">40sp</dimen>
+    <dimen name="band_letter_standard">26sp</dimen>
+    <dimen name="freq_hero">30sp</dimen>
+    <dimen name="freq_standard">20sp</dimen>
+
+    <!-- Signal bar view -->
+    <dimen name="signal_bar_width">140dp</dimen>
+    <dimen name="signal_bar_height">28dp</dimen>
+    <dimen name="signal_bar_height_hero">36dp</dimen>
+
+    <!-- Direction arrow view -->
+    <dimen name="arrow_size">32dp</dimen>
+    <dimen name="arrow_size_hero">44dp</dimen>
+
+    <!-- Chip -->
+    <dimen name="chip_height">28dp</dimen>
+    <dimen name="chip_dot">8dp</dimen>
+</resources>

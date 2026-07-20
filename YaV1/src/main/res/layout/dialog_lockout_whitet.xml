@@ -3,7 +3,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/black">
+    android:background="@color/ground">
 
     <TextView
         android:layout_width="match_parent"
@@ -22,9 +22,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/lockout"
-        android:background="@drawable/btn_default_normal_lblue"
+        android:background="@drawable/bg_tool_button"
         android:layout_below="@+id/title"
-        android:textColor="#000000"
+        android:textColor="@color/ink"
         android:text="@string/lockout"
         android:clickable="true" />
 
@@ -32,9 +32,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/white"
-        android:background="@drawable/btn_default_normal_yellow"
+        android:background="@drawable/bg_tool_button"
         android:layout_below="@+id/lockout"
-        android:textColor="#000000"
+        android:textColor="@color/ink"
         android:text="@string/white"
         android:layout_marginTop="20dp"
         android:clickable="true" />

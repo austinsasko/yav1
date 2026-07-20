@@ -35,7 +35,7 @@
             android:textColor="#ff0000"
             android:clickable="false"
             android:layout_weight="45"
-            android:background="@drawable/btn_default_normal_lblue"/>
+            android:background="@drawable/bg_tool_button"/>
 
         <Button
             android:layout_width="wrap_content"
@@ -45,7 +45,7 @@
             android:textColor="#ff0000"
             android:clickable="false"
             android:layout_weight="45"
-            android:background="@drawable/btn_default_normal_yellow"/>
+            android:background="@drawable/bg_tool_button"/>
     </LinearLayout>
 
 </RelativeLayout>

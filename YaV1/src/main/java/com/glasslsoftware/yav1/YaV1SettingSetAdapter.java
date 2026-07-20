@@ -66,9 +66,9 @@ public class YaV1SettingSetAdapter extends BaseAdapter
 
         TextView  tvName = (TextView) convertView.findViewById(R.id.setting_name);
         // get the button
-        ImageButton    btnEdit = (ImageButton) convertView.findViewById(R.id.edit);
-        ImageButton    btnDel  = (ImageButton) convertView.findViewById(R.id.delete);
-        ImageButton    btnPush = (ImageButton) convertView.findViewById(R.id.push);
+        Button    btnEdit = (Button) convertView.findViewById(R.id.edit);
+        Button    btnDel  = (Button) convertView.findViewById(R.id.delete);
+        Button    btnPush = (Button) convertView.findViewById(R.id.push);
 
         try
         {
@@ -95,13 +95,28 @@ public class YaV1SettingSetAdapter extends BaseAdapter
                     isLast = true;
             }
 
-            // we can set the color if empty / current / lastKnown
+            // tint the card + tag by state (current / last-used)
+            View     card = convertView.findViewById(R.id.row_card);
+            TextView tag  = (TextView) convertView.findViewById(R.id.row_tag);
             if(isCurrent)
-                convertView.setBackgroundColor(Color.parseColor("#3776ff"));
-            else if (isLast)
-                convertView.setBackgroundColor(Color.parseColor("#40570d"));
+            {
+                card.setBackgroundResource(R.drawable.bg_set_current);
+                tag.setText(R.string.set_tag_active);
+                tag.setTextColor(context.getResources().getColor(R.color.band_ku));
+                tag.setVisibility(View.VISIBLE);
+            }
+            else if(isLast)
+            {
+                card.setBackgroundResource(R.drawable.bg_set_last);
+                tag.setText(R.string.set_tag_last);
+                tag.setTextColor(context.getResources().getColor(R.color.status_good));
+                tag.setVisibility(View.VISIBLE);
+            }
             else
-                convertView.setBackgroundColor(YaV1SweepSetActivity.DEFAULT_COLOR);
+            {
+                card.setBackgroundResource(R.drawable.bg_alert_card);
+                tag.setVisibility(View.GONE);
+            }
 
             // we can't edit or delete the factory default neither if current
 

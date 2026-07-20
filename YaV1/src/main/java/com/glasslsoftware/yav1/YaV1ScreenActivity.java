@@ -89,6 +89,11 @@ public class YaV1ScreenActivity extends FragmentActivity
     // the layout for popup
     RelativeLayout mV1Name    = null;
 
+    // custom bottom navigation (replaces deprecated ActionBar tabs)
+    private View[]     mNavItems  = new View[3];
+    private TextView[] mNavLabels = new TextView[3];
+    private View[]     mNavInds   = new View[3];
+
     // receiver handler
     private BroadcastReceiver mDisplayReceiver = new BroadcastReceiver()
     {
@@ -154,7 +159,9 @@ public class YaV1ScreenActivity extends FragmentActivity
         // set the ActionBar background to black instead of default to transparent
         mActionBar = getActionBar();
         mActionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#000000")));
-        mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        // Navigation moved from deprecated ActionBar tabs to a custom bottom nav
+        // (see wireBottomNav / updateNavSelection). The ActionBar stays for the
+        // title + overflow/display/mute menu only.
 
         // Allow up activities
         mActionBar.setDisplayHomeAsUpEnabled(true);
@@ -187,7 +194,8 @@ public class YaV1ScreenActivity extends FragmentActivity
                 else
                     mHandler.post(mShowSetting);
 
-                mActionBar.setSelectedNavigationItem(mLastView);
+                setStripVisible(!sInTools);
+                updateNavSelection(mLastView);
             }
         };
 
@@ -197,61 +205,15 @@ public class YaV1ScreenActivity extends FragmentActivity
         // Set the View Pager Adapter into ViewPager
         mPager.setAdapter(mViewPagerAdapter);
 
-        // Capture tab button clicks
-        ActionBar.TabListener tabListener = new ActionBar.TabListener()
-        {
-            @Override
-            public void onTabSelected(ActionBar.Tab tab, android.app.FragmentTransaction ft)
-            {
-                int pos = tab.getPosition();
-                mPager.setCurrentItem(pos);
-                sInTools = mViewPagerAdapter.isTool(pos);
-
-                if(mBound)
-                    mService.setCurrentView(pos);
-
-                if(sInTools)
-                    mV1Name.setVisibility(View.GONE);
-                else
-                    mHandler.post(mShowSetting);
-            }
-
-            @Override
-            public void onTabUnselected(ActionBar.Tab tab, android.app.FragmentTransaction ft)
-            {
-                int pos = tab.getPosition();
-            }
-
-            @Override
-            public void onTabReselected(ActionBar.Tab tab, android.app.FragmentTransaction ft)
-            {
-                int pos = tab.getPosition();
-            }
-        };
-
-        // Set our tab background to black if on Android 4.0+
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-            getActionBar().setStackedBackgroundDrawable(new ColorDrawable(Color.parseColor("#000000")));
-        }
-
-        // Create first Tab
-        tab = mActionBar.newTab().setText(R.string.alert_run_v1_view).setTabListener(tabListener);
-        mActionBar.addTab(tab);
-
-        // Create second Tab
-        tab = mActionBar.newTab().setText(R.string.alert_run_v1_alert_view).setTabListener(tabListener);
-        mActionBar.addTab(tab);
-
-        // create the tool Fragment
-        tab = mActionBar.newTab().setText(R.string.alert_run_tool_view).setTabListener(tabListener);
-        mActionBar.addTab(tab);
+        // Wire the custom bottom navigation (V1 / ALERT / TOOLS) to the pager.
+        wireBottomNav();
 
         // media sound controlled by phone key
         if(YaV1.sPrefs.getBoolean("phone_alert", false) && YaV1.sPrefs.getBoolean("volume_alert", false))
             setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
-        // get the tool tab index
-        sToolTabIndex = mActionBar.getTabCount() - 1;
+        // TOOLS is the last of the three fixed views (V1 = 0, ALERT = 1, TOOLS = 2)
+        sToolTabIndex = 2;
 
         // if we did the long click on overlay, we issue the dialog now
         if(this.getIntent().getBooleanExtra("override", false))
@@ -598,6 +560,12 @@ public class YaV1ScreenActivity extends FragmentActivity
                 mService.setCurrentView(mLastView);
             mPager.setCurrentItem(mLastView);
         }
+        // keep the bottom nav in sync even when the pager is already there
+        updateNavSelection(mLastView);
+        // drive status strip: refresh loop + hide on TOOLS
+        setStripVisible(!sInTools);
+        mHandler.removeCallbacks(mStripRunnable);
+        mHandler.post(mStripRunnable);
 
         LocalBroadcastManager.getInstance(this).registerReceiver(mDisplayReceiver, new IntentFilter("V1Display"));
 
@@ -621,6 +589,9 @@ public class YaV1ScreenActivity extends FragmentActivity
     {
         YaV1.superPause();
         super.onPause();
+
+        // stop the status-strip refresh loop
+        mHandler.removeCallbacks(mStripRunnable);
 
         // unregister
         YaV1.getEventBus().unregister(this);
@@ -704,13 +675,13 @@ public class YaV1ScreenActivity extends FragmentActivity
             TextView tv1 = (TextView) row.findViewById (R.id.singleItem);
             if(position == currentPosition)
             {
-                tv1.setBackgroundResource(R.drawable.btn_default_normal_yellow);
-                tv1.setTextColor(Color.parseColor("#ff0000"));
+                tv1.setBackgroundResource(R.drawable.bg_tool_on);
+                tv1.setTextColor(getResources().getColor(R.color.ink));
             }
             else
             {
-                tv1.setBackgroundResource(R.drawable.btn_default_normal_lblue);
-                tv1.setTextColor(Color.parseColor("#000000"));
+                tv1.setBackgroundResource(R.drawable.bg_tool_off);
+                tv1.setTextColor(getResources().getColor(R.color.ink2));
             }
             tv1.setText(v1Settings.get(position));
             return row;
@@ -836,6 +807,116 @@ public class YaV1ScreenActivity extends FragmentActivity
         }
     };
 
+    // periodic refresh of the drive status strip (bogey / connection / mode / speed)
+    private final Runnable mStripRunnable = new Runnable()
+    {
+        @Override
+        public void run()
+        {
+            if(!sInTools)
+                updateStatusStrip();
+            mHandler.postDelayed(this, 350);
+        }
+    };
+
+    private void updateStatusStrip()
+    {
+        View strip = findViewById(R.id.status_strip);
+        if(strip == null)
+            return;
+
+        com.glasslsoftware.yav1.ui.SegmentDisplayView bogey =
+                (com.glasslsoftware.yav1.ui.SegmentDisplayView) strip.findViewById(R.id.strip_bogey);
+        if(bogey != null)
+            bogey.setSegments(YaV1CurrentView.sBogey0);
+
+        View     dot  = strip.findViewById(R.id.strip_conn_dot);
+        TextView conn = (TextView) strip.findViewById(R.id.strip_conn_text);
+        int      colorRes;
+        if(mDemo)
+        {
+            conn.setText(R.string.strip_demo);
+            colorRes = R.color.status_good;
+        }
+        else if(YaV1.mV1Client != null && YaV1.mV1Client.isConnected())
+        {
+            conn.setText(YaV1.mV1Client.isGen2() ? R.string.strip_gen2
+                        : (YaV1.sLegacy ? R.string.strip_spp : R.string.strip_le));
+            colorRes = R.color.status_good;
+        }
+        else
+        {
+            conn.setText(R.string.strip_nolink);
+            colorRes = R.color.band_ka;
+        }
+        int c = getResources().getColor(colorRes);
+        conn.setTextColor(c);
+        if(dot != null)
+            dot.setBackgroundTintList(android.content.res.ColorStateList.valueOf(c));
+
+        ((TextView) strip.findViewById(R.id.strip_mode)).setText(YaV1.getModeText());
+
+        TextView spd = (TextView) strip.findViewById(R.id.strip_speed);
+        if(YaV1CurrentPosition.enabled && YaV1CurrentPosition.speed >= 0)
+        {
+            spd.setText(((int) YaV1CurrentPosition.cSpeed) + " " + YaV1.sUnitLabel[YaV1.sCurrUnit]);
+            spd.setVisibility(View.VISIBLE);
+        }
+        else
+            spd.setVisibility(View.GONE);
+    }
+
+    private void setStripVisible(boolean visible)
+    {
+        View strip = findViewById(R.id.status_strip);
+        if(strip != null)
+            strip.setVisibility(visible ? View.VISIBLE : View.GONE);
+    }
+
+    // wire the custom bottom navigation to the pager
+    private void wireBottomNav()
+    {
+        mNavItems[0]  = findViewById(R.id.nav_v1);
+        mNavItems[1]  = findViewById(R.id.nav_alert);
+        mNavItems[2]  = findViewById(R.id.nav_tools);
+        mNavLabels[0] = (TextView) findViewById(R.id.nav_v1_label);
+        mNavLabels[1] = (TextView) findViewById(R.id.nav_alert_label);
+        mNavLabels[2] = (TextView) findViewById(R.id.nav_tools_label);
+        mNavInds[0]   = findViewById(R.id.nav_v1_ind);
+        mNavInds[1]   = findViewById(R.id.nav_alert_ind);
+        mNavInds[2]   = findViewById(R.id.nav_tools_ind);
+
+        for(int i = 0; i < mNavItems.length; i++)
+        {
+            final int pos = i;
+            if(mNavItems[i] != null)
+                mNavItems[i].setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        // onPageSelected handles service view / mute-bar / nav sync
+                        mPager.setCurrentItem(pos);
+                    }
+                });
+        }
+    }
+
+    // reflect the selected view in the bottom nav (indicator + label colour)
+    private void updateNavSelection(int pos)
+    {
+        int on  = getResources().getColor(R.color.band_ku);
+        int off = getResources().getColor(R.color.ink2);
+        for(int i = 0; i < mNavItems.length; i++)
+        {
+            boolean sel = (i == pos);
+            if(mNavInds[i] != null)
+                mNavInds[i].setVisibility(sel ? View.VISIBLE : View.INVISIBLE);
+            if(mNavLabels[i] != null)
+                mNavLabels[i].setTextColor(sel ? on : off);
+        }
+    }
+
     // adjust the icon state for sound/display
     private void adjustIcons()
     {
@@ -889,6 +970,31 @@ public class YaV1ScreenActivity extends FragmentActivity
                     if(iv != null)
                         iv.setImageResource(R.drawable.mute_off);
                     item.setTitle(R.string.mn_v1_mute_off);
+                }
+            }
+
+            // update the full-width mute bar label: green MUTE when available,
+            // band-red MUTED on a user mute, quiet "under speed limit" on auto.
+            TextView muteLabel = (TextView) findViewById(R.id.mute_label);
+            if(muteLabel != null)
+            {
+                if(s)
+                {
+                    if(mService.isMuteByUser())
+                    {
+                        muteLabel.setText(R.string.mute_active);
+                        muteLabel.setTextColor(getResources().getColor(R.color.band_ka));
+                    }
+                    else
+                    {
+                        muteLabel.setText(R.string.mute_auto_psl);
+                        muteLabel.setTextColor(getResources().getColor(R.color.ink2));
+                    }
+                }
+                else
+                {
+                    muteLabel.setText(R.string.mute_available);
+                    muteLabel.setTextColor(getResources().getColor(R.color.status_good));
                 }
             }
 

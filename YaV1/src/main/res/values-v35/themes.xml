@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Opt out of forced edge-to-edge on Android 15 so the classic layouts keep
-         their expected insets -->
+    <!-- Android 15 (API 35) variant. MUST keep windowOptOutEdgeToEdgeEnforcement
+         so the classic layouts keep their expected insets and content does not
+         draw under the status bar. Mirrors values/themes.xml otherwise. -->
     <style name="YaV1AppTheme" parent="android:Theme.Holo">
+        <item name="android:windowBackground">@color/ground</item>
+        <item name="android:colorBackground">@color/ground</item>
         <item name="android:windowOptOutEdgeToEdgeEnforcement">true</item>
     </style>
 </resources>
