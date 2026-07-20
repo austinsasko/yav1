@@ -833,16 +833,29 @@ public class YaV1ScreenActivity extends FragmentActivity
         View     dot  = strip.findViewById(R.id.strip_conn_dot);
         TextView conn = (TextView) strip.findViewById(R.id.strip_conn_text);
         int      colorRes;
+        boolean  linked = !mDemo && YaV1.mV1Client != null && YaV1.mV1Client.isConnected();
+
+        // [CSA] awareness mode: with no V1 linked but crowd reporting on, the
+        // app is still useful — surface an AWARENESS chip (ku-blue) instead of
+        // NO LINK, mirroring the iOS status strip.
+        boolean awareness = !linked && !mDemo
+                && YaV1.sPrefs != null && YaV1.sPrefs.getBoolean("crowd_alerts", false);
+
         if(mDemo)
         {
             conn.setText(R.string.strip_demo);
             colorRes = R.color.status_good;
         }
-        else if(YaV1.mV1Client != null && YaV1.mV1Client.isConnected())
+        else if(linked)
         {
             conn.setText(YaV1.mV1Client.isGen2() ? R.string.strip_gen2
                         : (YaV1.sLegacy ? R.string.strip_spp : R.string.strip_le));
             colorRes = R.color.status_good;
+        }
+        else if(awareness)
+        {
+            conn.setText(R.string.strip_awareness);
+            colorRes = R.color.band_ku;
         }
         else
         {
@@ -854,7 +867,22 @@ public class YaV1ScreenActivity extends FragmentActivity
         if(dot != null)
             dot.setBackgroundTintList(android.content.res.ColorStateList.valueOf(c));
 
-        ((TextView) strip.findViewById(R.id.strip_mode)).setText(YaV1.getModeText());
+        // [CSA] in awareness mode the mode slot shows the nearby-report count;
+        // otherwise the usual detector mode text.
+        TextView modeView = (TextView) strip.findViewById(R.id.strip_mode);
+        int nearby = crowdNearbyCount();
+        if(awareness && nearby > 0)
+        {
+            modeView.setText(getString(R.string.strip_nearby_fmt, nearby));
+            modeView.setTextColor(getResources().getColor(R.color.band_ku));
+        }
+        else
+        {
+            modeView.setText(YaV1.getModeText());
+            modeView.setTextColor(getResources().getColor(R.color.ink2));
+        }
+
+        updateReportButton(strip);
 
         TextView spd = (TextView) strip.findViewById(R.id.strip_speed);
         if(YaV1CurrentPosition.enabled && YaV1CurrentPosition.speed >= 0)
@@ -871,6 +899,60 @@ public class YaV1ScreenActivity extends FragmentActivity
         View strip = findViewById(R.id.status_strip);
         if(strip != null)
             strip.setVisibility(visible ? View.VISIBLE : View.GONE);
+    }
+
+    // [CSA] count of crowd reports currently near the vehicle, 0 if the
+    // monitor isn't running.
+    private int crowdNearbyCount()
+    {
+        com.glasslsoftware.yav1.crowd.CrowdMonitor monitor =
+                com.glasslsoftware.yav1.crowd.CrowdMonitor.getInstance();
+        return monitor != null ? monitor.getCurrent().size() : 0;
+    }
+
+    // [CSA] show + wire the one-tap "report police here" chip. Visible only
+    // when crowd reporting is on and a relay is configured (the report is
+    // posted to the user's self-hosted relay). Click listener is wired once.
+    private boolean mReportWired = false;
+
+    private void updateReportButton(View strip)
+    {
+        TextView report = (TextView) strip.findViewById(R.id.strip_report);
+        if(report == null)
+            return;
+
+        boolean available = YaV1.sPrefs != null
+                && YaV1.sPrefs.getBoolean("crowd_alerts", false)
+                && !YaV1.sPrefs.getString("csa_relay_url", "").trim().isEmpty();
+
+        report.setVisibility(available ? View.VISIBLE : View.GONE);
+
+        if(available && !mReportWired)
+        {
+            mReportWired = true;
+            report.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    com.glasslsoftware.yav1.crowd.CrowdMonitor monitor =
+                            com.glasslsoftware.yav1.crowd.CrowdMonitor.getInstance();
+                    // the chip is only shown when a relay is configured, so a
+                    // failure here means we don't have a location fix yet.
+                    if(monitor != null && YaV1CurrentPosition.isValid)
+                    {
+                        monitor.reportPoliceHere();
+                        Toast.makeText(YaV1ScreenActivity.this,
+                                R.string.toast_report_sent, Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(YaV1ScreenActivity.this,
+                                R.string.toast_report_no_fix, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
     }
 
     // wire the custom bottom navigation to the pager

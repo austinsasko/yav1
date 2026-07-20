@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- [CSA] crowdsourced alert network strings -->
+<resources>
+    <string name="pref_h_crowd">Crowd reports</string>
+    <string name="pref_h_crowd_summary">Police, crash and hazard reports from the crowd</string>
+
+    <string name="pref_crowd_enable">Community reports (Waze)</string>
+    <string name="pref_crowd_enable_summary">Announce police reported by the Waze crowd along your route. Unofficial feed — may stop working without notice.</string>
+
+    <string name="pref_crowd_style">Alert style</string>
+
+    <string name="pref_crowd_relay">Crowd relay URL</string>
+    <string name="pref_crowd_relay_summary">Optional self-hosted, anonymous YaV1 relay (see Server/csa-worker.js in the yav1-ios repo). Empty = off.</string>
+
+    <!-- drive status strip -->
+    <string name="strip_awareness">AWARENESS</string>
+    <string name="strip_report_police">Police</string>
+    <string name="strip_nearby_fmt">%d NEARBY</string>
+    <string name="cd_report_police">Report police at your location</string>
+    <string name="toast_report_sent">Police report sent</string>
+    <string name="toast_report_no_fix">Waiting for GPS location…</string>
+</resources>

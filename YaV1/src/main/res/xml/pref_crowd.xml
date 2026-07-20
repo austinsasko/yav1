@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- [CSA] crowdsourced alert network preferences -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <com.glasslsoftware.yav1.CustomSwitch
+        android:defaultValue="false"
+        android:key="crowd_alerts"
+        android:title="@string/pref_crowd_enable"
+        android:summary="@string/pref_crowd_enable_summary"/>
+
+    <ListPreference
+        android:defaultValue="0"
+        android:key="crowd_alert_style"
+        android:dependency="crowd_alerts"
+        android:entries="@array/adsb_style_entries"
+        android:entryValues="@array/adsb_style_values"
+        android:summary="%s"
+        android:title="@string/pref_crowd_style"/>
+
+    <EditTextPreference
+        android:key="csa_relay_url"
+        android:dependency="crowd_alerts"
+        android:title="@string/pref_crowd_relay"
+        android:summary="@string/pref_crowd_relay_summary"
+        android:inputType="textUri"/>
+
+</PreferenceScreen>

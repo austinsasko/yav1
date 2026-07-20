@@ -50,6 +50,8 @@ public class YaV1PrefFragment extends PreferenceFragment implements SharedPrefer
             addPreferencesFromResource(R.xml.pref_poi);
         } else if ("aircraft".equals(settings)) { // [P2-ADSB]
             addPreferencesFromResource(R.xml.pref_aircraft);
+        } else if ("crowd".equals(settings)) { // [CSA]
+            addPreferencesFromResource(R.xml.pref_crowd);
         } else if ("geo".equals(settings)) { // [P3-GEO]
             addPreferencesFromResource(R.xml.pref_geo);
         }
