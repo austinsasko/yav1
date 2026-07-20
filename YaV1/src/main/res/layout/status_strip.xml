@@ -60,4 +60,26 @@
         android:textColor="@color/ink"
         android:visibility="gone"
         android:text="" />
+
+    <!-- [CSA] one-tap "police here" crowd report; shown only when crowd
+         reporting is enabled and a relay is configured (see YaV1ScreenActivity) -->
+    <TextView
+        android:id="@+id/strip_report"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/space_m"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:fontFamily="monospace"
+        android:textAllCaps="true"
+        android:textSize="12sp"
+        android:letterSpacing="0.04"
+        android:textStyle="bold"
+        android:textColor="@color/band_ku"
+        android:background="@drawable/bg_chip_on"
+        android:contentDescription="@string/cd_report_police"
+        android:visibility="gone"
+        android:text="@string/strip_report_police" />
 </LinearLayout>

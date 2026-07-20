@@ -11,4 +11,12 @@
 
     <string name="pref_crowd_relay">Crowd relay URL</string>
     <string name="pref_crowd_relay_summary">Optional self-hosted, anonymous YaV1 relay (see Server/csa-worker.js in the yav1-ios repo). Empty = off.</string>
+
+    <!-- drive status strip -->
+    <string name="strip_awareness">AWARENESS</string>
+    <string name="strip_report_police">Police</string>
+    <string name="strip_nearby_fmt">%d NEARBY</string>
+    <string name="cd_report_police">Report police at your location</string>
+    <string name="toast_report_sent">Police report sent</string>
+    <string name="toast_report_no_fix">Waiting for GPS location…</string>
 </resources>
