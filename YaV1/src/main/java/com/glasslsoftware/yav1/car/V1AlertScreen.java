@@ -20,6 +20,7 @@ import androidx.lifecycle.LifecycleOwner;
 
 import com.glasslsoftware.yav1.R;
 import com.glasslsoftware.yav1.YaV1;
+import com.glasslsoftware.yav1.YaV1CurrentPosition;
 import com.glasslsoftware.yav1.crowd.CrowdMonitor;
 
 /**
@@ -136,6 +137,7 @@ public final class V1AlertScreen extends Screen implements DefaultLifecycleObser
     {
         return CrowdMonitor.getInstance() != null
                 && YaV1.sPrefs != null
+                && YaV1.sPrefs.getBoolean("crowd_alerts", false)
                 && !YaV1.sPrefs.getString("csa_relay_url", "").trim().isEmpty();
     }
 
@@ -151,10 +153,24 @@ public final class V1AlertScreen extends Screen implements DefaultLifecycleObser
                     public void onClick()
                     {
                         CrowdMonitor monitor = CrowdMonitor.getInstance();
-                        if(monitor != null)
-                            monitor.reportPoliceHere();
-                        CarToast.makeText(getCarContext(), "Police report sent",
-                                          CarToast.LENGTH_SHORT).show();
+                        if(monitor == null || !YaV1CurrentPosition.isValid)
+                        {
+                            CarToast.makeText(getCarContext(), "Waiting for GPS location",
+                                              CarToast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        monitor.reportPoliceHere(new CrowdMonitor.ReportCallback()
+                        {
+                            @Override
+                            public void onComplete(boolean success)
+                            {
+                                CarToast.makeText(getCarContext(),
+                                                  success ? "Police report sent"
+                                                          : "Police report failed",
+                                                  CarToast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 })
                 .build();

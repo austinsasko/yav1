@@ -105,6 +105,36 @@ public class WazeFeedParserTest
         assertEquals(1752750000000L, alerts.get(0).reportedAtMs);
     }
 
+    @Test
+    public void failedFetchKeepsThePreviousLiveBatch()
+    {
+        long now = System.currentTimeMillis();
+        List<CrowdAlert> previous = new ArrayList<CrowdAlert>();
+        previous.add(new CrowdAlert("live", CrowdAlert.KIND_POLICE, 1, 1,
+                                    now - 5 * 60 * 1000L, 0, "waze"));
+        previous.add(new CrowdAlert("stale", CrowdAlert.KIND_POLICE, 1, 1,
+                                    now - 45 * 60 * 1000L, 0, "waze"));
+
+        List<CrowdAlert> kept = CrowdMonitor.batchAfterFetch(previous, null, now);
+
+        assertEquals(1, kept.size());
+        assertEquals("live", kept.get(0).id);
+    }
+
+    @Test
+    public void successfulEmptyFetchClearsThePreviousBatch()
+    {
+        long now = System.currentTimeMillis();
+        List<CrowdAlert> previous = new ArrayList<CrowdAlert>();
+        previous.add(new CrowdAlert("old", CrowdAlert.KIND_POLICE, 1, 1,
+                                    now, 0, "waze"));
+
+        List<CrowdAlert> kept = CrowdMonitor.batchAfterFetch(
+                previous, new ArrayList<CrowdAlert>(), now);
+
+        assertTrue(kept.isEmpty());
+    }
+
     // ------------------------------------------------------------ relevance
 
     @Test

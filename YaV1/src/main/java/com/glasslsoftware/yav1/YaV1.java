@@ -320,6 +320,23 @@ public class YaV1 extends Application
         }
     }
 
+    /** GPS is shared by classic driving features and detector-free crowd awareness. */
+    public static boolean locationFeaturesEnabled()
+    {
+        return sPrefs != null
+                && (sPrefs.getBoolean("use_gps", false)
+                    || sPrefs.getBoolean("crowd_alerts", false));
+    }
+
+    /** Keep the GPS service aligned with every feature that consumes location. */
+    public static void syncGpsServiceWithPreferences()
+    {
+        boolean enabled = locationFeaturesEnabled();
+        if(YaV1CurrentPosition.enabled != enabled)
+            YaV1CurrentPosition.reset(enabled);
+        startGpsService(enabled);
+    }
+
     // get the row from the mode (0 => USa, 1 => Euro Custom sweep, 2 => Euro)
 
     private static int getRowMode()

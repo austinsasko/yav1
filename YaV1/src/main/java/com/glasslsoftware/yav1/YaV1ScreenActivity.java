@@ -43,6 +43,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.glasslsoftware.yav1.events.InfoEvent;
+import com.glasslsoftware.yav1.crowd.CrowdMonitor;
 import com.glasslsoftware.yav1.lockout.LockoutData;
 import com.squareup.otto.Subscribe;
 
@@ -935,15 +936,22 @@ public class YaV1ScreenActivity extends FragmentActivity
                 @Override
                 public void onClick(View v)
                 {
-                    com.glasslsoftware.yav1.crowd.CrowdMonitor monitor =
-                            com.glasslsoftware.yav1.crowd.CrowdMonitor.getInstance();
+                    CrowdMonitor monitor = CrowdMonitor.getInstance();
                     // the chip is only shown when a relay is configured, so a
                     // failure here means we don't have a location fix yet.
                     if(monitor != null && YaV1CurrentPosition.isValid)
                     {
-                        monitor.reportPoliceHere();
-                        Toast.makeText(YaV1ScreenActivity.this,
-                                R.string.toast_report_sent, Toast.LENGTH_SHORT).show();
+                        monitor.reportPoliceHere(new CrowdMonitor.ReportCallback()
+                        {
+                            @Override
+                            public void onComplete(boolean success)
+                            {
+                                Toast.makeText(YaV1ScreenActivity.this,
+                                        success ? R.string.toast_report_sent
+                                                : R.string.toast_report_failed,
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                     else
                     {

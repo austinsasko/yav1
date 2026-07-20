@@ -168,7 +168,10 @@ public class YaV1Activity extends Activity implements ActionBar.OnNavigationList
     {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(requestCode == PERMISSION_REQUEST_CODE)
+        {
             startBluetoothFeaturesIfPermitted();
+            YaV1.syncGpsServiceWithPreferences();
+        }
     }
 
     /**
@@ -381,6 +384,7 @@ public class YaV1Activity extends Activity implements ActionBar.OnNavigationList
 
         // ask for the runtime permissions the app needs on modern Android
         requestNeededPermissions();
+        YaV1.syncGpsServiceWithPreferences();
 
         if(sBuilder == null)
         {
@@ -958,6 +962,7 @@ public class YaV1Activity extends Activity implements ActionBar.OnNavigationList
 
                 // refresh the Gps preferences
                 YaV1GpsService.refreshSettings();
+                YaV1.syncGpsServiceWithPreferences();
                 // refresh settings
                 YaV1RealSavvy.refreshSettings();
                 // Logging might have change
@@ -1059,20 +1064,8 @@ public class YaV1Activity extends Activity implements ActionBar.OnNavigationList
         // we launch our service here (if not there)
         YaV1.startAlertService(true);
 
-        // if we enabled Gps, we need to start here maybe
-
-        if(YaV1.sPrefs.getBoolean("use_gps", false))
-        {
-            // enable Gps here
-            YaV1CurrentPosition.reset(true);
-            // if not started we start
-            YaV1.startGpsService(true);
-        }
-        else
-        {
-            YaV1.startGpsService(false);
-            YaV1CurrentPosition.reset(false);
-        }
+        // GPS is required by both the classic driving tools and crowd awareness.
+        YaV1.syncGpsServiceWithPreferences();
 
         // check if we have a connection with V1
 

@@ -1,6 +1,8 @@
 package com.glasslsoftware.yav1.crowd;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import com.glasslsoftware.yav1.YaV1;
@@ -35,6 +37,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class CrowdMonitor
 {
+    public interface ReportCallback
+    {
+        /** Called on the main thread after the relay accepts or rejects the report. */
+        void onComplete(boolean success);
+    }
+
     public static final String LOG_TAG = "Valentine CSA";
 
     private static final long POLL_INTERVAL_MS   = 60 * 1000L;
@@ -50,11 +58,16 @@ public class CrowdMonitor
     private final Context         mContext;
     private final WazeClient      mWaze = new WazeClient();
     private final ExecutorService mExecutor;
+    private final Handler         mMainHandler;
     private final AtomicBoolean   mInFlight = new AtomicBoolean(false);
     private volatile long         mLastPollMs = 0;
 
     /** last merged + pruned batch (background thread writes, any thread reads) */
     private volatile List<CrowdAlert> mCurrent = new ArrayList<CrowdAlert>();
+
+    /** Last successful source batches; a soft network failure must not erase them. */
+    private List<CrowdAlert> mWazeCurrent  = new ArrayList<CrowdAlert>();
+    private List<CrowdAlert> mRelayCurrent = new ArrayList<CrowdAlert>();
 
     /** report ids already spoken; pruned to live ids each cycle */
     private final Set<String> mAnnounced = new HashSet<String>();
@@ -62,6 +75,7 @@ public class CrowdMonitor
     private CrowdMonitor(Context context)
     {
         mContext  = context;
+        mMainHandler = new Handler(Looper.getMainLooper());
         mExecutor = Executors.newSingleThreadExecutor(new ThreadFactory()
         {
             @Override
@@ -97,10 +111,13 @@ public class CrowdMonitor
     }
 
     /** Post an anonymous police report at the current position (relay only). */
-    public void reportPoliceHere()
+    public void reportPoliceHere(final ReportCallback callback)
     {
         if(!YaV1CurrentPosition.isValid)
+        {
+            deliverReportResult(callback, false);
             return;
+        }
 
         final double lat = YaV1CurrentPosition.lat;
         final double lon = YaV1CurrentPosition.lon;
@@ -112,7 +129,23 @@ public class CrowdMonitor
             {
                 CrowdRelayClient relay = new CrowdRelayClient(
                         YaV1.sPrefs.getString("csa_relay_url", ""));
-                relay.report(CrowdAlert.KIND_POLICE, lat, lon);
+                deliverReportResult(callback,
+                        relay.report(CrowdAlert.KIND_POLICE, lat, lon));
+            }
+        });
+    }
+
+    private void deliverReportResult(final ReportCallback callback, final boolean success)
+    {
+        if(callback == null)
+            return;
+
+        mMainHandler.post(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                callback.onComplete(success);
             }
         });
     }
@@ -167,25 +200,38 @@ public class CrowdMonitor
     {
         long now = System.currentTimeMillis();
 
-        List<CrowdAlert> merged = new ArrayList<CrowdAlert>();
-
         String feed = mWaze.fetch(lat, lon);
-        if(feed != null)
-            merged.addAll(WazeFeedParser.parse(feed));
+        List<CrowdAlert> fromWaze = feed == null ? null : WazeFeedParser.parse(feed);
+        mWazeCurrent = batchAfterFetch(mWazeCurrent, fromWaze, now);
 
         CrowdRelayClient relay = new CrowdRelayClient(
                 YaV1.sPrefs.getString("csa_relay_url", ""));
         if(relay.isConfigured())
         {
             List<CrowdAlert> fromRelay = relay.fetch(lat, lon, RELAY_RADIUS_KM);
-            if(fromRelay != null)
-                merged.addAll(fromRelay);
+            mRelayCurrent = batchAfterFetch(mRelayCurrent, fromRelay, now);
         }
+        else
+            mRelayCurrent = new ArrayList<CrowdAlert>();
+
+        List<CrowdAlert> merged = new ArrayList<CrowdAlert>();
+        merged.addAll(mWazeCurrent);
+        merged.addAll(mRelayCurrent);
 
         List<CrowdAlert> pruned = WazeFeedParser.prune(merged, now);
         mCurrent = pruned;
 
         announceRelevant(pruned, lat, lon, bearing, now);
+    }
+
+    /** Replace a source only after a successful fetch; always age out stale reports. */
+    static List<CrowdAlert> batchAfterFetch(List<CrowdAlert> previous,
+                                            List<CrowdAlert> fetched, long now)
+    {
+        List<CrowdAlert> source = fetched != null ? fetched : previous;
+        if(source == null)
+            source = new ArrayList<CrowdAlert>();
+        return WazeFeedParser.prune(source, now);
     }
 
     /**
