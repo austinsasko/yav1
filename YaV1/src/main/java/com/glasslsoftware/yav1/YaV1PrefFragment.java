@@ -5,6 +5,7 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
@@ -76,12 +77,23 @@ public class YaV1PrefFragment extends PreferenceFragment implements SharedPrefer
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue)
             {
-                if(CrowdRelayClient.validateRelayUrl((String) newValue) != null)
-                    return true;
+                String normalized = CrowdRelayClient.validateRelayUrl((String) newValue);
+                if(normalized == null)
+                {
+                    Toast.makeText(getActivity(), R.string.pref_crowd_relay_invalid,
+                                   Toast.LENGTH_LONG).show();
+                    return false;
+                }
 
-                Toast.makeText(getActivity(), R.string.pref_crowd_relay_invalid,
-                               Toast.LENGTH_LONG).show();
-                return false;
+                // persist the normalized form (trimmed, trailing slashes
+                // stripped) instead of the raw text when the two differ
+                if(!normalized.equals(newValue))
+                {
+                    ((EditTextPreference) preference).setText(normalized);
+                    return false;
+                }
+
+                return true;
             }
         });
     }

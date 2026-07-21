@@ -283,4 +283,14 @@ public class CrowdRelayClientTest
         assertNull(CrowdRelayClient.validateRelayUrl("not a url"));
         assertNull(CrowdRelayClient.validateRelayUrl("ftp://relay.example.com"));
     }
+
+    @Test
+    public void queryOrFragmentIsRejected()
+    {
+        // the client appends "/alerts?..." and "/report" to the base, which a
+        // query or fragment would corrupt
+        assertNull(CrowdRelayClient.validateRelayUrl("https://relay.example.com?x=1"));
+        assertNull(CrowdRelayClient.validateRelayUrl("https://relay.example.com/csa?x=1"));
+        assertNull(CrowdRelayClient.validateRelayUrl("https://relay.example.com#frag"));
+    }
 }

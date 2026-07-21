@@ -950,6 +950,14 @@ public class YaV1ScreenActivity extends FragmentActivity
                                     R.string.toast_report_sent, Toast.LENGTH_SHORT).show();
                             disableReportChipBriefly(v);
                         }
+                        else
+                        {
+                            // cooldown tap on a re-enabled chip (e.g. the
+                            // activity was recreated mid-window): say so
+                            // instead of silently dropping it
+                            Toast.makeText(YaV1ScreenActivity.this,
+                                    R.string.toast_report_cooldown, Toast.LENGTH_SHORT).show();
+                        }
                     }
                     else
                     {
