@@ -38,8 +38,13 @@ public class CrowdMonitor
     public static final String LOG_TAG = "Valentine CSA";
 
     private static final long POLL_INTERVAL_MS   = 60 * 1000L;
+    /** poll delay doubles per all-source failure up to 60s << 3 = 8 min */
+    private static final int  BACKOFF_MAX_SHIFT  = 3;
     private static final double MIN_SPEED_MS     = 2.0;
     private static final int  RELAY_RADIUS_KM    = 15;
+
+    /** min gap between one-tap police reports; UI keeps the chip disabled for it */
+    public static final long REPORT_COOLDOWN_MS  = 30 * 1000L;
 
     private static final float ANNOUNCE_ANY_M    = 1000f;
     private static final float ANNOUNCE_CONE_M   = 5000f;
@@ -52,6 +57,8 @@ public class CrowdMonitor
     private final ExecutorService mExecutor;
     private final AtomicBoolean   mInFlight = new AtomicBoolean(false);
     private volatile long         mLastPollMs = 0;
+    private volatile int          mConsecutiveFailures = 0;
+    private volatile long         mLastReportMs = 0;
 
     /** last merged + pruned batch (background thread writes, any thread reads) */
     private volatile List<CrowdAlert> mCurrent = new ArrayList<CrowdAlert>();
@@ -96,11 +103,20 @@ public class CrowdMonitor
         return new ArrayList<CrowdAlert>(mCurrent);
     }
 
-    /** Post an anonymous police report at the current position (relay only). */
-    public void reportPoliceHere()
+    /**
+     * Post an anonymous police report at the current position (relay only).
+     * Returns false with no fix or inside the cooldown window, so a held or
+     * repeated tap can't flood the relay.
+     */
+    public synchronized boolean reportPoliceHere()
     {
         if(!YaV1CurrentPosition.isValid)
-            return;
+            return false;
+
+        long now = System.currentTimeMillis();
+        if(!cooldownElapsed(now, mLastReportMs))
+            return false;
+        mLastReportMs = now;
 
         final double lat = YaV1CurrentPosition.lat;
         final double lon = YaV1CurrentPosition.lon;
@@ -115,6 +131,13 @@ public class CrowdMonitor
                 relay.report(CrowdAlert.KIND_POLICE, lat, lon);
             }
         });
+        return true;
+    }
+
+    /** Report cooldown decision. Pure, unit tested. */
+    public static boolean cooldownElapsed(long nowMs, long lastReportMs)
+    {
+        return lastReportMs == 0 || nowMs - lastReportMs >= REPORT_COOLDOWN_MS;
     }
 
     // ------------------------------------------------------------ bus event
@@ -132,7 +155,7 @@ public class CrowdMonitor
             return;
 
         long now = System.currentTimeMillis();
-        if(now - mLastPollMs < POLL_INTERVAL_MS)
+        if(now - mLastPollMs < nextPollDelayMs(mConsecutiveFailures))
             return;
 
         if(!mInFlight.compareAndSet(false, true))
@@ -167,11 +190,15 @@ public class CrowdMonitor
     {
         long now = System.currentTimeMillis();
 
-        List<CrowdAlert> merged = new ArrayList<CrowdAlert>();
+        List<CrowdAlert> merged     = new ArrayList<CrowdAlert>();
+        boolean          anySuccess = false;
 
         String feed = mWaze.fetch(lat, lon);
         if(feed != null)
+        {
+            anySuccess = true;
             merged.addAll(WazeFeedParser.parse(feed));
+        }
 
         CrowdRelayClient relay = new CrowdRelayClient(
                 YaV1.sPrefs.getString("csa_relay_url", ""));
@@ -179,13 +206,31 @@ public class CrowdMonitor
         {
             List<CrowdAlert> fromRelay = relay.fetch(lat, lon, RELAY_RADIUS_KM);
             if(fromRelay != null)
+            {
+                anySuccess = true;
                 merged.addAll(fromRelay);
+            }
         }
+
+        // back the poll off while every source fails, to save radio/battery
+        // when e.g. the unofficial Waze feed is persistently down
+        mConsecutiveFailures = anySuccess ? 0 : mConsecutiveFailures + 1;
 
         List<CrowdAlert> pruned = WazeFeedParser.prune(merged, now);
         mCurrent = pruned;
 
         announceRelevant(pruned, lat, lon, bearing, now);
+    }
+
+    /**
+     * Poll delay with failure backoff: the usual 60 s while healthy, doubling
+     * per consecutive all-source failure up to 8 min. Pure, unit tested.
+     */
+    public static long nextPollDelayMs(int consecutiveFailures)
+    {
+        if(consecutiveFailures <= 0)
+            return POLL_INTERVAL_MS;
+        return POLL_INTERVAL_MS << Math.min(consecutiveFailures, BACKOFF_MAX_SHIFT);
     }
 
     /**
@@ -195,29 +240,14 @@ public class CrowdMonitor
     private void announceRelevant(List<CrowdAlert> alerts, double lat, double lon,
                                   int bearing, long now)
     {
-        Set<String> live = new HashSet<String>();
-
-        for(CrowdAlert alert: alerts)
+        List<CrowdAlert> selected;
+        synchronized(mAnnounced)
         {
-            live.add(alert.id);
+            selected = selectAnnouncements(alerts, mAnnounced, lat, lon, bearing);
+        }
 
-            if(alert.kind != CrowdAlert.KIND_POLICE)
-                continue;
-
-            synchronized(mAnnounced)
-            {
-                if(mAnnounced.contains(alert.id))
-                    continue;
-            }
-
-            if(!isRelevant(lat, lon, bearing, alert.lat, alert.lon))
-                continue;
-
-            synchronized(mAnnounced)
-            {
-                mAnnounced.add(alert.id);
-            }
-
+        for(CrowdAlert alert: selected)
+        {
             long ageMin = alert.reportedAtMs > 0
                             ? Math.max(0, (now - alert.reportedAtMs) / 60000) : -1;
             String banner = alert.kindText()
@@ -229,12 +259,40 @@ public class CrowdMonitor
 
             Announcer.announce(mContext, spoken, banner, styleFromPref());
         }
+    }
 
-        // a report that expired can announce again if it returns
-        synchronized(mAnnounced)
+    /**
+     * Pure selection of the police alerts to announce this cycle: not yet in
+     * announced and relevant per {@link #isRelevant}. Selected ids are added
+     * to announced, and announced is pruned to the live ids so a report that
+     * expired can announce again if it returns. Unit tested.
+     */
+    public static List<CrowdAlert> selectAnnouncements(List<CrowdAlert> alerts,
+                                                       Set<String> announced,
+                                                       double lat, double lon, int bearing)
+    {
+        List<CrowdAlert> selected = new ArrayList<CrowdAlert>();
+        Set<String>      live     = new HashSet<String>();
+
+        for(CrowdAlert alert: alerts)
         {
-            mAnnounced.retainAll(live);
+            live.add(alert.id);
+
+            if(alert.kind != CrowdAlert.KIND_POLICE)
+                continue;
+
+            if(announced.contains(alert.id))
+                continue;
+
+            if(!isRelevant(lat, lon, bearing, alert.lat, alert.lon))
+                continue;
+
+            announced.add(alert.id);
+            selected.add(alert);
         }
+
+        announced.retainAll(live);
+        return selected;
     }
 
     /**
