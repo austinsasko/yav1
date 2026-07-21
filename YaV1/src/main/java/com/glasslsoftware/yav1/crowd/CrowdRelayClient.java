@@ -45,9 +45,11 @@ public class CrowdRelayClient
     /**
      * Normalize + validate a relay base URL as entered in preferences:
      * trimmed, trailing slashes stripped, and required to be a well-formed
-     * https:// URL with a host. Returns the normalized URL, "" for empty
-     * (relay off), or null when invalid. Cleartext http is refused up front
-     * because targetSdk 35 blocks it silently at request time. Pure, tested.
+     * https:// URL with a host and no query or fragment (the client appends
+     * its own "/alerts?..." and "/report" paths, which a query would corrupt).
+     * Returns the normalized URL, "" for empty (relay off), or null when
+     * invalid. Cleartext http is refused up front because targetSdk 35 blocks
+     * it silently at request time. Pure, tested.
      */
     public static String validateRelayUrl(String raw)
     {
@@ -59,7 +61,8 @@ public class CrowdRelayClient
         {
             URI uri = new URI(s);
             if(!"https".equalsIgnoreCase(uri.getScheme())
-                    || uri.getHost() == null || uri.getHost().isEmpty())
+                    || uri.getHost() == null || uri.getHost().isEmpty()
+                    || uri.getQuery() != null || uri.getFragment() != null)
                 return null;
             return s;
         }

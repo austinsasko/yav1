@@ -20,4 +20,5 @@
     <string name="cd_report_police">Report police at your location</string>
     <string name="toast_report_sent">Police report sent</string>
     <string name="toast_report_no_fix">Waiting for GPS location…</string>
+    <string name="toast_report_cooldown">Report already sent</string>
 </resources>
