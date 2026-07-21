@@ -9,6 +9,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
@@ -41,6 +42,33 @@ public class CrowdRelayClient
         return !mBaseUrl.isEmpty();
     }
 
+    /**
+     * Normalize + validate a relay base URL as entered in preferences:
+     * trimmed, trailing slashes stripped, and required to be a well-formed
+     * https:// URL with a host. Returns the normalized URL, "" for empty
+     * (relay off), or null when invalid. Cleartext http is refused up front
+     * because targetSdk 35 blocks it silently at request time. Pure, tested.
+     */
+    public static String validateRelayUrl(String raw)
+    {
+        String s = raw == null ? "" : raw.trim().replaceAll("/+$", "");
+        if(s.isEmpty())
+            return "";
+
+        try
+        {
+            URI uri = new URI(s);
+            if(!"https".equalsIgnoreCase(uri.getScheme())
+                    || uri.getHost() == null || uri.getHost().isEmpty())
+                return null;
+            return s;
+        }
+        catch(Exception e)
+        {
+            return null;
+        }
+    }
+
     /** Fetch nearby reports, or null on any failure (soft). */
     public List<CrowdAlert> fetch(double lat, double lon, int radiusKm)
     {
@@ -66,9 +94,18 @@ public class CrowdRelayClient
             ByteArrayOutputStream buffer = new ByteArrayOutputStream();
             byte[] chunk = new byte[8192];
             int    n;
+            int    total = 0;
 
             while((n = in.read(chunk)) > 0)
+            {
+                total += n;
+                if(total > WazeClient.MAX_RESPONSE_BYTES)
+                {
+                    Log.d(LOG_TAG, "relay response oversized, dropped");
+                    return null;
+                }
                 buffer.write(chunk, 0, n);
+            }
 
             return parseRelayResponse(new String(buffer.toByteArray(), Charset.forName("UTF-8")));
         }
