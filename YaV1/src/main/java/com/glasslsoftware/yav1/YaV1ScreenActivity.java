@@ -941,9 +941,15 @@ public class YaV1ScreenActivity extends FragmentActivity
                     // failure here means we don't have a location fix yet.
                     if(monitor != null && YaV1CurrentPosition.isValid)
                     {
-                        monitor.reportPoliceHere();
-                        Toast.makeText(YaV1ScreenActivity.this,
-                                R.string.toast_report_sent, Toast.LENGTH_SHORT).show();
+                        // reportPoliceHere() is false inside the monitor's
+                        // cooldown; the chip stays disabled for that window so
+                        // a held/repeated tap can't flood the relay.
+                        if(monitor.reportPoliceHere())
+                        {
+                            Toast.makeText(YaV1ScreenActivity.this,
+                                    R.string.toast_report_sent, Toast.LENGTH_SHORT).show();
+                            disableReportChipBriefly(v);
+                        }
                     }
                     else
                     {
@@ -953,6 +959,23 @@ public class YaV1ScreenActivity extends FragmentActivity
                 }
             });
         }
+    }
+
+    // [CSA] keep the report chip disabled through the monitor's cooldown so
+    // the debounce is visible instead of taps silently doing nothing
+    private void disableReportChipBriefly(final View chip)
+    {
+        chip.setEnabled(false);
+        chip.setAlpha(0.4f);
+        chip.postDelayed(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                chip.setEnabled(true);
+                chip.setAlpha(1f);
+            }
+        }, com.glasslsoftware.yav1.crowd.CrowdMonitor.REPORT_COOLDOWN_MS);
     }
 
     // wire the custom bottom navigation to the pager

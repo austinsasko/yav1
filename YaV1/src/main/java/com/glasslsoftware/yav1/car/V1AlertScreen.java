@@ -20,6 +20,7 @@ import androidx.lifecycle.LifecycleOwner;
 
 import com.glasslsoftware.yav1.R;
 import com.glasslsoftware.yav1.YaV1;
+import com.glasslsoftware.yav1.YaV1CurrentPosition;
 import com.glasslsoftware.yav1.crowd.CrowdMonitor;
 
 /**
@@ -151,10 +152,27 @@ public final class V1AlertScreen extends Screen implements DefaultLifecycleObser
                     public void onClick()
                     {
                         CrowdMonitor monitor = CrowdMonitor.getInstance();
-                        if(monitor != null)
-                            monitor.reportPoliceHere();
-                        CarToast.makeText(getCarContext(), "Police report sent",
-                                          CarToast.LENGTH_SHORT).show();
+                        if(monitor == null)
+                            return;
+
+                        // mirror the phone chip: no location fix, no report
+                        if(!YaV1CurrentPosition.isValid)
+                        {
+                            CarToast.makeText(getCarContext(), "Waiting for GPS location",
+                                              CarToast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        // the post is async with soft failures, so the wording
+                        // is optimistic; false means the cooldown swallowed a
+                        // repeated tap (invalidate() is host-rate-limited, so
+                        // the action can't be visibly disabled like the chip)
+                        if(monitor.reportPoliceHere())
+                            CarToast.makeText(getCarContext(), "Reporting police…",
+                                              CarToast.LENGTH_SHORT).show();
+                        else
+                            CarToast.makeText(getCarContext(), "Report already sent",
+                                              CarToast.LENGTH_SHORT).show();
                     }
                 })
                 .build();
