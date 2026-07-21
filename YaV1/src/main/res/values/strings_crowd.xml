@@ -11,6 +11,7 @@
 
     <string name="pref_crowd_relay">Crowd relay URL</string>
     <string name="pref_crowd_relay_summary">Optional self-hosted, anonymous YaV1 relay (see Server/csa-worker.js in the yav1-ios repo). Empty = off.</string>
+    <string name="pref_crowd_relay_invalid">Relay URL must be a valid https:// address</string>
 
     <!-- drive status strip -->
     <string name="strip_awareness">AWARENESS</string>

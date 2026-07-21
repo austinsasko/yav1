@@ -10,7 +10,9 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
+import android.widget.Toast;
 
+import com.glasslsoftware.yav1.crowd.CrowdRelayClient;
 import com.glasslsoftware.yav1.utils.BandRangeList;
 
 import java.util.Arrays;
@@ -52,11 +54,36 @@ public class YaV1PrefFragment extends PreferenceFragment implements SharedPrefer
             addPreferencesFromResource(R.xml.pref_aircraft);
         } else if ("crowd".equals(settings)) { // [CSA]
             addPreferencesFromResource(R.xml.pref_crowd);
+            wireRelayUrlValidation();
         } else if ("geo".equals(settings)) { // [P3-GEO]
             addPreferencesFromResource(R.xml.pref_geo);
         }
 
         // setHasOptionsMenu(false);
+    }
+
+    // [CSA] reject a malformed or non-https relay URL at save time: cleartext
+    // http is silently blocked by the platform on targetSdk 35, so it would
+    // otherwise be saved and then fail with no visible reason.
+    private void wireRelayUrlValidation()
+    {
+        Preference relay = findPreference("csa_relay_url");
+        if(relay == null)
+            return;
+
+        relay.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener()
+        {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue)
+            {
+                if(CrowdRelayClient.validateRelayUrl((String) newValue) != null)
+                    return true;
+
+                Toast.makeText(getActivity(), R.string.pref_crowd_relay_invalid,
+                               Toast.LENGTH_LONG).show();
+                return false;
+            }
+        });
     }
 
     @Override
